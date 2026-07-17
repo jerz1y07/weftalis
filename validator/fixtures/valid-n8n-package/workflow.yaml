@@ -1,0 +1,48 @@
+spec_version: "0.1"
+id: valid-n8n-example
+name: Valid n8n Example
+version: 1.0.0
+description: Copies a supplied message into the workflow output without sensitive capabilities.
+author: Open Workflow Registry Validator Tests
+license: MIT
+runtime:
+  platform: n8n
+  minimum_version: 1.50.0
+  source_file: workflow.json
+inputs:
+  - name: message
+    type: string
+    required: true
+    description: Message to copy.
+outputs:
+  - name: copied_message
+    type: string
+    description: The copied message.
+dependencies:
+  services: []
+  models: []
+  tools: []
+permissions:
+  network_access: false
+  filesystem_read: false
+  filesystem_write: false
+  email_send: false
+  social_publish: false
+  code_execution: false
+  credential_access: false
+human_review:
+  required: false
+  checkpoints: []
+safety:
+  stores_user_data: false
+  sends_data_externally: false
+  contains_credentials: false
+  risk_level: low
+testing:
+  status: passed
+  last_tested: "2026-07-17"
+  tested_platform_version: 1.50.0
+files:
+  readme: README.md
+  example_input: examples/input.json
+  example_output: examples/output.json

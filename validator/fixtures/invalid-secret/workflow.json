@@ -1,0 +1,12 @@
+{
+  "nodes": [
+    {
+      "name": "Static Test Data",
+      "type": "n8n-nodes-base.set",
+      "parameters": {
+        "fake_test_value": "sk-FAKEONLYFORVALIDATOR1234567890XY"
+      }
+    }
+  ],
+  "connections": {}
+}

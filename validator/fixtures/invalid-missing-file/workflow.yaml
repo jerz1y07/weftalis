@@ -1,0 +1,35 @@
+spec_version: "0.1"
+id: invalid-missing-file
+name: Invalid Missing File
+version: 1.0.0
+description: References a source file and README that do not exist.
+author: Open Workflow Registry Validator Tests
+license: GPL-3.0-only
+runtime:
+  platform: n8n
+  minimum_version: 1.50.0
+  source_file: missing-workflow.json
+inputs: []
+outputs: []
+dependencies:
+  services: []
+  models: []
+  tools: []
+permissions:
+  network_access: false
+  filesystem_read: false
+  filesystem_write: false
+  email_send: false
+  social_publish: false
+  code_execution: false
+  credential_access: false
+human_review:
+  required: false
+  checkpoints: []
+safety:
+  stores_user_data: false
+  sends_data_externally: false
+  contains_credentials: false
+  risk_level: low
+files:
+  readme: MISSING.md

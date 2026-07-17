@@ -1,0 +1,15 @@
+app:
+  name: Valid Dify Reviewed Example
+  mode: workflow
+workflow:
+  graph:
+    nodes:
+      - id: start
+        data:
+          type: start
+      - id: request
+        data:
+          type: http-request
+          authorization:
+            mode: provider-managed
+    edges: []

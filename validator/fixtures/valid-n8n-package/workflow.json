@@ -1,0 +1,16 @@
+{
+  "name": "Valid n8n Example",
+  "nodes": [
+    {
+      "name": "Start",
+      "type": "n8n-nodes-base.manualTrigger",
+      "parameters": {}
+    },
+    {
+      "name": "Copy Message",
+      "type": "n8n-nodes-base.set",
+      "parameters": { "values": {} }
+    }
+  ],
+  "connections": {}
+}

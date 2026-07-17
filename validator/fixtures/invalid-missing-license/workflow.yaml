@@ -1,0 +1,34 @@
+spec_version: "0.1"
+id: invalid-missing-license
+name: Invalid Missing License
+version: 1.0.0
+description: Omits the required license field.
+author: Open Workflow Registry Validator Tests
+runtime:
+  platform: n8n
+  minimum_version: 1.50.0
+  source_file: workflow.json
+inputs: []
+outputs: []
+dependencies:
+  services: []
+  models: []
+  tools: []
+permissions:
+  network_access: false
+  filesystem_read: false
+  filesystem_write: false
+  email_send: false
+  social_publish: false
+  code_execution: false
+  credential_access: false
+human_review:
+  required: false
+  checkpoints: []
+safety:
+  stores_user_data: false
+  sends_data_externally: false
+  contains_credentials: false
+  risk_level: low
+files:
+  readme: README.md

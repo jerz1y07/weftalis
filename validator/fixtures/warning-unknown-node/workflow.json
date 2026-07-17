@@ -1,0 +1,10 @@
+{
+  "nodes": [
+    {
+      "name": "Mystery Community Node",
+      "type": "community.mysteryAction",
+      "parameters": {}
+    }
+  ],
+  "connections": {}
+}

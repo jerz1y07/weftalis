@@ -1,0 +1,11 @@
+{
+  "nodes": [
+    {
+      "name": "Send Test Email",
+      "type": "n8n-nodes-base.emailSend",
+      "parameters": {},
+      "credentials": { "smtp": { "id": "platform-managed-reference" } }
+    }
+  ],
+  "connections": {}
+}

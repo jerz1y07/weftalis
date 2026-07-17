@@ -1,0 +1,50 @@
+spec_version: "0.1"
+id: valid-dify-reviewed-example
+name: Valid Dify Reviewed Example
+version: 1.0.0
+description: Sends approved sample data through a provider-managed HTTP request.
+author: Open Workflow Registry Validator Tests
+license: Apache-2.0
+runtime:
+  platform: dify
+  minimum_version: 1.0.0
+  source_file: workflow.yml
+categories:
+  - testing
+inputs:
+  - name: approved_text
+    type: string
+    required: true
+    description: Human-approved text for the request.
+outputs:
+  - name: response
+    type: string
+    description: Static description of the response.
+dependencies:
+  services:
+    - example-provider
+  models: []
+  tools: []
+permissions:
+  network_access: true
+  filesystem_read: false
+  filesystem_write: false
+  email_send: false
+  social_publish: false
+  code_execution: false
+  credential_access: true
+human_review:
+  required: true
+  checkpoints:
+    - Approve text before the HTTP request
+safety:
+  stores_user_data: false
+  sends_data_externally: true
+  contains_credentials: false
+  risk_level: medium
+testing:
+  status: passed
+  last_tested: "2026-07-17"
+  tested_platform_version: 1.0.0
+files:
+  readme: README.md

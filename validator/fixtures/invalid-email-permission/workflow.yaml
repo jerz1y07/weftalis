@@ -1,0 +1,38 @@
+spec_version: "0.1"
+id: invalid-email-permission
+name: Invalid Email Permission
+version: 1.0.0
+description: Contains an email node while declaring email_send as false.
+author: Open Workflow Registry Validator Tests
+license: MIT
+runtime:
+  platform: n8n
+  minimum_version: 1.50.0
+  source_file: workflow.json
+inputs: []
+outputs: []
+dependencies:
+  services:
+    - email-service
+  models: []
+  tools: []
+permissions:
+  network_access: true
+  filesystem_read: false
+  filesystem_write: false
+  email_send: false
+  social_publish: false
+  code_execution: false
+  credential_access: true
+human_review:
+  required: false
+  checkpoints: []
+safety:
+  stores_user_data: false
+  sends_data_externally: true
+  contains_credentials: false
+  risk_level: medium
+testing:
+  status: untested
+files:
+  readme: README.md
