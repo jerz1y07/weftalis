@@ -1,0 +1,75 @@
+spec_version: "0.1"
+id: reviewed-content-editor
+name: Reviewed Content Editor
+version: 1.1.0
+description: Drafts and revises general-purpose written content before a human approves the final copy.
+author: Open Workflow Registry Examples
+repository: https://example.com/open-workflow-registry-examples
+license: Apache-2.0
+
+runtime:
+  platform: dify
+  minimum_version: 1.0.0
+  source_file: workflow.yml
+
+categories:
+  - writing
+  - content-operations
+tags:
+  - editing
+  - approval
+
+inputs:
+  - name: content_brief
+    type: string
+    required: true
+    description: Instructions describing the intended content and audience.
+  - name: source_material
+    type: string
+    required: false
+    description: Optional reference material for the draft.
+
+outputs:
+  - name: approved_content
+    type: string
+    description: Final content released after human approval.
+  - name: review_notes
+    type: string
+    description: Notes recorded during the human review step.
+
+dependencies:
+  services:
+    - model-provider-api
+  models:
+    - general-purpose-language-model
+  tools: []
+
+permissions:
+  network_access: true
+  filesystem_read: false
+  filesystem_write: false
+  email_send: false
+  social_publish: false
+  code_execution: false
+  credential_access: true
+
+human_review:
+  required: true
+  checkpoints:
+    - Human Approval before final content is released
+
+safety:
+  stores_user_data: false
+  sends_data_externally: true
+  contains_credentials: false
+  risk_level: medium
+
+testing:
+  status: passed
+  last_tested: "2026-07-17"
+  tested_platform_version: 1.0.0
+
+files:
+  readme: README.md
+  example_input: examples/content-brief.json
+  example_output: examples/approved-content.json

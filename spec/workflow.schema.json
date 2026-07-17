@@ -1,0 +1,274 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://open-workflow-registry.example/spec/workflow.schema.json",
+  "title": "Workflow Package Metadata v0.1",
+  "description": "Metadata for describing an n8n or dify workflow package without executing it.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "spec_version",
+    "id",
+    "name",
+    "version",
+    "description",
+    "author",
+    "license",
+    "runtime",
+    "inputs",
+    "outputs",
+    "dependencies",
+    "permissions",
+    "human_review",
+    "safety",
+    "files"
+  ],
+  "properties": {
+    "spec_version": {
+      "const": "0.1"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "$ref": "#/$defs/semanticVersion"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "author": {
+      "type": "string",
+      "minLength": 1
+    },
+    "repository": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://"
+    },
+    "license": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.+() -]*$"
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["platform", "minimum_version", "source_file"],
+      "properties": {
+        "platform": {
+          "enum": ["n8n", "dify"]
+        },
+        "minimum_version": {
+          "$ref": "#/$defs/semanticVersion"
+        },
+        "source_file": {
+          "$ref": "#/$defs/relativePath"
+        }
+      }
+    },
+    "categories": {
+      "$ref": "#/$defs/uniqueStringArray"
+    },
+    "tags": {
+      "$ref": "#/$defs/uniqueStringArray"
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/input"
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/output"
+      }
+    },
+    "dependencies": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["services", "models", "tools"],
+      "properties": {
+        "services": {
+          "$ref": "#/$defs/uniqueStringArray"
+        },
+        "models": {
+          "$ref": "#/$defs/uniqueStringArray"
+        },
+        "tools": {
+          "$ref": "#/$defs/uniqueStringArray"
+        }
+      }
+    },
+    "permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "network_access",
+        "filesystem_read",
+        "filesystem_write",
+        "email_send",
+        "social_publish",
+        "code_execution",
+        "credential_access"
+      ],
+      "properties": {
+        "network_access": { "type": "boolean" },
+        "filesystem_read": { "type": "boolean" },
+        "filesystem_write": { "type": "boolean" },
+        "email_send": { "type": "boolean" },
+        "social_publish": { "type": "boolean" },
+        "code_execution": { "type": "boolean" },
+        "credential_access": { "type": "boolean" }
+      }
+    },
+    "human_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "checkpoints"],
+      "properties": {
+        "required": { "type": "boolean" },
+        "checkpoints": {
+          "$ref": "#/$defs/uniqueStringArray"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "required": { "const": true }
+            },
+            "required": ["required"]
+          },
+          "then": {
+            "properties": {
+              "checkpoints": { "minItems": 1 }
+            }
+          },
+          "else": {
+            "properties": {
+              "checkpoints": { "maxItems": 0 }
+            }
+          }
+        }
+      ]
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stores_user_data",
+        "sends_data_externally",
+        "contains_credentials",
+        "risk_level"
+      ],
+      "properties": {
+        "stores_user_data": { "type": "boolean" },
+        "sends_data_externally": { "type": "boolean" },
+        "contains_credentials": { "type": "boolean" },
+        "risk_level": {
+          "enum": ["low", "medium", "high"]
+        }
+      }
+    },
+    "testing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": {
+          "enum": ["untested", "passed", "failed"]
+        },
+        "last_tested": {
+          "type": "string",
+          "format": "date"
+        },
+        "tested_platform_version": {
+          "$ref": "#/$defs/semanticVersion"
+        }
+      }
+    },
+    "files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["readme"],
+      "properties": {
+        "readme": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "example_input": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "example_output": {
+          "$ref": "#/$defs/relativePath"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "semanticVersion": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+    },
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?![A-Za-z]:)(?!.*(?:^|/)\\.\\.(?:/|$))[^\\\\]+$"
+    },
+    "uniqueStringArray": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "valueType": {
+      "enum": ["string", "number", "integer", "boolean", "object", "array", "file"]
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "type", "required", "description"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+        },
+        "type": {
+          "$ref": "#/$defs/valueType"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "output": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "type", "description"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"
+        },
+        "type": {
+          "$ref": "#/$defs/valueType"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}
