@@ -1,0 +1,92 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Validate, verify, and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up supported Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Install Validator dependencies safely
+        working-directory: validator
+        run: npm ci --ignore-scripts
+
+      - name: Check Validator types
+        working-directory: validator
+        run: npm run typecheck
+
+      - name: Test Validator
+        working-directory: validator
+        run: npm test
+
+      - name: Build Validator
+        working-directory: validator
+        run: npm run build
+
+      - name: Install Registry Builder dependencies safely
+        working-directory: tools/registry-builder
+        run: npm ci --ignore-scripts
+
+      - name: Check Registry Builder types
+        working-directory: tools/registry-builder
+        run: npm run typecheck
+
+      - name: Test Registry Builder
+        working-directory: tools/registry-builder
+        run: npm test
+
+      - name: Build Registry Builder
+        working-directory: tools/registry-builder
+        run: npm run build
+
+      - name: Verify committed Registry data
+        working-directory: tools/registry-builder
+        run: npm run verify-registry
+
+      - name: Install website dependencies safely
+        working-directory: website
+        run: npm ci --ignore-scripts
+
+      - name: Sync website Registry
+        working-directory: website
+        run: npm run sync-registry
+
+      - name: Check website Registry
+        working-directory: website
+        run: npm run check-registry
+
+      - name: Lint website
+        working-directory: website
+        run: npm run lint
+
+      - name: Build static website
+        working-directory: website
+        run: npm run build
+
+      - name: Confirm website Registry was committed
+        shell: bash
+        run: |
+          if ! git diff --quiet -- website/generated/registry.json; then
+            echo "::error::website/generated/registry.json is out of date. Run the website sync and check commands, then commit the result."
+            exit 1
+          fi

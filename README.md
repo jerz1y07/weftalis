@@ -38,3 +38,35 @@ v0.1 will not include:
 ## Status
 
 Open Workflow Registry is an early experimental project. Its concepts, structure, and specifications may change significantly. It is not ready for production use.
+
+## Contributing
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) for contribution scope, safety rules, and Pull Request expectations. Workflow authors should follow [Submitting Workflows](docs/submitting-workflows.md), and maintainers should use [Reviewing Workflows](docs/reviewing-workflows.md).
+
+Version 0.1 currently accepts Workflow Packages for n8n and dify only. Every Package must pass automated checks and human review. A passing Validator result is not a guarantee of absolute safety.
+
+## Local validation
+
+All commands use project-local dependencies and the Node.js version recorded in `.nvmrc`. From the repository root, run:
+
+```bash
+cd validator
+npm ci --ignore-scripts
+npm run typecheck
+npm test
+npm run build
+cd ../tools/registry-builder
+npm ci --ignore-scripts
+npm run typecheck
+npm test
+npm run build
+npm run verify-registry
+cd ../../website
+npm ci --ignore-scripts
+npm run sync-registry
+npm run check-registry
+npm run lint
+npm run build
+```
+
+When a Package changes, run `npm run build-registry` in `tools/registry-builder` before `verify-registry`, then sync the website Registry. See [CI Checks](docs/ci-checks.md) for what each check means and how to fix failures.

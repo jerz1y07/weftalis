@@ -14,11 +14,25 @@ Node.js 20.19.0 or newer is required. Install dependencies once, then build the 
 
 ```bash
 cd tools/registry-builder
-npm install
+npm ci --ignore-scripts
 npm run build-registry
 ```
 
 Development checks are available as `npm run typecheck`, `npm test`, and `npm run build`.
+
+## Verify committed Registry data
+
+After building the Registry, verify that the committed files match a fresh generation:
+
+```bash
+npm run verify-registry
+```
+
+The verifier calls the existing Registry Builder and Validator, writes the fresh result only inside a temporary directory under `tools/registry-builder`, and removes that directory afterward. It never overwrites `registry/registry.json` or `registry/rejected.json`.
+
+Comparison ignores only root-level `generated_at` in both Registry documents and `validation.checked_at` in accepted Workflow entries. Workflow count, IDs, canonical ID order, metadata, permissions, Human Review, safety declarations, validation state, and rejected Packages must otherwise match exactly. A different order fails because Registry Builder's alphabetical order is canonical.
+
+Difference messages name JSON paths and difference types without printing field values. Exit code `0` means the committed data matches, `1` means data differs, and `2` means the verification tool could not run or read valid Registry files. The verifier reads Workflow files as data and never executes them.
 
 ## Add a Package
 

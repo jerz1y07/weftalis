@@ -26,13 +26,28 @@ This roadmap is intentionally incremental. Each phase should be reviewed before 
 - Produce clear, beginner-friendly validation errors.
 - Add test fixtures for valid and invalid packages.
 
-## Phase 5: GitHub-Native Submission
+## Phase 5: Registry Builder and Initial Packages
 
-- Define a pull-request-based submission process.
-- Run validation checks on proposed packages.
-- Document review, updates, deprecation, and removal policies.
+- Generate stable Registry JSON from validated local Packages.
+- Add initial n8n and dify Workflow Packages.
+- Keep invalid Packages separate with actionable validation results.
 
-## Phase 6: Public Testing
+## Phase 6: Website Registry Integration
+
+- Read real generated Registry data in the static website.
+- Keep the site read-only and independent from mock data.
+- Check and build the website locally from committed Registry data.
+
+## Phase 7: GitHub-Native Contribution and CI
+
+- Define a Pull Request-based Workflow submission and human-review process.
+- Add contribution, security, conduct, review, and CI documentation.
+- Prepare GitHub issue forms, a Pull Request template, and read-only GitHub Actions checks.
+- Verify Registry synchronization while ignoring only generated timestamp fields.
+
+Status: the Phase 7 files and local checks are complete as a local preparation. The repository has not been declared publicly launched, and GitHub Actions has not run on GitHub. Actual Pull Request and push behavior must be confirmed only after the project is intentionally uploaded.
+
+## Phase 8: Public Testing
 
 - Invite a small group of authors and users to test the registry.
 - Collect feedback on discovery, trust, portability, and contribution friction.
