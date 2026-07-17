@@ -1,0 +1,157 @@
+{
+  "schema_version": "0.1",
+  "generated_at": "2026-07-17T07:04:58.743Z",
+  "workflow_count": 2,
+  "workflows": [
+    {
+      "id": "human-reviewed-writing-pipeline",
+      "name": "Human-Reviewed Writing Pipeline",
+      "version": "1.0.0",
+      "description": "Produces a draft from supplied material, checks factual claims, and requires human approval before returning final copy.",
+      "author": "Open Workflow Registry Contributors",
+      "license": "Apache-2.0",
+      "platform": "dify",
+      "minimum_platform_version": "1.0.0",
+      "categories": [
+        "writing",
+        "productivity"
+      ],
+      "tags": [
+        "fact-checking",
+        "human-review",
+        "drafting"
+      ],
+      "inputs": [
+        {
+          "name": "source_material",
+          "type": "string",
+          "required": true,
+          "description": "Material supplied by the user as the basis for the draft."
+        },
+        {
+          "name": "writing_brief",
+          "type": "string",
+          "required": true,
+          "description": "Audience, purpose, tone, and constraints for the requested document."
+        }
+      ],
+      "outputs": [
+        {
+          "name": "final_document",
+          "type": "string",
+          "description": "Human-approved final copy with fact-check notes incorporated."
+        }
+      ],
+      "permissions": {
+        "network_access": true,
+        "filesystem_read": false,
+        "filesystem_write": false,
+        "email_send": false,
+        "social_publish": false,
+        "code_execution": true,
+        "credential_access": false
+      },
+      "human_review": {
+        "required": true,
+        "checkpoints": [
+          "Review the draft and fact-check notes before approving final output"
+        ]
+      },
+      "safety": {
+        "stores_user_data": false,
+        "sends_data_externally": true,
+        "contains_credentials": false,
+        "risk_level": "medium"
+      },
+      "testing": {
+        "status": "passed",
+        "last_tested": "2026-07-17",
+        "tested_platform_version": "1.0.0"
+      },
+      "package_path": "packages/human-reviewed-writing-pipeline",
+      "source_file": "packages/human-reviewed-writing-pipeline/source/workflow.yml",
+      "readme_file": "packages/human-reviewed-writing-pipeline/README.md",
+      "validation": {
+        "status": "valid",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-07-17T07:04:58.743Z"
+      }
+    },
+    {
+      "id": "multi-source-research-assistant",
+      "name": "Multi-Source Research Assistant",
+      "version": "1.0.0",
+      "description": "Collects public-source notes for a research topic and prepares a structured summary after human evidence review.",
+      "author": "Open Workflow Registry Contributors",
+      "license": "MIT",
+      "platform": "n8n",
+      "minimum_platform_version": "1.50.0",
+      "categories": [
+        "research",
+        "productivity"
+      ],
+      "tags": [
+        "public-sources",
+        "evidence-review",
+        "structured-summary"
+      ],
+      "inputs": [
+        {
+          "name": "research_topic",
+          "type": "string",
+          "required": true,
+          "description": "The topic or question to research using public sources."
+        },
+        {
+          "name": "public_source_urls",
+          "type": "array",
+          "required": true,
+          "description": "Public URLs selected by the user for evidence collection."
+        }
+      ],
+      "outputs": [
+        {
+          "name": "research_summary",
+          "type": "object",
+          "description": "A structured summary containing findings, source references, uncertainties, and review notes."
+        }
+      ],
+      "permissions": {
+        "network_access": true,
+        "filesystem_read": false,
+        "filesystem_write": false,
+        "email_send": false,
+        "social_publish": false,
+        "code_execution": false,
+        "credential_access": false
+      },
+      "human_review": {
+        "required": true,
+        "checkpoints": [
+          "Review source evidence and approve it before the final summary is assembled"
+        ]
+      },
+      "safety": {
+        "stores_user_data": false,
+        "sends_data_externally": true,
+        "contains_credentials": false,
+        "risk_level": "low"
+      },
+      "testing": {
+        "status": "passed",
+        "last_tested": "2026-07-17",
+        "tested_platform_version": "1.50.0"
+      },
+      "package_path": "packages/multi-source-research-assistant",
+      "source_file": "packages/multi-source-research-assistant/source/workflow.json",
+      "readme_file": "packages/multi-source-research-assistant/README.md",
+      "validation": {
+        "status": "valid",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-07-17T07:04:58.743Z"
+      }
+    }
+  ]
+}

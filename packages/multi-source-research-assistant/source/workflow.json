@@ -1,0 +1,79 @@
+{
+  "name": "Multi-Source Research Assistant",
+  "nodes": [
+    {
+      "name": "Receive Research Request",
+      "type": "n8n-nodes-base.manualTrigger",
+      "parameters": {}
+    },
+    {
+      "name": "Fetch Public Source A",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.public_source_urls[0] }}"
+      }
+    },
+    {
+      "name": "Fetch Public Source B",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.public_source_urls[1] }}"
+      }
+    },
+    {
+      "name": "Combine Evidence",
+      "type": "n8n-nodes-base.merge",
+      "parameters": {
+        "mode": "append"
+      }
+    },
+    {
+      "name": "Human Evidence Review Gate",
+      "type": "n8n-nodes-base.if",
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.human_evidence_approved }}",
+              "value2": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Prepare Structured Summary",
+      "type": "n8n-nodes-base.set",
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "review_status",
+              "value": "human-approved"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Receive Research Request": {
+      "main": [[{"node": "Fetch Public Source A", "type": "main", "index": 0}, {"node": "Fetch Public Source B", "type": "main", "index": 0}]]
+    },
+    "Fetch Public Source A": {
+      "main": [[{"node": "Combine Evidence", "type": "main", "index": 0}]]
+    },
+    "Fetch Public Source B": {
+      "main": [[{"node": "Combine Evidence", "type": "main", "index": 1}]]
+    },
+    "Combine Evidence": {
+      "main": [[{"node": "Human Evidence Review Gate", "type": "main", "index": 0}]]
+    },
+    "Human Evidence Review Gate": {
+      "main": [[{"node": "Prepare Structured Summary", "type": "main", "index": 0}], []]
+    }
+  },
+  "active": false
+}

@@ -1,0 +1,48 @@
+spec_version: "0.1"
+id: replace-with-folder-name
+name: Replace With Workflow Name
+version: 0.1.0
+description: Replace this text with a short explanation of what the workflow does.
+author: Replace With Author Name
+license: MIT
+runtime:
+  platform: n8n
+  minimum_version: 1.0.0
+  source_file: source/workflow.json
+categories: []
+tags: []
+inputs:
+  - name: example_input
+    type: string
+    required: true
+    description: Replace this with a real input description.
+outputs:
+  - name: example_output
+    type: string
+    description: Replace this with a real output description.
+dependencies:
+  services: []
+  models: []
+  tools: []
+permissions:
+  network_access: false
+  filesystem_read: false
+  filesystem_write: false
+  email_send: false
+  social_publish: false
+  code_execution: false
+  credential_access: false
+human_review:
+  required: false
+  checkpoints: []
+safety:
+  stores_user_data: false
+  sends_data_externally: false
+  contains_credentials: false
+  risk_level: low
+testing:
+  status: untested
+files:
+  readme: README.md
+  example_input: examples/input.json
+  example_output: examples/output.md

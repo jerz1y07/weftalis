@@ -1,0 +1,63 @@
+spec_version: "0.1"
+id: human-reviewed-writing-pipeline
+name: Human-Reviewed Writing Pipeline
+version: 1.0.0
+description: Produces a draft from supplied material, checks factual claims, and requires human approval before returning final copy.
+author: Open Workflow Registry Contributors
+license: Apache-2.0
+runtime:
+  platform: dify
+  minimum_version: 1.0.0
+  source_file: source/workflow.yml
+categories:
+  - writing
+  - productivity
+tags:
+  - fact-checking
+  - human-review
+  - drafting
+inputs:
+  - name: source_material
+    type: string
+    required: true
+    description: Material supplied by the user as the basis for the draft.
+  - name: writing_brief
+    type: string
+    required: true
+    description: Audience, purpose, tone, and constraints for the requested document.
+outputs:
+  - name: final_document
+    type: string
+    description: Human-approved final copy with fact-check notes incorporated.
+dependencies:
+  services:
+    - User-selected public fact-check source
+  models: []
+  tools:
+    - Dify Code node
+    - Dify HTTP Request node
+permissions:
+  network_access: true
+  filesystem_read: false
+  filesystem_write: false
+  email_send: false
+  social_publish: false
+  code_execution: true
+  credential_access: false
+human_review:
+  required: true
+  checkpoints:
+    - Review the draft and fact-check notes before approving final output
+safety:
+  stores_user_data: false
+  sends_data_externally: true
+  contains_credentials: false
+  risk_level: medium
+testing:
+  status: passed
+  last_tested: "2026-07-17"
+  tested_platform_version: 1.0.0
+files:
+  readme: README.md
+  example_input: examples/input.json
+  example_output: examples/output.md

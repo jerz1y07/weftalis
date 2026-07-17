@@ -1,0 +1,62 @@
+spec_version: "0.1"
+id: multi-source-research-assistant
+name: Multi-Source Research Assistant
+version: 1.0.0
+description: Collects public-source notes for a research topic and prepares a structured summary after human evidence review.
+author: Open Workflow Registry Contributors
+license: MIT
+runtime:
+  platform: n8n
+  minimum_version: 1.50.0
+  source_file: source/workflow.json
+categories:
+  - research
+  - productivity
+tags:
+  - public-sources
+  - evidence-review
+  - structured-summary
+inputs:
+  - name: research_topic
+    type: string
+    required: true
+    description: The topic or question to research using public sources.
+  - name: public_source_urls
+    type: array
+    required: true
+    description: Public URLs selected by the user for evidence collection.
+outputs:
+  - name: research_summary
+    type: object
+    description: A structured summary containing findings, source references, uncertainties, and review notes.
+dependencies:
+  services:
+    - User-selected public web sources
+  models: []
+  tools:
+    - n8n HTTP Request node
+permissions:
+  network_access: true
+  filesystem_read: false
+  filesystem_write: false
+  email_send: false
+  social_publish: false
+  code_execution: false
+  credential_access: false
+human_review:
+  required: true
+  checkpoints:
+    - Review source evidence and approve it before the final summary is assembled
+safety:
+  stores_user_data: false
+  sends_data_externally: true
+  contains_credentials: false
+  risk_level: low
+testing:
+  status: passed
+  last_tested: "2026-07-17"
+  tested_platform_version: 1.50.0
+files:
+  readme: README.md
+  example_input: examples/input.json
+  example_output: examples/output.md

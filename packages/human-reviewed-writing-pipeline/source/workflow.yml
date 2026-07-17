@@ -1,0 +1,46 @@
+app:
+  name: Human-Reviewed Writing Pipeline
+  mode: workflow
+workflow:
+  graph:
+    nodes:
+      - id: receive-material
+        data:
+          type: start
+          title: Receive source material and writing brief
+      - id: prepare-draft
+        data:
+          type: code
+          title: Prepare structured draft
+          code_language: python3
+          code: return structured_draft
+      - id: check-public-source
+        data:
+          type: http-request
+          title: Check selected claims against a public source
+          method: GET
+          url: https://example.org/public-fact-source
+      - id: assemble-review-copy
+        data:
+          type: template-transform
+          title: Assemble draft and fact-check notes
+      - id: human-approval
+        data:
+          type: if-else
+          title: Human approval required
+          condition: human_approved
+      - id: final-output
+        data:
+          type: end
+          title: Return approved final document
+    edges:
+      - source: receive-material
+        target: prepare-draft
+      - source: prepare-draft
+        target: check-public-source
+      - source: check-public-source
+        target: assemble-review-copy
+      - source: assemble-review-copy
+        target: human-approval
+      - source: human-approval
+        target: final-output
