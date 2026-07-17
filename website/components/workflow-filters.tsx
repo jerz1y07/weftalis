@@ -1,29 +1,52 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { Workflow } from "@/lib/workflows";
+import type { RegistryWorkflow } from "@/lib/registry";
 import { WorkflowCard } from "./workflow-card";
 
-export function WorkflowFilters({ workflows }: { workflows: Workflow[] }) {
+export function WorkflowFilters({ workflows }: { workflows: RegistryWorkflow[] }) {
+  const [query, setQuery] = useState("");
   const [platform, setPlatform] = useState("All platforms");
   const [category, setCategory] = useState("All categories");
 
   const platforms = ["All platforms", ...new Set(workflows.map((item) => item.platform))];
-  const categories = ["All categories", ...new Set(workflows.map((item) => item.category))];
+  const categories = ["All categories", ...new Set(workflows.flatMap((item) => item.categories))];
 
   const filtered = useMemo(
-    () =>
-      workflows.filter(
-        (item) =>
+    () => {
+      const normalizedQuery = query.trim().toLocaleLowerCase("en");
+
+      return workflows.filter((item) => {
+        const searchableText = [
+          item.name,
+          item.description,
+          item.platform,
+          ...item.categories,
+          ...item.tags,
+        ].join(" ").toLocaleLowerCase("en");
+
+        return (
+          (normalizedQuery.length === 0 || searchableText.includes(normalizedQuery)) &&
           (platform === "All platforms" || item.platform === platform) &&
-          (category === "All categories" || item.category === category),
-      ),
-    [category, platform, workflows],
+          (category === "All categories" || item.categories.includes(category))
+        );
+      });
+    },
+    [category, platform, query, workflows],
   );
 
   return (
     <>
       <div className="filter-panel" aria-label="Workflow filters">
+        <label className="search-filter">
+          <span>Search</span>
+          <input
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Name, platform, category, or tag"
+          />
+        </label>
         <label>
           <span>Platform</span>
           <select value={platform} onChange={(event) => setPlatform(event.target.value)}>
@@ -47,13 +70,13 @@ export function WorkflowFilters({ workflows }: { workflows: Workflow[] }) {
       {filtered.length ? (
         <div className="workflow-grid">
           {filtered.map((workflow) => (
-            <WorkflowCard workflow={workflow} key={workflow.slug} />
+            <WorkflowCard workflow={workflow} key={workflow.id} />
           ))}
         </div>
       ) : (
         <div className="empty-state">
-          <h2>No workflows match these filters</h2>
-          <p>Try selecting a different platform or category.</p>
+          <h2>No workflows found</h2>
+          <p>Try another search term, platform, or category.</p>
         </div>
       )}
     </>

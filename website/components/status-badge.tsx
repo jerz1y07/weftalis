@@ -1,8 +1,12 @@
-export function StatusBadge({ verified }: { verified: boolean }) {
+import type { ValidationStatus } from "@/lib/registry";
+
+export function StatusBadge({ status }: { status: ValidationStatus }) {
+  const passed = status === "valid";
+
   return (
-    <span className={verified ? "status verified" : "status pending"}>
-      <span aria-hidden="true">{verified ? "✓" : "○"}</span>
-      {verified ? "Verified" : "Review pending"}
+    <span className={passed ? "status verified" : "status pending"}>
+      <span aria-hidden="true">{passed ? "✓" : "○"}</span>
+      {passed ? "Validation passed" : "Validation pending"}
     </span>
   );
 }

@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "sync-registry": "node scripts/sync-registry.mjs",
+    "check-registry": "node scripts/check-registry.mjs",
     "start": "next start",
     "lint": "eslint"
   },

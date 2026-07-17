@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { WorkflowCard } from "@/components/workflow-card";
-import { workflows } from "@/lib/workflows";
+import {
+  formatRegistryDate,
+  getFeaturedWorkflows,
+  getPlatforms,
+  getRegistry,
+} from "@/lib/registry";
 
 const trustPrinciples = [
   {
@@ -21,6 +26,15 @@ const trustPrinciples = [
 ];
 
 export default function Home() {
+  const registry = getRegistry();
+  const featuredWorkflows = getFeaturedWorkflows();
+  const platforms = getPlatforms();
+  const exampleWorkflow = featuredWorkflows[0];
+
+  if (!exampleWorkflow) {
+    throw new Error("The homepage requires at least one Registry Workflow for its package preview.");
+  }
+
   return (
     <>
       <section className="hero">
@@ -28,7 +42,7 @@ export default function Home() {
           <div className="hero-copy">
             <div className="announcement">
               <span className="announcement-dot" aria-hidden="true" />
-              Early prototype · local data only
+              Static Registry · {registry.workflow_count} workflows
             </div>
             <h1>Discover reusable and verifiable AI workflows</h1>
             <p className="hero-lede">
@@ -55,20 +69,19 @@ export default function Home() {
               <span className="preview-dots" aria-hidden="true">•••</span>
             </div>
             <div className="code-lines mono" aria-hidden="true">
-              <p><span className="code-key">name:</span> multi-source-research</p>
-              <p><span className="code-key">version:</span> 1.2.0</p>
-              <p><span className="code-key">platform:</span> n8n</p>
+              <p><span className="code-key">id:</span> {exampleWorkflow.id}</p>
+              <p><span className="code-key">version:</span> {exampleWorkflow.version}</p>
+              <p><span className="code-key">platform:</span> {exampleWorkflow.platform}</p>
               <p><span className="code-key">permissions:</span></p>
-              <p className="indent">- read_supplied_sources</p>
+              <p className="indent">network_access: {String(exampleWorkflow.permissions.network_access)}</p>
               <p><span className="code-key">human_review:</span></p>
-              <p className="indent">- validate_evidence</p>
-              <p className="indent">- approve_final_brief</p>
+              <p className="indent">required: {String(exampleWorkflow.human_review.required)}</p>
             </div>
             <div className="preview-validation">
               <span className="validation-icon" aria-hidden="true">✓</span>
               <div>
-                <strong>Package structure validated</strong>
-                <span>Human review still required</span>
+                <strong>Validation passed</strong>
+                <span>Human review still recommended</span>
               </div>
             </div>
           </div>
@@ -84,8 +97,9 @@ export default function Home() {
           <Link className="text-link" href="/workflows">View all workflows <span aria-hidden="true">→</span></Link>
         </div>
         <div className="workflow-grid">
-          {workflows.map((workflow) => <WorkflowCard workflow={workflow} key={workflow.slug} />)}
+          {featuredWorkflows.map((workflow) => <WorkflowCard workflow={workflow} key={workflow.id} />)}
         </div>
+        <p className="registry-timestamp">Registry last generated: {formatRegistryDate(registry.generated_at)}</p>
       </section>
 
       <section className="platform-section">
@@ -96,8 +110,9 @@ export default function Home() {
             <p>Examples currently represent two workflow ecosystems. More can be described as the open package format evolves.</p>
           </div>
           <div className="platform-list" aria-label="Supported platforms">
-            <span><b aria-hidden="true">N</b> n8n</span>
-            <span><b aria-hidden="true">D</b> Dify</span>
+            {platforms.map((platform) => (
+              <span key={platform}><b aria-hidden="true">{platform.slice(0, 1).toUpperCase()}</b> {platform}</span>
+            ))}
             <span className="muted-platform"><b aria-hidden="true">+</b> More later</span>
           </div>
         </div>
