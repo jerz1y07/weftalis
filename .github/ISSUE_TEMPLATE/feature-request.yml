@@ -1,12 +1,12 @@
-name: Feature request
-description: Propose a focused improvement to an existing project component.
+name: Weftalis feature request
+description: Propose a focused improvement to an existing Weftalis component.
 title: "[Feature]: "
 labels: []
 body:
   - type: markdown
     attributes:
       value: |
-        Describe the problem without posting credentials, private Workflow data, or security-sensitive evidence.
+        Describe the Weftalis problem without posting credentials, private Workflow data, or security-sensitive evidence.
   - type: textarea
     id: problem
     attributes:

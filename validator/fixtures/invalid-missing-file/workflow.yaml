@@ -3,7 +3,7 @@ id: invalid-missing-file
 name: Invalid Missing File
 version: 1.0.0
 description: References a source file and README that do not exist.
-author: Open Workflow Registry Validator Tests
+author: Weftalis Validator Tests
 license: GPL-3.0-only
 runtime:
   platform: n8n

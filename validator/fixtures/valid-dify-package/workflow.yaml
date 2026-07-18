@@ -3,7 +3,7 @@ id: valid-dify-reviewed-example
 name: Valid Dify Reviewed Example
 version: 1.0.0
 description: Sends approved sample data through a provider-managed HTTP request.
-author: Open Workflow Registry Validator Tests
+author: Weftalis Validator Tests
 license: Apache-2.0
 runtime:
   platform: dify

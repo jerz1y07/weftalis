@@ -1,6 +1,6 @@
-# Contributing to Open Workflow Registry
+# Contributing to Weftalis
 
-Thank you for helping improve Open Workflow Registry. The project welcomes focused contributions that make Workflow Packages easier to describe, inspect, validate, review, and discover.
+Thank you for helping improve Weftalis. The project welcomes focused contributions that make Workflow Packages easier to describe, inspect, validate, review, and discover.
 
 ## Ways to contribute
 

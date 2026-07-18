@@ -1,8 +1,10 @@
-# Product Direction
+# Weftalis Product Direction
 
 ## Product Vision
 
-Open Workflow Registry aims to become an open, trustworthy catalog where AI workflows can be published, discovered, inspected, versioned, and reused across tools. The registry should favor transparent files, portable metadata, human review, and simple tooling over a closed execution platform.
+Weftalis aims to become an open, trustworthy catalog where AI workflows can be published, discovered, inspected, validated, versioned, and reused across tools. The registry should favor transparent files, portable metadata, human review, and simple tooling over a closed execution platform.
+
+The official product description is: Weftalis is an open-source registry for publishing, inspecting, validating, versioning, and reusing workflows across platforms.
 
 ## Skill vs. Workflow
 

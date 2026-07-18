@@ -3,7 +3,7 @@ id: invalid-missing-license
 name: Invalid Missing License
 version: 1.0.0
 description: Omits the required license field.
-author: Open Workflow Registry Validator Tests
+author: Weftalis Validator Tests
 runtime:
   platform: n8n
   minimum_version: 1.50.0

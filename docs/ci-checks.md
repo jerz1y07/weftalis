@@ -1,6 +1,6 @@
-# Continuous Integration Checks
+# Weftalis Continuous Integration Checks
 
-The GitHub Actions configuration in `.github/workflows/ci.yml` is prepared to run on Pull Requests and pushes to either common default-branch name, `main` or `master`, after the repository is uploaded. It is not a deployment workflow and does not execute submitted Workflows.
+The Weftalis GitHub Actions configuration in `.github/workflows/ci.yml` is prepared to run on Pull Requests and pushes to either common default-branch name, `main` or `master`, after the repository is uploaded. It is not a deployment workflow and does not execute submitted Workflows.
 
 ## 1. Checkout and Node.js
 

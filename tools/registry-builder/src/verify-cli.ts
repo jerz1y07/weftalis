@@ -46,7 +46,7 @@ export async function runVerifyCli(dependencies: VerifyCliDependencies = {}): Pr
     await verifyRepositoryRoot(repositoryRoot);
     validatePackage = await (dependencies.loadValidator ?? defaultLoadValidator)();
   } catch {
-    error("Registry Verification\n\nThe verifier could not start or load the Validator.\nNo Workflow was executed.");
+    error("Weftalis Registry Verification\n\nThe verifier could not start or load the Validator.\nNo Workflow was executed.");
     return 2;
   }
 
@@ -57,7 +57,7 @@ export async function runVerifyCli(dependencies: VerifyCliDependencies = {}): Pr
 
     if (!result.matches) {
       error([
-        "Registry Verification",
+        "Weftalis Registry Verification",
         "",
         "Committed Registry data is out of date:",
         ...result.differences.map((difference) => `✗ ${difference}`),
@@ -70,7 +70,7 @@ export async function runVerifyCli(dependencies: VerifyCliDependencies = {}): Pr
     }
 
     log([
-      "Registry Verification",
+      "Weftalis Registry Verification",
       "",
       "✓ Committed Registry data matches a fresh build.",
       "✓ Timestamp-only differences were ignored.",
@@ -82,7 +82,7 @@ export async function runVerifyCli(dependencies: VerifyCliDependencies = {}): Pr
     return 0;
   } catch {
     error([
-      "Registry Verification",
+      "Weftalis Registry Verification",
       "",
       "The verifier could not generate, read, or compare Registry data.",
       "Check that both committed Registry JSON files exist and contain valid JSON.",

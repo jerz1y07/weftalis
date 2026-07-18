@@ -1,8 +1,8 @@
-# Workflow Package Specification v0.1
+# Weftalis Workflow Package Specification v0.1
 
 ## 1. Purpose
 
-The Workflow Package Specification defines a small, portable metadata format for describing an AI workflow. It is a wrapper and description standard, not a new workflow execution language.
+The Weftalis Workflow Package Specification defines a small, portable metadata format for describing an AI workflow. It is a wrapper and description standard, not a new workflow execution language.
 
 The original workflow file remains authoritative for execution. An n8n workflow is executed by n8n, and a dify workflow is executed by Dify. A conforming package does not execute a workflow and must not contain passwords, tokens, API keys, or other credential values.
 

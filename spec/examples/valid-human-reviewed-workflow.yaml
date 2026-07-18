@@ -3,8 +3,8 @@ id: reviewed-content-editor
 name: Reviewed Content Editor
 version: 1.1.0
 description: Drafts and revises general-purpose written content before a human approves the final copy.
-author: Open Workflow Registry Examples
-repository: https://example.com/open-workflow-registry-examples
+author: Weftalis Examples
+repository: https://example.com/weftalis-examples
 license: Apache-2.0
 
 runtime:

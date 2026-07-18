@@ -1,4 +1,4 @@
-# Reviewing Workflow Packages
+# Reviewing Weftalis Workflow Packages
 
 This guide is a manual checklist for maintainers. Automated checks help locate known problems, but reviewers remain responsible for understanding the submitted files. Never execute an untrusted Workflow during review.
 

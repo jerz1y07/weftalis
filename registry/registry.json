@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1",
-  "generated_at": "2026-07-17T07:04:58.743Z",
+  "generated_at": "2026-07-18T04:33:31.274Z",
   "workflow_count": 2,
   "workflows": [
     {
@@ -8,7 +8,7 @@
       "name": "Human-Reviewed Writing Pipeline",
       "version": "1.0.0",
       "description": "Produces a draft from supplied material, checks factual claims, and requires human approval before returning final copy.",
-      "author": "Open Workflow Registry Contributors",
+      "author": "Weftalis Contributors",
       "license": "Apache-2.0",
       "platform": "dify",
       "minimum_platform_version": "1.0.0",
@@ -75,7 +75,7 @@
         "status": "valid",
         "errors": [],
         "warnings": [],
-        "checked_at": "2026-07-17T07:04:58.743Z"
+        "checked_at": "2026-07-18T04:33:31.274Z"
       }
     },
     {
@@ -83,7 +83,7 @@
       "name": "Multi-Source Research Assistant",
       "version": "1.0.0",
       "description": "Collects public-source notes for a research topic and prepares a structured summary after human evidence review.",
-      "author": "Open Workflow Registry Contributors",
+      "author": "Weftalis Contributors",
       "license": "MIT",
       "platform": "n8n",
       "minimum_platform_version": "1.50.0",
@@ -150,7 +150,7 @@
         "status": "valid",
         "errors": [],
         "warnings": [],
-        "checked_at": "2026-07-17T07:04:58.743Z"
+        "checked_at": "2026-07-18T04:33:31.274Z"
       }
     }
   ]

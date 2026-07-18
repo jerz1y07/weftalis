@@ -25,7 +25,7 @@ export default function CollectionsPage() {
         <div>
           <p className="eyebrow">Prototype collection · Registry data</p>
           <h1>Research and Writing<br />Starter Stack</h1>
-          <p>First prepare reviewed research material, then use it as supplied material in a human-reviewed writing process.</p>
+          <p>A Weftalis prototype collection: first prepare reviewed research material, then use it as supplied material in a human-reviewed writing process.</p>
         </div>
         <div className="collection-stat"><strong className="mono">02</strong><span>Registry workflows</span><small>Ordered prototype collection</small></div>
       </header>

@@ -2,7 +2,7 @@
 
 ## Our commitment
 
-We want participation in Open Workflow Registry to be safe, respectful, and welcoming for people with different backgrounds and levels of experience.
+We want participation in Weftalis to be safe, respectful, and welcoming for people with different backgrounds and levels of experience.
 
 ## Expected behavior
 

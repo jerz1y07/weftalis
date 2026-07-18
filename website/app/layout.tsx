@@ -5,10 +5,17 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Open Workflow Registry",
-    template: "%s · Open Workflow Registry",
+    default: "Weftalis — Open Workflow Registry",
+    template: "%s · Weftalis",
   },
-  description: "Discover transparent, reusable, and reviewable AI workflows.",
+  description: "The open registry for reusable and verifiable workflows.",
+  applicationName: "Weftalis",
+  openGraph: {
+    title: "Weftalis — Open Workflow Registry",
+    description: "The open registry for reusable and verifiable workflows.",
+    siteName: "Weftalis",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

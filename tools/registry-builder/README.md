@@ -1,6 +1,6 @@
-# Registry Builder v0.1
+# Weftalis Registry Builder v0.1
 
-Registry Builder scans local Workflow Packages and creates stable, reviewable JSON data for Open Workflow Registry. It never executes a Workflow.
+The Weftalis Registry Builder scans local Workflow Packages and creates stable, reviewable JSON data for Weftalis. It never executes a Workflow.
 
 ## Relationship to the Validator
 

@@ -3,7 +3,7 @@ id: warning-unknown-node
 name: Warning Unknown Node
 version: 1.0.0
 description: Contains a made-up community node for warning behavior tests.
-author: Open Workflow Registry Validator Tests
+author: Weftalis Validator Tests
 license: Apache-2.0
 runtime:
   platform: n8n

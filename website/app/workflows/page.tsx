@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { WorkflowFilters } from "@/components/workflow-filters";
-import { formatRegistryDate, getAllWorkflows, getRegistry } from "@/lib/registry";
+import {
+  formatRegistryDate,
+  getAllWorkflows,
+  getRegistry,
+} from "@/lib/registry";
 
 export const metadata: Metadata = { title: "Discover workflows" };
 
@@ -14,7 +18,7 @@ export default function WorkflowsPage() {
         <div>
           <p className="eyebrow">Registry index</p>
           <h1>Discover workflows</h1>
-          <p>Compare validated Registry entries by platform, purpose, version, and declared safety metadata.</p>
+          <p>Compare validated Weftalis Registry entries by platform, purpose, version, and declared safety metadata.</p>
         </div>
         <div className="prototype-note">
           <span aria-hidden="true">i</span>

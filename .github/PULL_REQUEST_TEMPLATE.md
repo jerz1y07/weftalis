@@ -1,4 +1,4 @@
-## Change summary
+## Weftalis change summary
 
 **Change type:** <!-- Workflow Package / Adapter / Validator / Registry Builder / Website / Documentation / Other -->
 

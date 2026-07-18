@@ -16,7 +16,7 @@ export default function SubmitPage() {
       <header className="page-header centered-header">
         <p className="eyebrow">GitHub-native by design</p>
         <h1>Submit transparently.<br />Review in the open.</h1>
-        <p>Workflow Packages are proposed as plain files through pull requests—not uploaded into a closed platform.</p>
+        <p>Weftalis Workflow Packages are proposed as plain files through pull requests—not uploaded into a closed platform.</p>
       </header>
       <div className="early-banner"><span aria-hidden="true">!</span><div><strong>No upload form or live GitHub connection</strong><p>This static page explains the repository-native process only. It does not submit files, call an API, or create an account.</p></div></div>
       <section className="submission-flow" aria-labelledby="submission-title">

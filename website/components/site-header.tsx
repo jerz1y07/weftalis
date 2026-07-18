@@ -10,11 +10,11 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="shell nav-shell">
-        <Link className="brand" href="/" aria-label="Open Workflow Registry home">
+        <Link className="brand" href="/" aria-label="Weftalis home">
           <span className="brand-mark" aria-hidden="true">
-            OW
+            W
           </span>
-          <span>Open Workflow Registry</span>
+          <span>Weftalis</span>
         </Link>
         <nav className="nav-links" aria-label="Primary navigation">
           {links.map((link) => (

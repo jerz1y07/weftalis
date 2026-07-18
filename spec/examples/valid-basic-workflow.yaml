@@ -3,8 +3,8 @@ id: text-summary
 name: Text Summary
 version: 1.0.0
 description: Summarizes supplied text into a short, structured response.
-author: Open Workflow Registry Examples
-repository: https://example.com/open-workflow-registry-examples
+author: Weftalis Examples
+repository: https://example.com/weftalis-examples
 license: MIT
 
 runtime:

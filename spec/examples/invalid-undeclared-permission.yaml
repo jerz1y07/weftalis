@@ -3,7 +3,7 @@ id: invalid-undeclared-email-permission
 name: Invalid Undeclared Email Permission Example
 version: 1.0.0
 description: Sends a generated status summary by email, but incorrectly declares email_send as false.
-author: Open Workflow Registry Examples
+author: Weftalis Examples
 license: MIT
 
 runtime:

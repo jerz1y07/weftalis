@@ -3,7 +3,7 @@ id: invalid-license-example
 name: Invalid Missing License Example
 version: 1.0.0
 description: Demonstrates a package that omits the required license field.
-author: Open Workflow Registry Examples
+author: Weftalis Examples
 
 runtime:
   platform: n8n

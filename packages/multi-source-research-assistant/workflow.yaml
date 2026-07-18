@@ -3,7 +3,7 @@ id: multi-source-research-assistant
 name: Multi-Source Research Assistant
 version: 1.0.0
 description: Collects public-source notes for a research topic and prepares a structured summary after human evidence review.
-author: Open Workflow Registry Contributors
+author: Weftalis Contributors
 license: MIT
 runtime:
   platform: n8n

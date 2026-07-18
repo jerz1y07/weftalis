@@ -1,9 +1,9 @@
 {
-  "name": "open-workflow-registry-validator",
+  "name": "weftalis-validator",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Local validator for Open Workflow Registry packages",
+  "description": "Local validator for Weftalis Workflow Packages",
   "engines": {
     "node": "^20.19.0 || ^22.12.0 || >=24.0.0"
   },

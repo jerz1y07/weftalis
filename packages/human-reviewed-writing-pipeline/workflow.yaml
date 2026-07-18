@@ -3,7 +3,7 @@ id: human-reviewed-writing-pipeline
 name: Human-Reviewed Writing Pipeline
 version: 1.0.0
 description: Produces a draft from supplied material, checks factual claims, and requires human approval before returning final copy.
-author: Open Workflow Registry Contributors
+author: Weftalis Contributors
 license: Apache-2.0
 runtime:
   platform: dify

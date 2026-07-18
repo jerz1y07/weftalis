@@ -47,7 +47,7 @@ export async function runCli(dependencies: CliDependencies = {}): Promise<number
     await verifyRepositoryRoot(repositoryRoot);
     validatePackage = await (dependencies.loadValidator ?? defaultLoadValidator)();
   } catch {
-    error("Registry Build\n\nRegistry Builder could not start or load the Validator.\nNo Workflow was executed.");
+    error("Weftalis Registry Build\n\nRegistry Builder could not start or load the Validator.\nNo Workflow was executed.");
     return 2;
   }
 
@@ -56,7 +56,7 @@ export async function runCli(dependencies: CliDependencies = {}): Promise<number
     await (dependencies.write ?? writeOutput)(repositoryRoot, result.registry, result.rejected);
 
     const lines = [
-      "Registry Build",
+      "Weftalis Registry Build",
       "",
       `Discovered packages: ${result.discoveredCount}`,
       `Ignored templates: ${result.ignoredTemplates}`,
@@ -76,7 +76,7 @@ export async function runCli(dependencies: CliDependencies = {}): Promise<number
     return 0;
   } catch (caught) {
     const message = caught instanceof Error ? caught.message.split("\n")[0] : "Unknown build error";
-    error(`Registry Build\n\nRegistry generation failed: ${message}\nNo Workflow was executed.`);
+    error(`Weftalis Registry Build\n\nRegistry generation failed: ${message}\nNo Workflow was executed.`);
     return 1;
   }
 }

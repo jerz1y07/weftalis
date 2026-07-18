@@ -1,6 +1,8 @@
-# Open Workflow Registry Website
+# Weftalis Website
 
-This directory contains the static Next.js website for Open Workflow Registry. The website reads public Workflow metadata generated from validated Packages. It does not use a database, API route, upload form, or account system.
+This directory contains the static Next.js website for Weftalis, the open registry for reusable and verifiable workflows. The website reads public Workflow metadata generated from validated Packages. It does not use a database, API route, upload form, or account system.
+
+Weftalis is still an early experimental open-source project. This website is a local prototype and does not imply that the project has been publicly launched.
 
 ## Data source
 

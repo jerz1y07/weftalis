@@ -3,7 +3,7 @@ id: invalid-secret
 name: Invalid Secret
 version: 1.0.0
 description: Contains an obvious fake token used only to test redaction.
-author: Open Workflow Registry Validator Tests
+author: Weftalis Validator Tests
 license: MIT OR Apache-2.0
 runtime:
   platform: n8n

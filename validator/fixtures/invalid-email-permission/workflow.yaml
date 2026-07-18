@@ -3,7 +3,7 @@ id: invalid-email-permission
 name: Invalid Email Permission
 version: 1.0.0
 description: Contains an email node while declaring email_send as false.
-author: Open Workflow Registry Validator Tests
+author: Weftalis Validator Tests
 license: MIT
 runtime:
   platform: n8n

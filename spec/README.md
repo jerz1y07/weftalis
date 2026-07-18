@@ -1,6 +1,6 @@
-# Workflow Package Specification
+# Weftalis Workflow Package Specification v0.1
 
-This directory contains version 0.1 of the Workflow Package Specification.
+This directory contains version 0.1 of the Weftalis Workflow Package Specification.
 
 ## Contents
 

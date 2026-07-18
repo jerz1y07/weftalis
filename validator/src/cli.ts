@@ -18,7 +18,7 @@ function formatIssue(issue: ValidationIssue): string {
 }
 
 export function formatReport(report: ValidationReport): string {
-  const lines = ["Workflow Package Validation", ""];
+  const lines = ["Weftalis Validation", ""];
 
   for (const check of report.checks) {
     lines.push(`${symbol(check.status)} ${check.label}`);
@@ -44,7 +44,7 @@ export function formatReport(report: ValidationReport): string {
 async function main(): Promise<void> {
   const inputPath = process.argv[2];
   if (!inputPath) {
-    console.error("Workflow Package Validation\n");
+    console.error("Weftalis Validation\n");
     console.error("Please provide a Workflow Package folder or workflow.yaml path.");
     console.error("Example: npm run validate -- ./fixtures/valid-n8n-package");
     process.exitCode = 2;
@@ -59,7 +59,7 @@ async function main(): Promise<void> {
     const message = error instanceof ValidatorExecutionError
       ? error.message
       : "The Validator encountered an unexpected internal error.";
-    console.error("Workflow Package Validation\n");
+    console.error("Weftalis Validation\n");
     console.error(`Validator could not run: ${message}`);
     console.error("No Workflow was executed.");
     process.exitCode = 2;

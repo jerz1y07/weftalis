@@ -9,6 +9,14 @@ These instructions apply to the entire repository.
 - Break work into small, understandable tasks.
 - Do not implement many features at once.
 
+## Brand
+
+- The official brand name is **Weftalis**.
+- Do not reinvent, replace, or change the official brand name.
+- Use **Weftalis** for user-facing product references and `weftalis` only where a lowercase technical identifier is required.
+- The generic phrase “open workflow registry” may continue to describe the product category, but it is not the product name.
+- Follow [BRAND.md](BRAND.md) for naming and visual-direction guidance.
+
 ## Safety and Scope
 
 - Never store passwords, tokens, API keys, or other secrets in the repository.

@@ -3,7 +3,7 @@ id: valid-n8n-example
 name: Valid n8n Example
 version: 1.0.0
 description: Copies a supplied message into the workflow output without sensitive capabilities.
-author: Open Workflow Registry Validator Tests
+author: Weftalis Validator Tests
 license: MIT
 runtime:
   platform: n8n

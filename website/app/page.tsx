@@ -42,12 +42,12 @@ export default function Home() {
           <div className="hero-copy">
             <div className="announcement">
               <span className="announcement-dot" aria-hidden="true" />
-              Static Registry · {registry.workflow_count} workflows
+              Weftalis · Static Registry · {registry.workflow_count} workflows
             </div>
-            <h1>Discover reusable and verifiable AI workflows</h1>
+            <h1>Discover reusable and verifiable workflows</h1>
             <p className="hero-lede">
-              Explore transparent workflow packages across tools. Understand what they need, how they work,
-              and where human review matters—before you reuse anything.
+              Weftalis is an open-source registry for publishing, inspecting, validating, versioning, and
+              reusing workflows across platforms. Understand each package before you reuse anything.
             </p>
             <div className="search-visual" role="search" aria-label="Workflow search preview">
               <span aria-hidden="true">⌕</span>

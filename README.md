@@ -1,10 +1,12 @@
-# Open Workflow Registry
+# Weftalis
 
-An open registry for publishing, discovering, inspecting, versioning, and reusing AI workflows.
+The open registry for reusable and verifiable workflows.
+
+Weftalis is an open-source registry for publishing, inspecting, validating, versioning, and reusing workflows across platforms.
 
 ## The Problem
 
-AI workflows are often shared as scattered code snippets, screenshots, or application-specific exports. This makes them difficult to understand, compare, validate, version, and reuse safely. Open Workflow Registry aims to provide a transparent, portable, and community-driven way to describe and share them.
+AI workflows are often shared as scattered code snippets, screenshots, or application-specific exports. This makes them difficult to understand, compare, validate, version, and reuse safely. Weftalis aims to provide a transparent, portable, and community-driven way to describe and share them.
 
 ## Target Users
 
@@ -37,11 +39,13 @@ v0.1 will not include:
 
 ## Status
 
-Open Workflow Registry is an early experimental project. Its concepts, structure, and specifications may change significantly. It is not ready for production use.
+Weftalis is an early experimental open-source project. Its concepts, structure, and specifications may change significantly. It has not been publicly launched and is not ready for production use.
 
 ## Contributing
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) for contribution scope, safety rules, and Pull Request expectations. Workflow authors should follow [Submitting Workflows](docs/submitting-workflows.md), and maintainers should use [Reviewing Workflows](docs/reviewing-workflows.md).
+
+Brand usage is documented in [BRAND.md](BRAND.md).
 
 Version 0.1 currently accepts Workflow Packages for n8n and dify only. Every Package must pass automated checks and human review. A passing Validator result is not a guarantee of absolute safety.
 

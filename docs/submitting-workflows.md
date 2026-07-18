@@ -1,6 +1,6 @@
-# Submitting a Workflow Package
+# Submitting a Weftalis Workflow Package
 
-This guide explains how to prepare an n8n or dify Workflow Package and propose it through a Pull Request. The Registry never executes the submitted Workflow.
+This guide explains how to prepare an n8n or dify Workflow Package for Weftalis and propose it through a Pull Request. The Registry never executes the submitted Workflow.
 
 ## Before you begin
 
@@ -14,7 +14,7 @@ After the project has a public GitHub repository, use GitHub's **Fork** button t
 
 ```bash
 git clone <your-fork-url>
-cd open-workflow-registry
+cd <your-cloned-folder>
 ```
 
 Do not copy the placeholder text literally; replace `<your-fork-url>` with your fork URL.

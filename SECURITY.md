@@ -1,6 +1,6 @@
 # Security Policy
 
-Open Workflow Registry is an early experimental project. Its Validator, Registry Builder, secret scanner, and review process reduce risk, but they cannot prove that a Workflow is absolutely safe.
+Weftalis is an early experimental open-source project. Its Validator, Registry Builder, secret scanner, and review process reduce risk, but they cannot prove that a Workflow is absolutely safe.
 
 ## Protect secrets and sensitive data
 

@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://open-workflow-registry.example/spec/workflow.schema.json",
-  "title": "Workflow Package Metadata v0.1",
-  "description": "Metadata for describing an n8n or dify workflow package without executing it.",
+  "$id": "urn:weftalis:workflow-package-schema:0.1",
+  "title": "Weftalis Workflow Package Metadata v0.1",
+  "description": "Metadata for describing a Weftalis n8n or dify Workflow Package without executing it.",
   "type": "object",
   "additionalProperties": false,
   "required": [

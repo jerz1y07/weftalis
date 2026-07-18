@@ -1,6 +1,6 @@
-# Roadmap
+# Weftalis Roadmap
 
-This roadmap is intentionally incremental. Each phase should be reviewed before work begins on the next one.
+This roadmap for Weftalis is intentionally incremental. Each phase should be reviewed before work begins on the next one.
 
 ## Phase 1: Project Foundation
 

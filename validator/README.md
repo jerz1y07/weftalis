@@ -1,6 +1,6 @@
-# Workflow Package Validator v0.1
+# Weftalis Validator v0.1
 
-The Workflow Package Validator checks an Open Workflow Registry package locally before it is reviewed or shared. It reads metadata and platform export files as data. It never executes the Workflow.
+The Weftalis Validator checks a Weftalis Workflow Package locally before it is reviewed or shared. It reads metadata and platform export files as data. It never executes the Workflow.
 
 ## Current capabilities
 

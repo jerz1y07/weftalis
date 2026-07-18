@@ -3,7 +3,7 @@ id: invalid-path-traversal
 name: Invalid Path Traversal
 version: 1.0.0
 description: Attempts to reference a source file outside the Package.
-author: Open Workflow Registry Validator Tests
+author: Weftalis Validator Tests
 license: MIT
 runtime:
   platform: n8n
