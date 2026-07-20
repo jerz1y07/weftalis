@@ -57,6 +57,29 @@ npm run build
 
 Next.js writes the static export to `out/`. Dynamic Workflow detail paths are generated from Registry Workflow IDs at build time.
 
+## GitHub Pages deployment preparation
+
+The expected project-site URL is [https://jerz1y07.github.io/weftalis/](https://jerz1y07.github.io/weftalis/). This documentation does not mean the site is already live.
+
+The custom `.github/workflows/pages.yml` GitHub Actions workflow prepares `website/out/` and deploys only that static directory. It runs after pushes to `main` and can also be started manually. Before the first deployment, a repository administrator must select **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+
+`WEFTALIS_BASE_PATH` controls the path prefix at build time. The Pages workflow sets it to `/weftalis`. When the variable is not set, the base path is empty, so local development continues to use [http://localhost:3000/](http://localhost:3000/).
+
+To test the Pages build locally from the repository root, run:
+
+```bash
+cd website
+npm ci --ignore-scripts
+npm run sync-registry
+npm run check-registry
+npm run lint
+WEFTALIS_BASE_PATH=/weftalis npm run build
+```
+
+The result is written to `website/out/`; it is generated output and is not committed. To test the normal local build without the Pages path, run `npm run build` without setting `WEFTALIS_BASE_PATH`.
+
+The deployment synchronizes and publishes public Registry metadata only. It does not execute, install, or connect any submitted Workflow Package.
+
 ## Safety boundary
 
 This website is a read-only catalog. It does not execute, install, publish, or connect Workflows. A `valid` status means the Package passed the current Validator rules; it does not guarantee absolute safety, correctness, quality, or suitability. Users must inspect every Package and apply human judgment before reuse.
