@@ -25,10 +25,10 @@ From the repository root:
 
 ```bash
 cd validator
-npm install
+npm ci --ignore-scripts
 ```
 
-No external Workflow service is needed.
+This installs the locked dependencies without running dependency lifecycle scripts. No external Workflow service is needed.
 
 ## JSON Schema strict mode
 

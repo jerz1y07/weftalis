@@ -45,10 +45,29 @@ This roadmap for Weftalis is intentionally incremental. Each phase should be rev
 - Prepare GitHub issue forms, a Pull Request template, and read-only GitHub Actions checks.
 - Verify Registry synchronization while ignoring only generated timestamp fields.
 
-Status: the Phase 7 files and local checks are complete as a local preparation. The repository has not been declared publicly launched, and GitHub Actions has not run on GitHub. Actual Pull Request and push behavior must be confirmed only after the project is intentionally uploaded.
+Status: complete. The repository is public, and the CI workflow has run successfully on GitHub. Pull Request behavior still requires normal review whenever the first external contribution arrives.
 
 ## Phase 8: Public Testing
 
 - Invite a small group of authors and users to test the registry.
 - Collect feedback on discovery, trust, portability, and contribution friction.
 - Revise the specification and roadmap based on evidence.
+
+Status: ongoing. The public repository and static site provide the initial test surface; no broad adoption or production-readiness claim is made.
+
+## Phase 9: Public Website Readiness
+
+- Deploy the static website through GitHub Pages.
+- Add production canonical metadata, sitemap, robots policy, and base-path verification.
+- Confirm that the public site remains read-only and uses committed Registry data.
+
+Status: complete. The public project site is available at <https://jerz1y07.github.io/weftalis/>.
+
+## Phase 10: First Public Release
+
+- Audit the repository and production site as the v0.1.0 release candidate.
+- Prepare the changelog, release notes, architecture summary, limitations, and release checklist.
+- Reproduce all component, Registry, website, format, privacy, and production checks.
+- Stop for maintainer review before creating a tag or GitHub Release.
+
+Status: the release candidate is prepared and awaiting maintainer review. No `v0.1.0` tag or GitHub Release exists.

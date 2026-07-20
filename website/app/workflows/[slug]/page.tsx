@@ -163,7 +163,7 @@ export default async function WorkflowDetailPage({ params }: WorkflowDetailProps
           <h2>Validator checks passed</h2>
           <p>Checked {formatRegistryDate(workflow.validation.checked_at)}.</p>
           <div className="validation-divider" />
-          <p className="validation-warning"><strong>Human review still recommended</strong>Validator approval does not guarantee absolute safety, quality, accuracy, or fitness for your use case. Inspect the package yourself before reuse.</p>
+          <p className="validation-warning"><strong>Human review remains required</strong>Validator approval does not guarantee absolute safety, quality, accuracy, or fitness for your use case. Inspect the package yourself before reuse.</p>
         </aside>
       </div>
     </div>

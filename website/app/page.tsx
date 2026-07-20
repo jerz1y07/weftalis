@@ -81,7 +81,7 @@ export default function Home() {
               <span className="validation-icon" aria-hidden="true">✓</span>
               <div>
                 <strong>Validation passed</strong>
-                <span>Human review still recommended</span>
+                <span>Human review remains required</span>
               </div>
             </div>
           </div>

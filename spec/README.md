@@ -21,4 +21,4 @@ The undeclared-permission example demonstrates a limit of JSON Schema: its field
 
 `categories`, `tags`, `testing`, and `repository` are optional. Omitting `testing` makes no testing claim. The package interface, dependencies, permissions, human-review declaration, safety declaration, runtime information, license, and README reference remain required.
 
-No Validator is implemented in Phase 3.
+The repository now includes the separate Weftalis Validator v0.1. These files remain specification examples; full Package fixtures and current static checks are documented in `validator/README.md`.

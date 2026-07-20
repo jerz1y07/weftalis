@@ -1,6 +1,6 @@
 # Weftalis Continuous Integration Checks
 
-The Weftalis GitHub Actions configuration in `.github/workflows/ci.yml` is prepared to run on Pull Requests and pushes to either common default-branch name, `main` or `master`, after the repository is uploaded. It is not a deployment workflow and does not execute submitted Workflows.
+The Weftalis GitHub Actions configuration in `.github/workflows/ci.yml` runs on Pull Requests and pushes to either common default-branch name, `main` or `master`. It is not a deployment workflow and does not execute submitted Workflows.
 
 ## 1. Checkout and Node.js
 
@@ -63,4 +63,4 @@ CI uses `pull_request`, never `pull_request_target`; sets `contents: read`; uses
 
 Passing CI cannot prove that a Workflow is safe or truthful. Human review remains mandatory under [Reviewing Workflows](reviewing-workflows.md).
 
-Automatic dependency-update services such as Dependabot are intentionally deferred until the repository is public and its ownership and maintenance policy are established.
+Automatic dependency-update services such as Dependabot remain intentionally deferred until an ownership and maintenance policy is established.

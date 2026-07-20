@@ -35,10 +35,10 @@ The Next.js pages import the generated JSON through `lib/registry.ts`. Data is r
 
 ## Local development
 
-Install dependencies once if needed, then start the development server:
+Install the locked dependencies safely, then start the development server:
 
 ```bash
-npm install
+npm ci --ignore-scripts
 npm run dev
 ```
 

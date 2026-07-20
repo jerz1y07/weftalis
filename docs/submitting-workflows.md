@@ -10,7 +10,7 @@ Never place a real password, token, API key, credential, private key, or sensiti
 
 ## 1. Fork the repository
 
-After the project has a public GitHub repository, use GitHub's **Fork** button to create your own copy. Clone your fork using the URL GitHub shows for your copy, then enter the cloned project directory:
+Use the public repository's **Fork** button to create your own copy. Clone your fork using the URL GitHub shows for your copy, then enter the cloned project directory:
 
 ```bash
 git clone <your-fork-url>
@@ -100,6 +100,6 @@ Commit the generated `website/generated/registry.json`. Do not edit it by hand a
 
 ## 10. Create a Pull Request
 
-Review the changed files, create focused commits, push them to your fork, and open a Pull Request against the main repository after it becomes public. Complete the Pull Request template, including external services, high-risk capabilities, Human Review, tests, and areas needing special reviewer attention.
+Review the changed files, create focused commits, push them to your fork, and open a Pull Request against the main repository. Complete the Pull Request template, including external services, high-risk capabilities, Human Review, tests, and areas needing special reviewer attention.
 
 Automated CI will repeat the Validator, Builder, Registry verification, website checks, and build. Maintainers will then perform the manual checks in [Reviewing Workflows](reviewing-workflows.md). Passing CI is necessary, but it does not guarantee acceptance or safety.

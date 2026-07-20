@@ -15,9 +15,9 @@ If a real secret is exposed, revoke or rotate it through its provider immediatel
 
 Do not disclose a real secret or an exploitable vulnerability in a public Issue.
 
-The project is currently being prepared locally and does not yet publish a private security contact. Do not use a private email address or an invented contact as a workaround. After a public GitHub repository exists, maintainers should enable GitHub Private Vulnerability Reporting and document that private reporting path here.
+The repository is public, but this policy does not yet claim that a private reporting channel has been verified. Do not use a private email address or an invented contact as a workaround. Maintainers should verify GitHub Private Vulnerability Reporting and then document the confirmed path here.
 
-Until a private reporting path exists, keep sensitive evidence out of the repository and public discussion. Non-sensitive hardening suggestions that do not reveal an exploitable weakness may use the normal feature request process.
+Until a confirmed private reporting path is documented, keep sensitive evidence out of the repository and public discussion. Non-sensitive hardening suggestions that do not reveal an exploitable weakness may use the normal feature request process. The missing confirmed private channel is a known release limitation, not permission to post sensitive details publicly.
 
 ## Limits of automated checks
 
