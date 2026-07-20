@@ -49,6 +49,10 @@ Brand usage is documented in [BRAND.md](BRAND.md).
 
 Version 0.1 currently accepts Workflow Packages for n8n and dify only. Every Package must pass automated checks and human review. A passing Validator result is not a guarantee of absolute safety.
 
+## License
+
+Weftalis is available under the [Apache License 2.0](LICENSE).
+
 ## Local validation
 
 All commands use project-local dependencies and the Node.js version recorded in `.nvmrc`. From the repository root, run:

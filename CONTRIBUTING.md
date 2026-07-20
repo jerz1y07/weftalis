@@ -59,6 +59,10 @@ Adapters and Validators must inspect Workflow exports as data. They must not exe
 
 The repository does not yet use Dependabot or another automatic dependency-upgrade service. That can be reconsidered after the public repository, ownership, and maintenance policy are established.
 
+## License of contributions
+
+Contributions to Weftalis are provided under the [Apache License 2.0](LICENSE). No Contributor License Agreement (CLA) is required.
+
 ## Community expectations
 
 Be respectful, constructive, and patient. Read [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before participating.
