@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jerz1y07.github.io/weftalis/sitemap.xml

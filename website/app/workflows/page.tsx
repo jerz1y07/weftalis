@@ -5,8 +5,14 @@ import {
   getAllWorkflows,
   getRegistry,
 } from "@/lib/registry";
+import { createPageMetadata } from "@/lib/site-metadata";
 
-export const metadata: Metadata = { title: "Discover workflows" };
+export const metadata: Metadata = createPageMetadata({
+  title: "Discover workflows",
+  description:
+    "Browse reusable and verifiable AI workflows in the Weftalis open registry.",
+  pathname: "workflows/",
+});
 
 export default function WorkflowsPage() {
   const registry = getRegistry();

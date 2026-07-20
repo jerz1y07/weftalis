@@ -1,8 +1,8 @@
 # Weftalis Website
 
-This directory contains the static Next.js website for Weftalis, the open registry for reusable and verifiable workflows. The website reads public Workflow metadata generated from validated Packages. It does not use a database, API route, upload form, or account system.
+This directory contains the static Next.js website for Weftalis, the open registry for reusable and verifiable workflows. The public site is available at [https://jerz1y07.github.io/weftalis/](https://jerz1y07.github.io/weftalis/). The website reads public Workflow metadata generated from validated Packages. It does not use a database, API route, upload form, or account system.
 
-Weftalis is still an early experimental open-source project. This website is a local prototype and does not imply that the project has been publicly launched.
+Weftalis is still an early experimental open-source project. The public website is a read-only catalog, not an online Workflow execution service.
 
 ## Data source
 
@@ -57,13 +57,15 @@ npm run build
 
 Next.js writes the static export to `out/`. Dynamic Workflow detail paths are generated from Registry Workflow IDs at build time.
 
-## GitHub Pages deployment preparation
+## GitHub Pages deployment
 
-The expected project-site URL is [https://jerz1y07.github.io/weftalis/](https://jerz1y07.github.io/weftalis/). This documentation does not mean the site is already live.
+The public project-site URL is [https://jerz1y07.github.io/weftalis/](https://jerz1y07.github.io/weftalis/).
 
 The custom `.github/workflows/pages.yml` GitHub Actions workflow prepares `website/out/` and deploys only that static directory. It runs after pushes to `main` and can also be started manually. Before the first deployment, a repository administrator must select **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 
 `WEFTALIS_BASE_PATH` controls the path prefix at build time. The Pages workflow sets it to `/weftalis`. When the variable is not set, the base path is empty, so local development continues to use [http://localhost:3000/](http://localhost:3000/).
+
+Use root-relative paths such as `/workflows` with Next.js `Link`. Next.js adds the configured base path during the Pages build. Do not write `/weftalis` into application links, because that would duplicate the prefix.
 
 To test the Pages build locally from the repository root, run:
 
@@ -79,6 +81,14 @@ WEFTALIS_BASE_PATH=/weftalis npm run build
 The result is written to `website/out/`; it is generated output and is not committed. To test the normal local build without the Pages path, run `npm run build` without setting `WEFTALIS_BASE_PATH`.
 
 The deployment synchronizes and publishes public Registry metadata only. It does not execute, install, or connect any submitted Workflow Package.
+
+## Production metadata
+
+`lib/site-metadata.ts` is the single source for the production URL, public description, title formatting, canonical URLs, Open Graph metadata, and Twitter/X card metadata. Production metadata always points to `https://jerz1y07.github.io/weftalis/`, including the `/weftalis` project path. No social account or social-preview image is declared.
+
+`app/sitemap.ts` generates `sitemap.xml` during the static build. It includes the homepage, workflows index, collections page, submission guide, and one detail route for every Workflow currently present in the generated Registry.
+
+`app/robots.txt` is a static, public-crawl policy. It allows crawling and points crawlers to the production sitemap. If the public URL changes, update both `lib/site-metadata.ts` and the sitemap URL in `app/robots.txt`.
 
 ## Safety boundary
 

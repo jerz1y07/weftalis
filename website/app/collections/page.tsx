@@ -2,8 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { StatusBadge } from "@/components/status-badge";
 import { getWorkflowById } from "@/lib/registry";
+import { createPageMetadata } from "@/lib/site-metadata";
 
-export const metadata: Metadata = { title: "Research and Writing Starter Stack" };
+export const metadata: Metadata = createPageMetadata({
+  title: "Research and Writing Starter Stack",
+  description:
+    "Explore a human-directed research and writing collection built from reusable Weftalis Registry workflows.",
+  pathname: "collections/",
+});
 
 const collectionWorkflowIds = [
   "multi-source-research-assistant",

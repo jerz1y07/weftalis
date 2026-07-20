@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
+import { createPageMetadata } from "@/lib/site-metadata";
 
-export const metadata: Metadata = { title: "Submit a workflow" };
+export const metadata: Metadata = createPageMetadata({
+  title: "Submit a workflow",
+  description:
+    "Learn how to propose reusable and verifiable AI workflows to the Weftalis open registry through GitHub pull requests.",
+  pathname: "submit/",
+});
 
 const steps = [
   ["01", "Copy Package template", "Start with packages/_template so the Package structure stays consistent."],

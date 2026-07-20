@@ -8,6 +8,7 @@ import {
   getWorkflowById,
   type RegistryField,
 } from "@/lib/registry";
+import { createPageMetadata } from "@/lib/site-metadata";
 
 type WorkflowDetailProps = { params: Promise<{ slug: string }> };
 
@@ -21,10 +22,11 @@ export async function generateMetadata({ params }: WorkflowDetailProps): Promise
   const workflow = getWorkflowById((await params).slug);
   if (!workflow) notFound();
 
-  return {
+  return createPageMetadata({
     title: workflow.name,
     description: workflow.description,
-  };
+    pathname: `workflows/${workflow.id}/`,
+  });
 }
 
 function DetailList({ items }: { items: string[] }) {
