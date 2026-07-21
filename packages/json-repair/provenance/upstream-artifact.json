@@ -1,0 +1,45 @@
+{
+  "record_version": "1.0",
+  "package_type": "imported upstream workflow",
+  "repository": "https://github.com/svcvit/Awesome-Dify-Workflow",
+  "commit": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+  "path": "DSL/json-repair.yml",
+  "raw_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/json-repair.yml",
+  "package_artifact_path": "source/upstream/DSL/json-repair.yml",
+  "byte_length": 3244,
+  "sha256": "5859d8c833593069cfe781da27d585a24cdbbf5e03a50af56b2ae01045d491ad",
+  "git_blob_sha1": "d2d9d3cd13b009b6e57bbe6d39baedc63d6e66ea",
+  "retrieved_from": "github-raw",
+  "retrieval_date": "2026-07-21",
+  "upstream_author": {
+    "attribution": "svcvit",
+    "basis": [
+      "repository publisher identity",
+      "pinned repository README attribution",
+      "introducing commit author and committer identity"
+    ],
+    "identity_limit": "GitHub evidence does not establish a legal personal identity or sole authorship of every exported DSL element."
+  },
+  "original_introduction": {
+    "commit": "13fc5335b625a2bf8dc29002a10e03a356ffce75",
+    "date": "2024-11-20",
+    "url": "https://github.com/svcvit/Awesome-Dify-Workflow/commit/13fc5335b625a2bf8dc29002a10e03a356ffce75"
+  },
+  "upstream_license": {
+    "expression": "MIT",
+    "scope_of_evidence": "repository-level",
+    "copyright_notice": "Copyright (c) 2024 svcvit",
+    "evidence_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/LICENSE",
+    "notice_file": "LICENSE.upstream",
+    "license_file_sha256": "fda8799bda30a07877ad7b6b7061bb7b3a7f6faa25c0d6238e335c031cd9806e",
+    "evidence_limit": "No per-file SPDX header or separate signed contribution statement was found."
+  },
+  "package_maintainer": "Weftalis maintainers",
+  "weftalis_authored_material": [
+    "workflow.yaml",
+    "README.md",
+    "provenance/upstream-artifact.json",
+    "provenance/transformations.json"
+  ],
+  "weftalis_metadata_and_documentation_license": "Apache-2.0"
+}

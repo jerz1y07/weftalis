@@ -1,7 +1,7 @@
 {
   "schema_version": "0.1",
-  "generated_at": "2026-07-18T04:33:31.274Z",
-  "workflow_count": 2,
+  "generated_at": "2026-07-21T03:06:32.338Z",
+  "workflow_count": 3,
   "workflows": [
     {
       "id": "human-reviewed-writing-pipeline",
@@ -75,7 +75,71 @@
         "status": "valid",
         "errors": [],
         "warnings": [],
-        "checked_at": "2026-07-18T04:33:31.274Z"
+        "checked_at": "2026-07-21T03:06:32.338Z"
+      }
+    },
+    {
+      "id": "json-repair",
+      "name": "json-repair",
+      "version": "1.0.0",
+      "description": "Wraps the unchanged upstream Dify json-repair Workflow for provenance-aware inspection.",
+      "author": "Weftalis maintainers",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": "0.13.0",
+      "categories": [
+        "data-processing"
+      ],
+      "tags": [
+        "json",
+        "repair",
+        "imported-upstream"
+      ],
+      "inputs": [
+        {
+          "name": "llm_string",
+          "type": "string",
+          "required": true,
+          "description": "Malformed or non-standard JSON text supplied to the upstream Workflow."
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "string",
+          "description": "The string returned by the upstream json_repair call."
+        }
+      ],
+      "permissions": {
+        "network_access": false,
+        "filesystem_read": false,
+        "filesystem_write": false,
+        "email_send": false,
+        "social_publish": false,
+        "code_execution": true,
+        "credential_access": false
+      },
+      "human_review": {
+        "required": false,
+        "checkpoints": []
+      },
+      "safety": {
+        "stores_user_data": false,
+        "sends_data_externally": false,
+        "contains_credentials": false,
+        "risk_level": "medium"
+      },
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": "packages/json-repair",
+      "source_file": "packages/json-repair/source/upstream/DSL/json-repair.yml",
+      "readme_file": "packages/json-repair/README.md",
+      "validation": {
+        "status": "valid",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-07-21T03:06:32.338Z"
       }
     },
     {
@@ -150,7 +214,7 @@
         "status": "valid",
         "errors": [],
         "warnings": [],
-        "checked_at": "2026-07-18T04:33:31.274Z"
+        "checked_at": "2026-07-21T03:06:32.338Z"
       }
     }
   ]

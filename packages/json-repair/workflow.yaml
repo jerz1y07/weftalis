@@ -1,0 +1,53 @@
+spec_version: "0.1"
+id: json-repair
+name: json-repair
+version: 1.0.0
+description: Wraps the unchanged upstream Dify json-repair Workflow for provenance-aware inspection.
+author: Weftalis maintainers
+repository: https://github.com/svcvit/Awesome-Dify-Workflow
+license: MIT
+runtime:
+  platform: dify
+  minimum_version: 0.13.0
+  source_file: source/upstream/DSL/json-repair.yml
+categories:
+  - data-processing
+tags:
+  - json
+  - repair
+  - imported-upstream
+inputs:
+  - name: llm_string
+    type: string
+    required: true
+    description: Malformed or non-standard JSON text supplied to the upstream Workflow.
+outputs:
+  - name: output
+    type: string
+    description: The string returned by the upstream json_repair call.
+dependencies:
+  services: []
+  models: []
+  tools:
+    - Dify Code node
+    - json_repair (upstream version unpinned)
+permissions:
+  network_access: false
+  filesystem_read: false
+  filesystem_write: false
+  email_send: false
+  social_publish: false
+  code_execution: true
+  credential_access: false
+human_review:
+  required: false
+  checkpoints: []
+safety:
+  stores_user_data: false
+  sends_data_externally: false
+  contains_credentials: false
+  risk_level: medium
+testing:
+  status: untested
+files:
+  readme: README.md

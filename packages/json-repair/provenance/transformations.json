@@ -1,0 +1,17 @@
+{
+  "record_version": "1.0",
+  "artifact_path": "source/upstream/DSL/json-repair.yml",
+  "upstream_sha256": "5859d8c833593069cfe781da27d585a24cdbbf5e03a50af56b2ae01045d491ad",
+  "package_artifact_sha256": "5859d8c833593069cfe781da27d585a24cdbbf5e03a50af56b2ae01045d491ad",
+  "byte_identical_to_upstream": true,
+  "derivative": null,
+  "transformations": [],
+  "functional_changes": "none",
+  "invariants": {
+    "node_ids_unchanged": true,
+    "node_types_unchanged": true,
+    "embedded_code_unchanged": true,
+    "edges_unchanged": true,
+    "input_output_selectors_unchanged": true
+  }
+}
