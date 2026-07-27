@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:weftalis:intake:submission-manifest:1.0",
+  "title": "Weftalis Batch Intake Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["manifest_version", "submissions"],
+  "properties": {
+    "manifest_version": { "const": "1.0" },
+    "submissions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": { "$ref": "urn:weftalis:intake:community-submission:1.0" }
+    }
+  }
+}

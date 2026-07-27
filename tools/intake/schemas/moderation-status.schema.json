@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:weftalis:intake:moderation-status:1.0",
+  "title": "Weftalis Intake Moderation Status",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_version",
+    "current_status",
+    "automatic_publication",
+    "history",
+    "human_decision"
+  ],
+  "properties": {
+    "record_version": { "const": "1.0" },
+    "current_status": {
+      "enum": [
+        "submitted",
+        "resolving",
+        "fetched",
+        "parsed",
+        "needs_review",
+        "approved",
+        "rejected",
+        "quarantined"
+      ]
+    },
+    "automatic_publication": { "const": false },
+    "history": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["status", "at", "actor", "reason"],
+        "properties": {
+          "status": {
+            "enum": [
+              "submitted",
+              "resolving",
+              "fetched",
+              "parsed",
+              "needs_review",
+              "approved",
+              "rejected",
+              "quarantined"
+            ]
+          },
+          "at": { "type": "string", "format": "date-time" },
+          "actor": { "enum": ["intake-cli", "human-reviewer"] },
+          "reason": { "type": "string", "minLength": 1 }
+        },
+        "allOf": [
+          {
+            "if": { "properties": { "status": { "enum": ["approved", "rejected"] } } },
+            "then": { "properties": { "actor": { "const": "human-reviewer" } } }
+          }
+        ]
+      }
+    },
+    "human_decision": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["reviewer", "reviewed_at", "rationale"],
+          "properties": {
+            "reviewer": { "type": "string", "minLength": 1 },
+            "reviewed_at": { "type": "string", "format": "date-time" },
+            "rationale": { "type": "string", "minLength": 1 }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "current_status": { "enum": ["approved", "rejected"] } } },
+      "then": { "properties": { "human_decision": { "type": "object" } } },
+      "else": { "properties": { "human_decision": { "type": "null" } } }
+    }
+  ]
+}

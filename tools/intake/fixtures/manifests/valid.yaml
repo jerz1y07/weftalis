@@ -1,0 +1,13 @@
+manifest_version: "1.0"
+submissions:
+  - record_version: "1.0"
+    repository_url: https://github.com/fixture-owner/fixture-repository
+    artifact_path: workflows/valid-n8n.json
+    tag: fixture-v1
+    platform_hint: n8n
+    workflow_name: Fixture n8n Workflow
+    description: A local YAML submission manifest fixture.
+    submitter:
+      name_or_handle: fixture-submitter
+      claims_authorship: true
+    license_claim: MIT

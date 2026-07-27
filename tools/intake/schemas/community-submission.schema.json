@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:weftalis:intake:community-submission:1.0",
+  "title": "Weftalis Community Workflow Submission",
+  "description": "A claimed upstream workflow source awaiting retrieval and human review.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_version",
+    "repository_url",
+    "artifact_path",
+    "workflow_name",
+    "description",
+    "submitter"
+  ],
+  "properties": {
+    "record_version": { "const": "1.0" },
+    "submission_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$"
+    },
+    "repository_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://github\\.com/[^/?#]+/[^/?#]+(?:\\.git)?/?$"
+    },
+    "artifact_path": { "$ref": "#/$defs/repositoryPath" },
+    "branch": { "type": "string", "minLength": 1, "maxLength": 255 },
+    "tag": { "type": "string", "minLength": 1, "maxLength": 255 },
+    "commit": { "type": "string", "pattern": "^[0-9a-fA-F]{40}$" },
+    "platform_hint": { "enum": ["dify", "n8n", "unknown"] },
+    "workflow_name": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "description": { "type": "string", "minLength": 1, "maxLength": 4000 },
+    "submitter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name_or_handle", "claims_authorship"],
+      "properties": {
+        "name_or_handle": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "claims_authorship": { "type": "boolean" }
+      }
+    },
+    "upstream_author_or_organization": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300
+    },
+    "license_claim": { "type": "string", "minLength": 1, "maxLength": 300 },
+    "notes": { "type": "string", "maxLength": 8000 }
+  },
+  "allOf": [
+    {
+      "not": {
+        "type": "object",
+        "properties": { "branch": true, "tag": true },
+        "required": ["branch", "tag"]
+      }
+    },
+    {
+      "not": {
+        "type": "object",
+        "properties": { "branch": true, "commit": true },
+        "required": ["branch", "commit"]
+      }
+    },
+    {
+      "not": {
+        "type": "object",
+        "properties": { "tag": true, "commit": true },
+        "required": ["tag", "commit"]
+      }
+    }
+  ],
+  "$defs": {
+    "repositoryPath": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1000,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)(?!.*[?#]).+$"
+    }
+  }
+}

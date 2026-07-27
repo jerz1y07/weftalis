@@ -39,3 +39,6 @@ yarn-error.log*
 pnpm-debug.log*
 tmp/
 temp/
+
+# Local intake review queue (never part of the public Registry)
+/intake-review/

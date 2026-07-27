@@ -1,0 +1,11 @@
+{
+  "name": "LICENSE",
+  "path": "LICENSE",
+  "sha": "2222222222222222222222222222222222222222",
+  "html_url": "https://github.com/fixture-owner/fixture-repository/blob/0123456789abcdef0123456789abcdef01234567/LICENSE",
+  "license": {
+    "key": "other",
+    "name": "Other",
+    "spdx_id": "NOASSERTION"
+  }
+}

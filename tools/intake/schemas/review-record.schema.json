@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:weftalis:intake:review-record:1.0",
+  "title": "Weftalis Local Intake Review Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_version",
+    "review_id",
+    "created_at",
+    "original_submission",
+    "resolved_artifact",
+    "static_audit",
+    "duplicate_status",
+    "moderation",
+    "warnings",
+    "uncertainties"
+  ],
+  "properties": {
+    "record_version": { "const": "1.0" },
+    "review_id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "original_submission": { "$ref": "urn:weftalis:intake:community-submission:1.0" },
+    "resolved_artifact": { "$ref": "urn:weftalis:intake:resolved-upstream-artifact:1.0" },
+    "static_audit": { "$ref": "urn:weftalis:intake:static-audit-result:1.0" },
+    "duplicate_status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["duplicate_artifact", "artifact_matches", "duplicate_source", "source_matches"],
+      "properties": {
+        "duplicate_artifact": { "type": "boolean" },
+        "artifact_matches": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+        "duplicate_source": { "type": "boolean" },
+        "source_matches": { "type": "array", "uniqueItems": true, "items": { "type": "string" } }
+      }
+    },
+    "moderation": { "$ref": "urn:weftalis:intake:moderation-status:1.0" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "uncertainties": { "type": "array", "items": { "type": "string" } }
+  }
+}

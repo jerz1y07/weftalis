@@ -1,0 +1,2 @@
+This is a local unsupported workflow-like fixture.
+It is intentionally neither a Dify DSL export nor an n8n JSON export.

@@ -1,0 +1,28 @@
+{
+  "name": "Network and External Write Fixture",
+  "active": false,
+  "nodes": [
+    {
+      "id": "http-node",
+      "name": "Post Fixture Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.example.com/fixture"
+      }
+    },
+    {
+      "id": "database-node",
+      "name": "Insert Fixture Row",
+      "type": "n8n-nodes-base.postgres",
+      "parameters": {"operation": "insert"}
+    },
+    {
+      "id": "message-node",
+      "name": "Send Fixture Message",
+      "type": "n8n-nodes-base.slack",
+      "parameters": {"operation": "postMessage", "channelId": "fixture-channel-12345"}
+    }
+  ],
+  "connections": {}
+}

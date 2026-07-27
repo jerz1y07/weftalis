@@ -1,0 +1,7 @@
+app:
+  mode: workflow
+workflow:
+  graph:
+    nodes:
+      - id: broken
+        data: [unterminated
