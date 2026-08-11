@@ -59,7 +59,7 @@ The existing local intake performs the following non-executing checks:
 - GitHub URL normalization and public source resolution;
 - exact ref-to-commit resolution;
 - exact path, regular-file, size, and reported-size checks;
-- SHA-256 and Git blob integrity fingerprints;
+- SHA-256 and required Git blob integrity fingerprints, with missing or mismatched GitHub identifiers quarantined;
 - unchanged-byte preservation outside Package and Registry locations;
 - Dify and n8n shape detection and static parsing;
 - node, dependency, code, shell, network, credential, external-write, trigger, plugin, custom-node, identifier, and secret-like-value signals;
@@ -109,7 +109,7 @@ Reviewers must account for false positives, false negatives, unsupported nodes, 
 
 **Rejection** records a named human reviewer's rationale and stops the candidate from moving toward a Package through this review. The local evidence should remain available for audit according to the project's retention policy; Phase 12A does not implement deletion or retention automation.
 
-**Quarantine** isolates a candidate that could not be resolved safely or requires special investigation. Current automatic reasons include source-resolution failure, Git blob mismatch, and potential secret-like artifact values. Quarantine is not approval or rejection. A human must investigate before any later decision, and no quarantined candidate may cross the Package boundary.
+**Quarantine** isolates a candidate that could not be resolved safely or requires special investigation. Current automatic reasons include source-resolution failure, private or non-public repository visibility, missing or mismatched Git blob integrity evidence, invalid UTF-8 or malformed hinted Dify YAML/n8n JSON, and potential secret-like artifact values. Quarantine is not approval or rejection. A human must investigate before any later decision, and no quarantined candidate may cross the Package boundary.
 
 The future community-facing layer must not conceal warnings, silently downgrade quarantine, or let a submitter set moderation fields.
 

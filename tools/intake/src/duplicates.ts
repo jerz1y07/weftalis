@@ -1,6 +1,8 @@
-import { readFile, readdir } from "node:fs/promises";
+import { lstat, readFile, readdir, realpath } from "node:fs/promises";
 import path from "node:path";
 
+import { assertContainedReviewPath } from "./output.js";
+import { IntakeValidationError } from "./schema-validator.js";
 import type {
   DuplicateStatus,
   ExistingReviewIndexEntry,
@@ -23,21 +25,51 @@ function indexEntry(value: unknown): ExistingReviewIndexEntry | null {
 
 export async function loadExistingReviews(outputRoot: string): Promise<ExistingReviewIndexEntry[]> {
   const reviewsDirectory = path.join(outputRoot, "reviews");
+  try {
+    const outputMetadata = await lstat(outputRoot);
+    if (outputMetadata.isSymbolicLink() || !outputMetadata.isDirectory()) {
+      throw new IntakeValidationError("The approved intake review root is not a safe directory.");
+    }
+    if (await realpath(outputRoot) !== path.resolve(outputRoot)) {
+      throw new IntakeValidationError("The approved intake review root resolves through a symbolic link.");
+    }
+  } catch (error) {
+    if (error instanceof IntakeValidationError) throw error;
+    if (error && typeof error === "object" && "code" in error && error.code === "ENOENT") return [];
+    throw new IntakeValidationError("The approved intake review root could not be inspected safely.");
+  }
+  await assertContainedReviewPath(outputRoot, reviewsDirectory, true);
   let entries;
   try {
     entries = await readdir(reviewsDirectory, { withFileTypes: true });
-  } catch {
-    return [];
+  } catch (error) {
+    if (error && typeof error === "object" && "code" in error && error.code === "ENOENT") return [];
+    throw new IntakeValidationError("The existing reviews directory could not be read safely.");
   }
   const results: ExistingReviewIndexEntry[] = [];
   for (const entry of entries.slice(0, 10_000)) {
     if (!entry.isDirectory()) continue;
+    const reviewDirectory = path.join(reviewsDirectory, entry.name);
+    const reviewRecordPath = path.join(reviewDirectory, "review-record.json");
+    await assertContainedReviewPath(outputRoot, reviewDirectory);
     try {
-      const text = await readFile(path.join(reviewsDirectory, entry.name, "review-record.json"), "utf8");
+      const recordMetadata = await lstat(reviewRecordPath);
+      if (recordMetadata.isSymbolicLink() || !recordMetadata.isFile()) {
+        throw new IntakeValidationError("An existing review record is not a safe regular file.");
+      }
+      await assertContainedReviewPath(outputRoot, reviewRecordPath);
+    } catch (error) {
+      if (error instanceof IntakeValidationError) throw error;
+      if (error && typeof error === "object" && "code" in error && error.code === "ENOENT") continue;
+      throw new IntakeValidationError("An existing review record could not be inspected safely.");
+    }
+    try {
+      const text = await readFile(reviewRecordPath, "utf8");
       if (text.length > 5 * 1024 * 1024) continue;
       const indexed = indexEntry(JSON.parse(text) as unknown);
       if (indexed) results.push(indexed);
-    } catch {
+    } catch (error) {
+      if (error instanceof IntakeValidationError) throw error;
       // Invalid local review data is ignored here and remains visible for manual cleanup.
     }
   }

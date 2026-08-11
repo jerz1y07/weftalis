@@ -2,5 +2,6 @@
   "id": 123456,
   "full_name": "fixture-owner/fixture-repository",
   "default_branch": "main",
-  "private": false
+  "private": false,
+  "visibility": "public"
 }

@@ -64,3 +64,43 @@ export function scanForPotentialSecrets(text: string): SecretFinding[] {
   }
   return findings;
 }
+
+export function redactPotentialSecrets(text: string): string {
+  const ranges: Array<{ start: number; end: number }> = [];
+  for (const pattern of patterns) {
+    pattern.expression.lastIndex = 0;
+    for (const match of text.matchAll(pattern.expression)) {
+      const value = match[pattern.valueGroup];
+      if (!value || match.index === undefined) continue;
+      const offset = match[0].indexOf(value);
+      if (offset < 0) continue;
+      ranges.push({ start: match.index + offset, end: match.index + offset + value.length });
+    }
+  }
+  const merged: Array<{ start: number; end: number }> = [];
+  for (const range of ranges.sort((left, right) => left.start - right.start || left.end - right.end)) {
+    const previous = merged.at(-1);
+    if (previous && range.start <= previous.end) {
+      previous.end = Math.max(previous.end, range.end);
+    } else {
+      merged.push({ ...range });
+    }
+  }
+  let redacted = text;
+  for (const range of merged.reverse()) {
+    redacted = `${redacted.slice(0, range.start)}[REDACTED]${redacted.slice(range.end)}`;
+  }
+  return redacted;
+}
+
+export function redactSecretLikeMetadata<T>(value: T): T {
+  if (typeof value === "string") return redactPotentialSecrets(value) as T;
+  if (Array.isArray(value)) return value.map((item) => redactSecretLikeMetadata(item)) as T;
+  if (!value || typeof value !== "object") return value;
+  return Object.fromEntries(
+    Object.entries(value as Record<string, unknown>).map(([key, nested]) => [
+      redactPotentialSecrets(key),
+      redactSecretLikeMetadata(nested),
+    ]),
+  ) as T;
+}

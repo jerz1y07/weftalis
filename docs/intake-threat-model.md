@@ -24,7 +24,7 @@ Manifests accept JSON, YAML, or YML only. YAML parsing requires unique keys and 
 
 Artifacts remain byte strings until static parsing. The system never imports them as modules, launches them in Dify or n8n, evaluates embedded expressions or code, installs declared plugins, invokes shells, supplies credentials, or contacts destinations named inside the workflow.
 
-Malformed or unsupported content is not repaired or executed. It is recorded as unavailable, unknown, or needing review.
+Malformed or unsupported content is not repaired or executed. Malformed hinted Dify YAML or n8n JSON is quarantined; unsupported content remains unknown or needing review.
 
 ## URL and GitHub resolution risks
 
@@ -32,27 +32,27 @@ User-controlled repository URLs can be used for server-side request forgery, cre
 
 API requests are built from fixed `api.github.com` endpoints. Raw artifact URLs are constructed from the validated repository identity, a full resolved commit, and an encoded repository path; the initial raw URL must use HTTPS on `raw.githubusercontent.com`.
 
-The repository metadata returned by GitHub can canonicalize owner and repository casing. The exact artifact path returned by GitHub must match the submitted path byte-for-byte in case, and the object must be a regular file.
+The repository metadata returned by GitHub can canonicalize owner and repository casing. Intake requires the metadata to report both `private: false` and `visibility: public`; an optional privileged token does not bypass that policy. The exact artifact path returned by GitHub must match the submitted path byte-for-byte in case, and the object must be a regular file.
 
 These checks reduce arbitrary-host and confused-path risks, but they do not prove repository ownership, submitter identity, or the truth of provenance claims.
 
 ## Redirects and host validation
 
-The current client validates the submitted repository host and constructs fixed GitHub API and raw hosts. It does not explicitly set a manual redirect policy or revalidate the final response URL after the platform `fetch` implementation follows a redirect.
+The client uses manual redirect handling with a maximum of five redirects. Every destination must remain HTTPS, contain no embedded credentials or custom port, parse cleanly, and use the approved GitHub host set. A fetch implementation that reports an already-followed redirect is rejected because intermediate hops could not be validated.
 
-Therefore, host validation is strongest at request construction, not at every redirect hop. Reviewers and future maintainers must treat unexpected redirects as a residual network risk. Redirect handling must never be relaxed into accepting submitter-supplied download URLs, and authorization data must not be forwarded to an unvalidated host.
+Authorization headers are generated again for each hop and are attached only for `api.github.com`. A redirect to another approved host therefore does not receive the token. Redirect handling never accepts submitter-supplied download URLs.
 
 ## Path traversal and output containment
 
 The submission schema requires a repository-relative artifact path and rejects common traversal forms. Path segments are individually URL-encoded for retrieval. GitHub must return the same exact case-sensitive path before bytes are accepted.
 
-For local output, existing ancestors are resolved through `realpath` so symlinked ancestors cannot silently redirect a permitted in-repository location. Output cannot be the repository root or overlap Packages, Registry, website, or Git metadata. Any output inside the repository is restricted to the default Git-ignored `intake-review` directory.
+For local output, the review root and each relevant existing path component are checked with `lstat` and rejected if symbolic. Lexical containment and resolved `realpath` containment are checked before reads and writes, after directory creation, and before final files and rename. Output cannot be the repository root or overlap Packages, Registry, website, or Git metadata. Any output inside the repository is restricted to the default Git-ignored `intake-review` directory.
 
 Review data is first written to a new staging directory using restrictive permissions and then atomically renamed. Existing review directories are verified and reused rather than overwritten. These measures reduce traversal, symlink, partial-write, and overwrite risks; they do not make arbitrary files outside a correctly selected output root safe to trust.
 
 ## Artifact-size and timeout limits
 
-Each GitHub request uses a 30-second abort timeout. Artifact size is capped at 10 MiB using both GitHub's reported file size and the retrieved byte length, and a reported-size mismatch fails retrieval.
+Each GitHub request uses a 30-second abort timeout. Artifact size is capped at 10 MiB using both GitHub's reported file size and the retrieved byte length, raw response bodies stop streaming when the cap is crossed, and a reported-size mismatch fails retrieval.
 
 Residual limits remain:
 
@@ -68,7 +68,7 @@ The limits reduce accidental or simple resource exhaustion but are not a complet
 
 The manifest is scanned before schema parsing. If a potential secret-like value is found, intake rejects the manifest and does not copy it into review output.
 
-Retrieved artifacts are preserved byte-for-byte for human review, so a secret present upstream can also be present in the local artifact copy. Static review metadata does not copy the full matched value: it records a heuristic kind, line number, and redacted preview. Credential references are intended to record key or type information without copying credential IDs, names, or values. Potential secret-like artifact values cause quarantine.
+Retrieved artifacts are preserved byte-for-byte for human review, so a secret present upstream can also be present in the isolated local artifact copy. Static review metadata records only a heuristic kind, line number, and redacted preview, and the completed metadata object receives a final secret-like-value redaction pass before serialization. Credential references record key or type information without copying credential IDs, names, or values. Potential secret-like artifact values cause quarantine.
 
 Secret scanning uses a small pattern set. It can miss obfuscated, split, encoded, novel, or platform-specific secrets and can flag harmless examples. Local review output must therefore be handled as sensitive untrusted material even when the scan reports no finding.
 
@@ -76,7 +76,7 @@ Secret scanning uses a small pattern set. It can miss obfuscated, split, encoded
 
 JSON is parsed with the standard JSON parser. YAML requires unique keys and limits alias expansion. Invalid UTF-8, parser errors, non-object roots, ambiguous platform shapes, and unsupported Dify/n8n structures do not become executable objects.
 
-Malformed or unrecognized artifacts receive `parsing_status: needs_review`; risk items that could not be assessed remain `unknown`. A platform hint may preserve reviewer context but cannot make malformed input valid.
+Invalid UTF-8 or malformed hinted Dify YAML or n8n JSON receives schema-compatible `parsing_status: needs_review` but recommends and ends in `quarantined`. Only the concise `invalid_utf8`, `malformed_yaml`, or `malformed_json` category is recorded, semantic analysis is not attempted, and unavailable risk items remain `unknown`. Unsupported or unrecognized shapes remain `needs_review`.
 
 ## Static capability signals
 

@@ -16,26 +16,31 @@ const limitations = [
   "A passed static check does not mean safe, executable, compatible, production ready, or runtime tested.",
 ];
 
-function parseJson(text: string): Record<string, unknown> | null {
+interface SyntaxResult {
+  value: Record<string, unknown> | null;
+  malformed: boolean;
+}
+
+function parseJson(text: string): SyntaxResult {
   try {
     const value = JSON.parse(text) as unknown;
-    return isRecord(value) ? value : null;
+    return { value: isRecord(value) ? value : null, malformed: false };
   } catch {
-    return null;
+    return { value: null, malformed: true };
   }
 }
 
-function parseYaml(text: string): Record<string, unknown> | null {
+function parseYaml(text: string): SyntaxResult {
   try {
     const document = parseDocument(text, {
       prettyErrors: false,
       uniqueKeys: true,
     });
-    if (document.errors.length > 0) return null;
+    if (document.errors.length > 0) return { value: null, malformed: true };
     const value = document.toJS({ maxAliasCount: 20 }) as unknown;
-    return isRecord(value) ? value : null;
+    return { value: isRecord(value) ? value : null, malformed: false };
   } catch {
-    return null;
+    return { value: null, malformed: true };
   }
 }
 
@@ -52,6 +57,7 @@ function baseAudit(
   platform: Platform,
   artifactAvailable: boolean,
   warning: string,
+  forceQuarantine = false,
 ): StaticAuditResult {
   const signals = emptySignals();
   const findings = text === null ? [] : scanForPotentialSecrets(text);
@@ -88,7 +94,7 @@ function baseAudit(
     risk_summary: buildRiskSummary(signals, dependencies, secretScan, false),
     runtime_status: "untested",
     compatibility_status: "unverified",
-    recommended_moderation_status: findings.length > 0 ? "quarantined" : "needs_review",
+    recommended_moderation_status: forceQuarantine || findings.length > 0 ? "quarantined" : "needs_review",
     warnings: [warning],
     uncertainties: ["The artifact could not be classified and requires direct human inspection."],
     limitations,
@@ -132,28 +138,80 @@ export function parseArtifact(
 ): StaticAuditResult {
   const text = decodeUtf8(bytes);
   if (text === null) {
-    return baseAudit(null, "unknown", true, "The artifact is not valid UTF-8 text and was not parsed.");
+    const hintedPlatform = platformHint === "dify" || platformHint === "n8n" ? platformHint : "unknown";
+    return baseAudit(
+      null,
+      hintedPlatform,
+      true,
+      "Parse error category: invalid_utf8. Semantic analysis was not attempted.",
+      hintedPlatform !== "unknown",
+    );
+  }
+
+  if (platformHint === "n8n") {
+    const json = parseJson(text);
+    if (json.malformed) {
+      return baseAudit(
+        text,
+        "n8n",
+        true,
+        "Parse error category: malformed_json. Semantic analysis was not attempted.",
+        true,
+      );
+    }
+    const n8n = json.value ? parseN8n(json.value) : null;
+    return n8n
+      ? completeAudit(n8n, text)
+      : baseAudit(text, "n8n", true, "The artifact does not match the supported n8n workflow shape.");
+  }
+
+  if (platformHint === "dify") {
+    const yaml = parseYaml(text);
+    if (yaml.malformed) {
+      return baseAudit(
+        text,
+        "dify",
+        true,
+        "Parse error category: malformed_yaml. Semantic analysis was not attempted.",
+        true,
+      );
+    }
+    const dify = yaml.value ? parseDify(yaml.value) : null;
+    return dify
+      ? completeAudit(dify, text)
+      : baseAudit(text, "dify", true, "The artifact does not match the supported Dify workflow shape.");
   }
 
   const json = parseJson(text);
+  const looksJson = /^\s*[\[{]/.test(text);
+  if (looksJson && json.malformed) {
+    return baseAudit(
+      text,
+      "unknown",
+      true,
+      "Parse error category: malformed_json. Semantic analysis was not attempted.",
+      true,
+    );
+  }
   const yaml = parseYaml(text);
-  const n8n = json ? parseN8n(json) : null;
-  const dify = yaml ? parseDify(yaml) : null;
+  if (yaml.malformed) {
+    return baseAudit(
+      text,
+      "unknown",
+      true,
+      "Parse error category: malformed_yaml. Semantic analysis was not attempted.",
+      true,
+    );
+  }
+  const n8n = json.value ? parseN8n(json.value) : null;
+  const dify = yaml.value ? parseDify(yaml.value) : null;
   if (n8n && dify) {
     return baseAudit(text, "unknown", true, "The artifact matches more than one supported platform shape.");
   }
   if (n8n) return completeAudit(n8n, text);
   if (dify) return completeAudit(dify, text);
 
-  const hintedPlatform = platformHint === "dify" || platformHint === "n8n"
-    ? platformHint
-    : "unknown";
-  const warning = platformHint === "n8n" && json === null
-    ? "The artifact was hinted as n8n but is malformed JSON."
-    : platformHint === "dify" && yaml === null
-      ? "The artifact was hinted as Dify but is malformed YAML."
-      : "The artifact is unsupported, ambiguous, or does not match the supported Dify/n8n shapes.";
-  return baseAudit(text, hintedPlatform, true, warning);
+  return baseAudit(text, "unknown", true, "The artifact is unsupported or does not match a supported Dify/n8n shape.");
 }
 
 export function createUnavailableAudit(platformHint: Platform | undefined): StaticAuditResult {

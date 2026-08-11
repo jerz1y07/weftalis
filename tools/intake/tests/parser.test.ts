@@ -39,11 +39,35 @@ describe("platform detection and static parsing", () => {
     expect(result.risk_summary.network_access.status).toBe("unknown");
   });
 
-  it("retains the hint but needs review for malformed YAML and JSON", async () => {
+  it("retains the hint and recommends quarantine for malformed YAML and JSON", async () => {
     const dify = parseArtifact(await artifact("malformed-dify.yml"), "dify");
     const n8n = parseArtifact(await artifact("malformed-n8n.json"), "n8n");
-    expect(dify).toMatchObject({ platform: "dify", parsing_status: "needs_review" });
-    expect(n8n).toMatchObject({ platform: "n8n", parsing_status: "needs_review" });
+    expect(dify).toMatchObject({
+      platform: "dify",
+      parsing_status: "needs_review",
+      recommended_moderation_status: "quarantined",
+      node_count: null,
+    });
+    expect(n8n).toMatchObject({
+      platform: "n8n",
+      parsing_status: "needs_review",
+      recommended_moderation_status: "quarantined",
+      node_count: null,
+    });
+    expect(dify.warnings).toContain("Parse error category: malformed_yaml. Semantic analysis was not attempted.");
+    expect(n8n.warnings).toContain("Parse error category: malformed_json. Semantic analysis was not attempted.");
+  });
+
+  it("quarantines invalid UTF-8 for a supported platform hint without semantic analysis", () => {
+    const result = parseArtifact(Uint8Array.from([0xc3, 0x28]), "n8n");
+    expect(result).toMatchObject({
+      platform: "n8n",
+      parsing_status: "needs_review",
+      recommended_moderation_status: "quarantined",
+      nodes: [],
+      node_count: null,
+    });
+    expect(result.warnings).toContain("Parse error category: invalid_utf8. Semantic analysis was not attempted.");
   });
 
   it("detects code, possible shell APIs, and imported dependencies without executing them", async () => {

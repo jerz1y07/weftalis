@@ -22,6 +22,7 @@ interface GitHubClientOptions {
   fetch?: FetchLike;
   token?: string;
   maximumArtifactBytes?: number;
+  requestTimeoutMilliseconds?: number;
 }
 
 interface RepositoryMetadata {
@@ -38,6 +39,44 @@ interface ResolvedRef {
 
 const githubApi = "https://api.github.com";
 const defaultMaximumArtifactBytes = 10 * 1024 * 1024;
+const defaultRequestTimeoutMilliseconds = 30_000;
+const maximumRedirects = 5;
+const approvedGitHubHosts = new Set([
+  "api.github.com",
+  "github.com",
+  "raw.githubusercontent.com",
+]);
+
+function validateGitHubRequestUrl(value: string | URL, redirect: boolean): URL {
+  let parsed: URL;
+  try {
+    parsed = value instanceof URL ? new URL(value.href) : new URL(value);
+  } catch {
+    throw new IntakeSourceError(
+      redirect ? "github.unsafe_redirect" : "github.invalid_request_url",
+      redirect ? "GitHub returned a malformed redirect destination." : "The GitHub request URL is malformed.",
+    );
+  }
+  if (
+    parsed.protocol !== "https:"
+    || parsed.port
+    || parsed.username
+    || parsed.password
+    || !approvedGitHubHosts.has(parsed.hostname.toLowerCase())
+  ) {
+    throw new IntakeSourceError(
+      redirect ? "github.unsafe_redirect" : "github.invalid_request_url",
+      redirect
+        ? "GitHub returned a redirect outside the approved HTTPS host policy."
+        : "The request is outside the approved GitHub HTTPS host policy.",
+    );
+  }
+  return parsed;
+}
+
+function isRedirectStatus(status: number): boolean {
+  return [301, 302, 303, 307, 308].includes(status);
+}
 
 function assertSafeRepositoryPart(value: string, label: string): void {
   if (!/^[A-Za-z0-9_.-]+$/.test(value) || value === "." || value === "..") {
@@ -129,36 +168,80 @@ export class GitHubClient {
   private readonly fetch: FetchLike;
   private readonly token: string | undefined;
   private readonly maximumArtifactBytes: number;
+  private readonly requestTimeoutMilliseconds: number;
 
   constructor(options: GitHubClientOptions = {}) {
     this.fetch = options.fetch ?? globalThis.fetch;
     this.token = options.token;
     this.maximumArtifactBytes = options.maximumArtifactBytes ?? defaultMaximumArtifactBytes;
+    this.requestTimeoutMilliseconds = options.requestTimeoutMilliseconds ?? defaultRequestTimeoutMilliseconds;
   }
 
-  private headers(accept = "application/vnd.github+json"): HeadersInit {
+  private headers(url: URL, accept = "application/vnd.github+json"): HeadersInit {
     return {
       Accept: accept,
       "User-Agent": "weftalis-local-intake",
       "X-GitHub-Api-Version": "2022-11-28",
-      ...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
+      ...(this.token && url.hostname.toLowerCase() === "api.github.com"
+        ? { Authorization: `Bearer ${this.token}` }
+        : {}),
     };
   }
 
-  private requestInit(accept?: string): RequestInit {
+  private requestInit(url: URL, accept?: string): RequestInit {
     return {
-      headers: this.headers(accept),
-      signal: AbortSignal.timeout(30_000),
+      headers: this.headers(url, accept),
+      redirect: "manual",
+      signal: AbortSignal.timeout(this.requestTimeoutMilliseconds),
     };
+  }
+
+  private async request(url: string | URL, accept?: string): Promise<Response> {
+    let current = validateGitHubRequestUrl(url, false);
+    for (let redirectCount = 0; redirectCount <= maximumRedirects; redirectCount += 1) {
+      let response: Response;
+      try {
+        response = await this.fetch(current, this.requestInit(current, accept));
+      } catch {
+        throw new IntakeSourceError("github.network_error", "GitHub could not be reached before the request timeout.");
+      }
+
+      if (response.redirected) {
+        throw new IntakeSourceError(
+          "github.unsafe_redirect",
+          "The HTTP client followed a redirect that intake could not validate hop by hop.",
+        );
+      }
+      if (response.url) {
+        const responseUrl = validateGitHubRequestUrl(response.url, true);
+        if (responseUrl.href !== current.href) {
+          throw new IntakeSourceError(
+            "github.unsafe_redirect",
+            "The HTTP response URL changed without a validated redirect hop.",
+          );
+        }
+      }
+
+      if (!isRedirectStatus(response.status)) return response;
+      const location = response.headers.get("location");
+      if (location === null) {
+        throw new IntakeSourceError("github.unsafe_redirect", "GitHub returned a redirect without a destination.");
+      }
+      if (redirectCount >= maximumRedirects) {
+        throw new IntakeSourceError("github.too_many_redirects", "GitHub exceeded the intake redirect limit.");
+      }
+      try {
+        current = validateGitHubRequestUrl(new URL(location, current), true);
+      } catch (error) {
+        if (error instanceof IntakeSourceError) throw error;
+        throw new IntakeSourceError("github.unsafe_redirect", "GitHub returned a malformed redirect destination.");
+      }
+    }
+    throw new IntakeSourceError("github.too_many_redirects", "GitHub exceeded the intake redirect limit.");
   }
 
   private async requestJson(url: string, notFoundCode: string): Promise<Record<string, unknown>> {
-    let response: Response;
-    try {
-      response = await this.fetch(url, this.requestInit());
-    } catch {
-      throw new IntakeSourceError("github.network_error", "GitHub could not be reached.");
-    }
+    const response = await this.request(url);
     if (response.status === 404) {
       throw new IntakeSourceError(notFoundCode, "The requested public GitHub resource was not found.");
     }
@@ -185,6 +268,15 @@ export class GitHubClient {
       `${githubApi}/repos/${encodeURIComponent(identity.owner)}/${encodeURIComponent(identity.name)}`,
       "repository.not_found",
     );
+    if (data.private === true) {
+      throw new IntakeSourceError("repository.private", "Private GitHub repositories are not accepted by public intake.");
+    }
+    if (data.private !== false || data.visibility !== "public") {
+      throw new IntakeSourceError(
+        "repository.not_public",
+        "The GitHub repository is not confirmed as publicly visible.",
+      );
+    }
     const defaultBranch = safeString(data.default_branch);
     if (!defaultBranch) {
       throw new IntakeSourceError("repository.missing_default_branch", "The repository has no readable default branch.");
@@ -268,25 +360,44 @@ export class GitHubClient {
     if (data.encoding === "base64" && typeof data.content === "string") {
       bytes = Buffer.from(data.content.replace(/\s/g, ""), "base64");
     } else {
-      let parsedRawUrl: URL;
-      try {
-        parsedRawUrl = new URL(immutableRawUrl);
-      } catch {
-        throw new IntakeSourceError("artifact.missing_content", "GitHub did not provide retrievable artifact bytes.");
-      }
-      if (parsedRawUrl.protocol !== "https:" || parsedRawUrl.hostname !== "raw.githubusercontent.com") {
-        throw new IntakeSourceError("artifact.unsafe_download_url", "GitHub returned an unsupported artifact download URL.");
-      }
-      let response: Response;
-      try {
-        response = await this.fetch(parsedRawUrl, this.requestInit("application/octet-stream"));
-      } catch {
-        throw new IntakeSourceError("github.network_error", "The exact artifact bytes could not be retrieved.");
-      }
+      const parsedRawUrl = validateGitHubRequestUrl(immutableRawUrl, false);
+      const response = await this.request(parsedRawUrl, "application/octet-stream");
       if (!response.ok) {
         throw new IntakeSourceError("artifact.download_failed", `Artifact retrieval returned HTTP ${response.status}.`);
       }
-      bytes = new Uint8Array(await response.arrayBuffer());
+      const contentLength = response.headers.get("content-length");
+      if (contentLength !== null) {
+        const parsedLength = Number(contentLength);
+        if (!Number.isSafeInteger(parsedLength) || parsedLength < 0) {
+          throw new IntakeSourceError("artifact.invalid_size", "The artifact response reported an invalid byte length.");
+        }
+        if (parsedLength > this.maximumArtifactBytes) {
+          throw new IntakeSourceError("artifact.too_large", "The artifact exceeds the local intake size limit.");
+        }
+      }
+      if (!response.body) {
+        bytes = new Uint8Array(await response.arrayBuffer());
+      } else {
+        const reader = response.body.getReader();
+        const chunks: Uint8Array[] = [];
+        let total = 0;
+        while (true) {
+          const result = await reader.read();
+          if (result.done) break;
+          total += result.value.byteLength;
+          if (total > this.maximumArtifactBytes) {
+            await reader.cancel();
+            throw new IntakeSourceError("artifact.too_large", "The artifact exceeds the local intake size limit.");
+          }
+          chunks.push(result.value);
+        }
+        bytes = new Uint8Array(total);
+        let offset = 0;
+        for (const chunk of chunks) {
+          bytes.set(chunk, offset);
+          offset += chunk.byteLength;
+        }
+      }
     }
 
     if (bytes.byteLength > this.maximumArtifactBytes) {

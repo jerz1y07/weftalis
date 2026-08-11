@@ -14,11 +14,11 @@ Intake treats submissions and artifacts as untrusted data. It does not execute w
 4. For each submission, intake normalizes the GitHub repository identity, inspects the public repository, and resolves the requested ref.
 5. A branch, tag, or default branch is resolved to a full 40-character commit SHA. An explicitly submitted commit must resolve exactly.
 6. The exact, case-sensitive artifact path is retrieved at that immutable commit.
-7. The original bytes are fingerprinted, checked against GitHub's reported blob identifier when one is available, and preserved for review unless the run is a dry run.
+7. The original bytes are fingerprinted, checked against GitHub's required reported blob identifier, and preserved for review unless the run is a dry run. A missing or mismatched identifier fails integrity verification.
 8. Repository-level and file-level license evidence is collected separately.
 9. The artifact is parsed as supported Dify or n8n data when its shape is recognized. Static risk, dependency, credential-reference, identifier, and secret-like-value signals are extracted without execution.
 10. The new record is compared with existing local review records and earlier entries in the same batch.
-11. Intake writes a quarantined record when safe resolution fails, a Git blob mismatch occurs, or potential secret-like values are detected. Other successfully processed candidates stop at `needs_review`.
+11. Intake writes a quarantined record when safe resolution fails, Git blob integrity is missing or mismatched, supported JSON/YAML is malformed, or potential secret-like values are detected. Other successfully processed candidates stop at `needs_review`.
 12. A human reviewer must decide what, if anything, happens next. Intake cannot publish.
 
 A source failure is recorded conservatively and does not stop later submissions in the same validated batch.
@@ -41,11 +41,11 @@ The batch manifest, resolved artifact, static audit, moderation status, and comb
 
 Only URLs shaped as `https://github.com/OWNER/REPOSITORY` are accepted. The URL may have a trailing slash or `.git` suffix, but may not contain credentials, a port, query, fragment, or extra path component. The repository owner and name are checked before the client constructs GitHub API URLs.
 
-The client uses GitHub repository metadata to record the canonical owner, repository name, normalized URL, and default branch. It then uses the GitHub commits API to resolve the selected branch, tag, commit, or default branch.
+The client uses GitHub repository metadata to require `private: false` and `visibility: public`, record the canonical owner, repository name, normalized URL, and default branch, and reject private, internal, or otherwise unconfirmed visibility even when an optional token can read it. It then uses the GitHub commits API to resolve the selected branch, tag, commit, or default branch.
 
 The artifact is requested through the GitHub Contents API at the resolved commit. It must be a regular file, and GitHub's returned path must exactly match the submitted case-sensitive path. If inline base64 content is unavailable, the client constructs an immutable `raw.githubusercontent.com` URL from the validated repository identity, pinned commit, and encoded path.
 
-Each GitHub request has a 30-second timeout. Artifact bytes are limited to 10 MiB by both reported size and retrieved byte length, and a reported-size mismatch fails retrieval.
+Each GitHub request has a 30-second timeout and uses manual redirects. Every hop is limited to HTTPS on the approved GitHub host set, rejects embedded credentials and malformed destinations, and counts toward a maximum of five redirects. Authorization is generated per hop and is sent only to `api.github.com`, so it is not forwarded when the host changes. Artifact bytes are limited to 10 MiB by both reported size and retrieved byte length, raw responses are stopped while streaming once the limit is crossed, and a reported-size mismatch fails retrieval.
 
 ## Immutable commit pinning
 
@@ -65,12 +65,12 @@ The fingerprint records:
 
 - SHA-256 of the fetched bytes;
 - byte size and line count;
-- GitHub's reported Git blob identifier, when available;
+- GitHub's required reported Git blob identifier;
 - a locally calculated Git blob SHA-1 using Git's `blob <length>\0<bytes>` representation;
 - whether the reported and calculated Git blob identifiers match; and
 - the stored artifact SHA-256 and whether it matches the fetched bytes.
 
-A Git blob mismatch marks source resolution as failed and quarantines the record. SHA-256 is also the basis for artifact duplicate detection.
+A missing or mismatched Git blob identifier marks source resolution as failed and quarantines the record. SHA-256 remains independently recorded and is also the basis for artifact duplicate detection.
 
 ## Dify and n8n parsing
 
@@ -79,7 +79,7 @@ Parsing is static and shape-based:
 - n8n candidates must be JSON objects with `nodes` and `connections`;
 - Dify candidates must be YAML-compatible objects with `workflow.graph.nodes`.
 
-The parser records the detected platform, workflow/application type, schema indicators, node identities and types, node and edge counts, dependencies, warnings, and uncertainties. A platform hint helps label malformed or unsupported content but does not override shape detection. Invalid UTF-8, malformed JSON/YAML, unsupported shapes, and ambiguous shapes remain `needs_review`.
+The parser records the detected platform, workflow/application type, schema indicators, node identities and types, node and edge counts, dependencies, warnings, and uncertainties. A platform hint selects the expected data parser but cannot make malformed input valid. Invalid UTF-8 or malformed hinted n8n JSON or Dify YAML stops before semantic analysis, records only a concise parse-error category, and recommends `quarantined`; its schema-compatible `parsing_status` remains `needs_review`. Unsupported or ambiguous shapes remain `needs_review`.
 
 No node, embedded code, plugin, model, platform, or external service is run.
 
@@ -131,7 +131,7 @@ The default queue is the Git-ignored `intake-review` directory. Each review dire
 - `review-record.json`; and
 - the unchanged upstream artifact when retrieval succeeded.
 
-Writes use a staging directory and restrictive file modes before an atomic rename. Output containment prevents use of the repository root and overlap with Packages, Registry, website, or Git metadata. If output is placed inside the repository, only the default `intake-review` location is allowed.
+Writes use a staging directory and restrictive file modes before an atomic rename. Output containment rejects symbolic links at the review root and every relevant reviews, staging, artifact, existing-record, and destination path. It checks lexical and resolved containment before reads and writes, after directory creation, and again before final writes and rename. Output cannot use the repository root or overlap Packages, Registry, website, or Git metadata. If output is placed inside the repository, only the default `intake-review` location is allowed.
 
 Moderation history records the automated stages. The CLI can end at `needs_review` or `quarantined`; `approved` and `rejected` are reserved for a human reviewer and require a recorded human decision. The moderation schema fixes `automatic_publication` to `false`.
 

@@ -12,6 +12,7 @@ import {
 import { createUnavailableAudit, parseArtifact } from "./parser.js";
 import { assertSafeOutputRoot, writeReview } from "./output.js";
 import { loadSubmissionManifest } from "./schema-validator.js";
+import { redactSecretLikeMetadata } from "./secret-scanner.js";
 import type {
   CommunitySubmission,
   LicenseEvidence,
@@ -189,10 +190,14 @@ export async function runIntake(options: IntakeRunOptions): Promise<IntakeRunRes
         submission.license_claim,
         artifactText(retrieved.bytes),
       );
-      if (fingerprint.git_blob_sha_matches === false) {
+      if (fingerprint.git_blob_sha_matches !== true) {
         resolutionFailure = {
-          code: "artifact.git_blob_mismatch",
-          message: "Calculated Git blob SHA does not match GitHub's reported blob identifier.",
+          code: fingerprint.git_blob_sha_reported === null
+            ? "artifact.git_blob_unverified"
+            : "artifact.git_blob_mismatch",
+          message: fingerprint.git_blob_sha_reported === null
+            ? "Git blob integrity could not be verified because GitHub did not report a blob identifier."
+            : "Calculated Git blob SHA does not match GitHub's reported blob identifier.",
         };
         failedCount += 1;
       }
@@ -281,7 +286,7 @@ export async function runIntake(options: IntakeRunOptions): Promise<IntakeRunRes
     const quarantined = Boolean(resolutionFailure)
       || staticAudit.recommended_moderation_status === "quarantined";
     const id = reviewId(submission, resolvedArtifact.resolved_commit, resolutionFailure?.code ?? null);
-    const record: ReviewRecord = {
+    const record: ReviewRecord = redactSecretLikeMetadata({
       record_version: "1.0",
       review_id: id,
       created_at: timestamp,
@@ -307,7 +312,7 @@ export async function runIntake(options: IntakeRunOptions): Promise<IntakeRunRes
         ...staticAudit.uncertainties,
         "License, authorship, runtime behavior, compatibility, usefulness, and safety require human review.",
       ],
-    };
+    });
     record.duplicate_status = detectDuplicates(record, existing);
     if (record.duplicate_status.duplicate_artifact) {
       record.warnings.push("The artifact SHA-256 matches one or more existing local review records.");
