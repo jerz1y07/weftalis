@@ -11,9 +11,9 @@ These instructions apply to the entire repository.
 
 ## Brand
 
-- The official brand name is **Weftalis**.
-- Do not reinvent, replace, or change the official brand name.
-- Use **Weftalis** for user-facing product references and `weftalis` only where a lowercase technical identifier is required.
+- The official public brand name is **Weft Place**.
+- Use **Weft Place** for user-facing product references.
+- Preserve `Weftalis` and `weftalis` only where an existing technical identifier, repository name, URL, schema ID, package ID, or source path requires it.
 - The generic phrase “open workflow registry” may continue to describe the product category, but it is not the product name.
 - Follow [BRAND.md](BRAND.md) for naming and visual-direction guidance.
 
