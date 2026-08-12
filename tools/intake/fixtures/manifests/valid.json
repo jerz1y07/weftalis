@@ -1,0 +1,22 @@
+{
+  "manifest_version": "1.0",
+  "submissions": [
+    {
+      "record_version": "1.0",
+      "submission_id": "fixture-dify",
+      "repository_url": "https://github.com/fixture-owner/fixture-repository.git",
+      "artifact_path": "workflows/valid-dify.yml",
+      "branch": "main",
+      "platform_hint": "dify",
+      "workflow_name": "Fixture Dify Workflow",
+      "description": "A local submission manifest fixture.",
+      "submitter": {
+        "name_or_handle": "fixture-submitter",
+        "claims_authorship": false
+      },
+      "upstream_author_or_organization": "Fixture Organization",
+      "license_claim": "MIT",
+      "notes": "Local test data only."
+    }
+  ]
+}

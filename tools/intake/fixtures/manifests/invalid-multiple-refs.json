@@ -1,0 +1,18 @@
+{
+  "manifest_version": "1.0",
+  "submissions": [
+    {
+      "record_version": "1.0",
+      "repository_url": "https://github.com/fixture-owner/fixture-repository",
+      "artifact_path": "workflows/valid-n8n.json",
+      "branch": "main",
+      "tag": "fixture-v1",
+      "workflow_name": "Invalid Multiple Refs",
+      "description": "This fixture must fail schema validation.",
+      "submitter": {
+        "name_or_handle": "fixture-submitter",
+        "claims_authorship": false
+      }
+    }
+  ]
+}

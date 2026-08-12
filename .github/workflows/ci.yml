@@ -27,6 +27,26 @@ jobs:
         with:
           node-version-file: .nvmrc
 
+      - name: Install Intake dependencies safely
+        working-directory: tools/intake
+        run: npm ci --ignore-scripts
+
+      - name: Check Intake types
+        working-directory: tools/intake
+        run: npm run typecheck
+
+      - name: Test Intake
+        working-directory: tools/intake
+        run: npm test
+
+      - name: Build Intake
+        working-directory: tools/intake
+        run: npm run build
+
+      - name: Validate Intake schemas
+        working-directory: tools/intake
+        run: npm run validate-schemas
+
       - name: Install Validator dependencies safely
         working-directory: validator
         run: npm ci --ignore-scripts

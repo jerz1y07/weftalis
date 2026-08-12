@@ -1,0 +1,20 @@
+app:
+  mode: workflow
+  name: Fixture Dify Workflow
+kind: app
+version: 0.1.5
+workflow:
+  environment_variables: []
+  graph:
+    nodes:
+      - id: start-node
+        data:
+          title: Start
+          type: start
+      - id: end-node
+        data:
+          title: End
+          type: end
+    edges:
+      - source: start-node
+        target: end-node

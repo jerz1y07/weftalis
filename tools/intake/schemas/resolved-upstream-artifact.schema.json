@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:weftalis:intake:resolved-upstream-artifact:1.0",
+  "title": "Weftalis Resolved Upstream Artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_version",
+    "resolution_status",
+    "repository",
+    "requested_ref",
+    "resolved_commit",
+    "artifact",
+    "fingerprint",
+    "retrieved_at",
+    "license_evidence",
+    "failure",
+    "warnings"
+  ],
+  "properties": {
+    "record_version": { "const": "1.0" },
+    "resolution_status": { "enum": ["resolved", "failed"] },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["submitted_url", "normalized_url", "owner", "name"],
+      "properties": {
+        "submitted_url": { "type": "string", "format": "uri" },
+        "normalized_url": { "type": "string", "format": "uri" },
+        "owner": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 }
+      }
+    },
+    "requested_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "value", "was_mutable"],
+      "properties": {
+        "kind": { "enum": ["branch", "tag", "commit", "default_branch"] },
+        "value": { "type": ["string", "null"] },
+        "was_mutable": { "type": "boolean" }
+      }
+    },
+    "resolved_commit": { "type": ["string", "null"], "pattern": "^[0-9a-f]{40}$" },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requested_path",
+        "verified_case_sensitive_path",
+        "contents_api_url",
+        "raw_url",
+        "stored_path"
+      ],
+      "properties": {
+        "requested_path": { "type": "string", "minLength": 1 },
+        "verified_case_sensitive_path": { "type": ["string", "null"] },
+        "contents_api_url": { "type": ["string", "null"], "format": "uri" },
+        "raw_url": { "type": ["string", "null"], "format": "uri" },
+        "stored_path": { "type": ["string", "null"] }
+      }
+    },
+    "fingerprint": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sha256",
+            "byte_size",
+            "line_count",
+            "git_blob_sha_reported",
+            "git_blob_sha_calculated",
+            "git_blob_sha_matches",
+            "stored_artifact_sha256",
+            "stored_artifact_matches_fetched"
+          ],
+          "properties": {
+            "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+            "byte_size": { "type": "integer", "minimum": 0 },
+            "line_count": { "type": "integer", "minimum": 0 },
+            "git_blob_sha_reported": { "type": ["string", "null"], "pattern": "^[0-9a-f]{40,64}$" },
+            "git_blob_sha_calculated": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+            "git_blob_sha_matches": { "type": ["boolean", "null"] },
+            "stored_artifact_sha256": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$" },
+            "stored_artifact_matches_fetched": { "type": ["boolean", "null"] }
+          }
+        }
+      ]
+    },
+    "retrieved_at": { "type": ["string", "null"], "format": "date-time" },
+    "license_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["submission_claim", "repository_level", "file_level", "limitations"],
+      "properties": {
+        "submission_claim": { "type": ["string", "null"] },
+        "repository_level": { "$ref": "#/$defs/licenseEvidence" },
+        "file_level": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "spdx_identifiers", "method", "limitations"],
+          "properties": {
+            "status": { "enum": ["found", "missing", "ambiguous", "not_scanned"] },
+            "spdx_identifiers": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+            "method": { "type": "string" },
+            "limitations": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "limitations": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "failure": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["code", "message"],
+          "properties": {
+            "code": { "type": "string" },
+            "message": { "type": "string" }
+          }
+        }
+      ]
+    },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  },
+  "$defs": {
+    "licenseEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "spdx_id", "name", "path", "git_blob_sha", "evidence_url", "scope", "limitations"],
+      "properties": {
+        "status": { "enum": ["found", "missing", "ambiguous", "unavailable"] },
+        "spdx_id": { "type": ["string", "null"] },
+        "name": { "type": ["string", "null"] },
+        "path": { "type": ["string", "null"] },
+        "git_blob_sha": { "type": ["string", "null"] },
+        "evidence_url": { "type": ["string", "null"], "format": "uri" },
+        "scope": { "const": "repository-level" },
+        "limitations": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

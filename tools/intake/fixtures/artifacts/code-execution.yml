@@ -1,0 +1,20 @@
+app:
+  mode: workflow
+  name: Code Fixture
+kind: app
+version: 0.1.5
+workflow:
+  environment_variables: []
+  graph:
+    nodes:
+      - id: code-node
+        data:
+          title: Static Code Review
+          type: code
+          code_language: python3
+          code: |
+            import subprocess
+            import fixture_library
+            def main(value):
+                return {"result": value}
+    edges: []

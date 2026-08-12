@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:weftalis:intake:static-audit-result:1.0",
+  "title": "Weftalis Static Intake Audit Result",
+  "description": "Review-oriented static signals; never a safety, runtime, or compatibility certification.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_version",
+    "artifact_available",
+    "platform",
+    "parsing_status",
+    "application_or_workflow_type",
+    "schema_indicators",
+    "nodes",
+    "node_count",
+    "edge_count",
+    "signals",
+    "dependencies",
+    "secret_scan",
+    "risk_summary",
+    "runtime_status",
+    "compatibility_status",
+    "recommended_moderation_status",
+    "warnings",
+    "uncertainties",
+    "limitations"
+  ],
+  "properties": {
+    "record_version": { "const": "1.0" },
+    "artifact_available": { "type": "boolean" },
+    "platform": { "enum": ["dify", "n8n", "unknown"] },
+    "parsing_status": { "enum": ["parsed", "needs_review"] },
+    "application_or_workflow_type": { "type": ["string", "null"] },
+    "schema_indicators": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+    "nodes": { "type": "array", "items": { "$ref": "#/$defs/node" } },
+    "node_count": { "type": ["integer", "null"], "minimum": 0 },
+    "edge_count": { "type": ["integer", "null"], "minimum": 0 },
+    "signals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code_execution",
+        "shell_execution",
+        "model_or_llm",
+        "provider_references",
+        "credential_references",
+        "environment_variable_references",
+        "http_or_network",
+        "external_writes",
+        "webhooks_or_triggers",
+        "required_plugins_or_custom_nodes",
+        "human_review_or_approval",
+        "hard_coded_identifiers"
+      ],
+      "properties": {
+        "code_execution": { "$ref": "#/$defs/signals" },
+        "shell_execution": { "$ref": "#/$defs/signals" },
+        "model_or_llm": { "$ref": "#/$defs/signals" },
+        "provider_references": { "$ref": "#/$defs/signals" },
+        "credential_references": { "$ref": "#/$defs/signals" },
+        "environment_variable_references": { "$ref": "#/$defs/signals" },
+        "http_or_network": { "$ref": "#/$defs/signals" },
+        "external_writes": { "$ref": "#/$defs/signals" },
+        "webhooks_or_triggers": { "$ref": "#/$defs/signals" },
+        "required_plugins_or_custom_nodes": { "$ref": "#/$defs/signals" },
+        "human_review_or_approval": { "$ref": "#/$defs/signals" },
+        "hard_coded_identifiers": { "$ref": "#/$defs/signals" }
+      }
+    },
+    "dependencies": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["providers", "models", "plugins", "custom_nodes", "other"],
+      "properties": {
+        "providers": { "$ref": "#/$defs/uniqueStrings" },
+        "models": { "$ref": "#/$defs/uniqueStrings" },
+        "plugins": { "$ref": "#/$defs/uniqueStrings" },
+        "custom_nodes": { "$ref": "#/$defs/uniqueStrings" },
+        "other": { "$ref": "#/$defs/uniqueStrings" }
+      }
+    },
+    "secret_scan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "finding_count", "findings", "limitations"],
+      "properties": {
+        "status": { "enum": ["none_detected", "potential_values_detected", "not_scanned"] },
+        "finding_count": { "type": "integer", "minimum": 0 },
+        "findings": { "type": "array", "items": { "$ref": "#/$defs/secretFinding" } },
+        "limitations": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "risk_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code_execution",
+        "shell_execution",
+        "network_access",
+        "credential_requirements",
+        "external_writes",
+        "personal_or_hard_coded_identifiers",
+        "secret_scan_results",
+        "dependency_declarations"
+      ],
+      "properties": {
+        "code_execution": { "$ref": "#/$defs/riskItem" },
+        "shell_execution": { "$ref": "#/$defs/riskItem" },
+        "network_access": { "$ref": "#/$defs/riskItem" },
+        "credential_requirements": { "$ref": "#/$defs/riskItem" },
+        "external_writes": { "$ref": "#/$defs/riskItem" },
+        "personal_or_hard_coded_identifiers": { "$ref": "#/$defs/riskItem" },
+        "secret_scan_results": { "$ref": "#/$defs/riskItem" },
+        "dependency_declarations": { "$ref": "#/$defs/riskItem" }
+      }
+    },
+    "runtime_status": { "const": "untested" },
+    "compatibility_status": { "const": "unverified" },
+    "recommended_moderation_status": { "enum": ["needs_review", "quarantined", "rejected"] },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "uncertainties": { "type": "array", "items": { "type": "string" } },
+    "limitations": { "type": "array", "minItems": 1, "items": { "type": "string" } }
+  },
+  "$defs": {
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "type"],
+      "properties": {
+        "id": { "type": ["string", "null"] },
+        "name": { "type": ["string", "null"] },
+        "type": { "type": ["string", "null"] }
+      }
+    },
+    "signal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category", "node_name", "node_type", "location", "detail"],
+      "properties": {
+        "category": { "type": "string" },
+        "node_name": { "type": ["string", "null"] },
+        "node_type": { "type": ["string", "null"] },
+        "location": { "type": ["string", "null"] },
+        "detail": { "type": "string" }
+      }
+    },
+    "signals": { "type": "array", "items": { "$ref": "#/$defs/signal" } },
+    "riskItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "evidence", "caution"],
+      "properties": {
+        "status": { "enum": ["detected", "not_detected", "unknown"] },
+        "evidence": { "type": "array", "items": { "type": "string" } },
+        "caution": { "type": "string" }
+      }
+    },
+    "secretFinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "line", "redacted_preview"],
+      "properties": {
+        "kind": { "type": "string" },
+        "line": { "type": ["integer", "null"], "minimum": 1 },
+        "redacted_preview": { "type": "string" }
+      }
+    },
+    "uniqueStrings": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

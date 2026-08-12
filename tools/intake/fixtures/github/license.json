@@ -1,0 +1,11 @@
+{
+  "name": "LICENSE",
+  "path": "LICENSE",
+  "sha": "1111111111111111111111111111111111111111",
+  "html_url": "https://github.com/fixture-owner/fixture-repository/blob/0123456789abcdef0123456789abcdef01234567/LICENSE",
+  "license": {
+    "key": "mit",
+    "name": "MIT License",
+    "spdx_id": "MIT"
+  }
+}
