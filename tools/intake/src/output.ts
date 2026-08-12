@@ -95,12 +95,18 @@ export async function assertSafeOutputRoot(
   repositoryRoot: string,
   requestedOutputRoot: string,
 ): Promise<string> {
-  const realRepositoryRoot = await realpath(repositoryRoot);
+  const absoluteRepositoryRoot = path.resolve(repositoryRoot);
+  const realRepositoryRoot = await realpath(absoluteRepositoryRoot);
   const requestedAbsolute = path.resolve(requestedOutputRoot);
-  if (isInside(realRepositoryRoot, requestedAbsolute)) {
-    await assertNoSymlinkComponents(realRepositoryRoot, requestedAbsolute, true);
+  let requestedCanonical = requestedAbsolute;
+  if (isInside(absoluteRepositoryRoot, requestedAbsolute)) {
+    await assertNoSymlinkComponents(absoluteRepositoryRoot, requestedAbsolute, true);
+    requestedCanonical = path.join(
+      realRepositoryRoot,
+      path.relative(absoluteRepositoryRoot, requestedAbsolute),
+    );
   }
-  const outputRoot = await resolveThroughExistingAncestor(requestedAbsolute);
+  const outputRoot = await resolveThroughExistingAncestor(requestedCanonical);
   const defaultLocalOutput = path.join(realRepositoryRoot, "intake-review");
   const protectedPaths = [
     realRepositoryRoot,
@@ -143,12 +149,15 @@ export async function assertContainedReviewPath(
     if (isMissingPath(error) && allowMissing) return;
     throw new IntakeValidationError("The approved intake review root could not be verified safely.");
   }
-  if (realRoot !== absoluteRoot) {
-    throw new IntakeValidationError("The approved intake review root resolves through a symbolic link.");
-  }
+
+  const canonicalCandidate = path.join(
+    realRoot,
+    path.relative(absoluteRoot, absoluteCandidate),
+  );
+  await assertNoSymlinkComponents(realRoot, canonicalCandidate, allowMissing);
 
   try {
-    const realCandidate = await realpath(absoluteCandidate);
+    const realCandidate = await realpath(canonicalCandidate);
     if (!isInside(realRoot, realCandidate)) {
       throw new IntakeValidationError("The review output path escapes the approved intake review root.");
     }

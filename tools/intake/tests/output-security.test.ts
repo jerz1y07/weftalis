@@ -1,4 +1,4 @@
-import { mkdir, mkdtemp, readFile, rm, symlink, unlink, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, realpath, rm, symlink, unlink, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 
@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it } from "vitest";
 
 import { GitHubClient } from "../src/github.js";
 import { runIntake } from "../src/intake.js";
-import { assertContainedReviewPath } from "../src/output.js";
+import { assertContainedReviewPath, assertSafeOutputRoot } from "../src/output.js";
 import type { SubmissionManifest } from "../src/types.js";
 import { createGitHubMock } from "./helpers/github-mock.js";
 
@@ -63,6 +63,32 @@ async function run(root: string, dryRun = false) {
 }
 
 describe("symlink-safe review output containment", () => {
+  it("canonicalizes a filesystem-aliased review root before containment checks", async () => {
+    const root = await makeRepository();
+    const canonicalRoot = await realpath(root);
+    const outputRoot = await assertSafeOutputRoot(root, path.join(root, "intake-review"));
+
+    expect(outputRoot).toBe(path.join(canonicalRoot, "intake-review"));
+  });
+
+  it("keeps nested review, staging, and artifact destinations contained", async () => {
+    const root = await makeRepository();
+    const outputRoot = path.join(root, "intake-review");
+    const artifactPath = path.join(
+      outputRoot,
+      "reviews",
+      ".staging-regression",
+      "artifact",
+      "upstream",
+      "workflows",
+      "fixture.yml",
+    );
+    await mkdir(path.dirname(artifactPath), { recursive: true });
+    await writeFile(artifactPath, "fixture\n", "utf8");
+
+    await expect(assertContainedReviewPath(outputRoot, artifactPath)).resolves.toBeUndefined();
+  });
+
   it("rejects a symbolic link at intake-review", async () => {
     const root = await makeRepository();
     const target = path.join(root, "review-root-target");
@@ -81,7 +107,7 @@ describe("symlink-safe review output containment", () => {
     await expect(run(root)).rejects.toThrow(/symbolic link/);
   });
 
-  it("rejects a symbolic link at a staging path", async () => {
+  it("rejects a genuine symbolic-link escape at a staging path", async () => {
     const root = await makeRepository();
     const outputRoot = path.join(root, "intake-review");
     const reviews = path.join(outputRoot, "reviews");
