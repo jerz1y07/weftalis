@@ -53,6 +53,12 @@ function labelFromKey(value: string) {
   return value.split("_").map((part) => part[0].toUpperCase() + part.slice(1)).join(" ");
 }
 
+function publicAuthorName(value: string) {
+  if (value === "Weftalis Contributors") return "Weft Place contributors";
+  if (value === "Weftalis maintainers") return "Weft Place maintainers";
+  return value;
+}
+
 export default async function WorkflowDetailPage({ params }: WorkflowDetailProps) {
   const workflow = getWorkflowById((await params).slug);
   if (!workflow) notFound();
@@ -86,7 +92,7 @@ export default async function WorkflowDetailPage({ params }: WorkflowDetailProps
 
       <div className="metadata-strip">
         <div><span>Workflow ID</span><strong className="mono">{workflow.id}</strong></div>
-        <div><span>Author</span><strong>{workflow.author}</strong></div>
+        <div><span>Author</span><strong>{publicAuthorName(workflow.author)}</strong></div>
         <div><span>Version</span><strong className="mono">v{workflow.version}</strong></div>
         <div><span>License</span><strong>{workflow.license}</strong></div>
       </div>

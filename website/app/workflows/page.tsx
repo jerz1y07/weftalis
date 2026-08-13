@@ -8,9 +8,9 @@ import {
 import { createPageMetadata } from "@/lib/site-metadata";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "Discover workflows",
+  title: "Workflows",
   description:
-    "Browse reusable and verifiable AI workflows in the Weftalis open registry.",
+    "Browse open AI workflow listings by platform, purpose, and category on Weft Place.",
   pathname: "workflows/",
 });
 
@@ -23,8 +23,8 @@ export default function WorkflowsPage() {
       <header className="page-header split-header">
         <div>
           <p className="eyebrow">Registry index</p>
-          <h1>Discover workflows</h1>
-          <p>Compare validated Weftalis Registry entries by platform, purpose, version, and declared safety metadata.</p>
+          <h1>Workflows</h1>
+          <p>Browse current Weft Place listings by platform, purpose, and category.</p>
         </div>
         <div className="prototype-note">
           <span aria-hidden="true">i</span>

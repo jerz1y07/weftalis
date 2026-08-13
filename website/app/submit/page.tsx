@@ -4,7 +4,7 @@ import { createPageMetadata } from "@/lib/site-metadata";
 export const metadata: Metadata = createPageMetadata({
   title: "Submit a workflow",
   description:
-    "Learn how to propose reusable and verifiable AI workflows to the Weftalis open registry through GitHub pull requests.",
+    "Learn how to propose an AI workflow listing to Weft Place through a GitHub pull request.",
   pathname: "submit/",
 });
 
@@ -22,7 +22,7 @@ export default function SubmitPage() {
       <header className="page-header centered-header">
         <p className="eyebrow">GitHub-native by design</p>
         <h1>Submit transparently.<br />Review in the open.</h1>
-        <p>Weftalis Workflow Packages are proposed as plain files through pull requests—not uploaded into a closed platform.</p>
+        <p>Weft Place submissions currently happen through GitHub pull requests. The contribution guide explains the files and checks required for publication.</p>
       </header>
       <div className="early-banner"><span aria-hidden="true">!</span><div><strong>No upload form or live GitHub connection</strong><p>This static page explains the repository-native process only. It does not submit files, call an API, or create an account.</p></div></div>
       <section className="submission-flow" aria-labelledby="submission-title">

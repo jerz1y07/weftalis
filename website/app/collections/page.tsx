@@ -7,7 +7,7 @@ import { createPageMetadata } from "@/lib/site-metadata";
 export const metadata: Metadata = createPageMetadata({
   title: "Research and Writing Starter Stack",
   description:
-    "Explore a human-directed research and writing collection built from reusable Weftalis Registry workflows.",
+    "Explore a human-directed research and writing collection built from workflows listed on Weft Place.",
   pathname: "collections/",
 });
 
@@ -31,7 +31,7 @@ export default function CollectionsPage() {
         <div>
           <p className="eyebrow">Prototype collection · Registry data</p>
           <h1>Research and Writing<br />Starter Stack</h1>
-          <p>A Weftalis prototype collection: first prepare reviewed research material, then use it as supplied material in a human-reviewed writing process.</p>
+          <p>A Weft Place prototype collection: first prepare reviewed research material, then use it as supplied material in a human-reviewed writing process.</p>
         </div>
         <div className="collection-stat"><strong className="mono">02</strong><span>Registry workflows</span><small>Ordered prototype collection</small></div>
       </header>
