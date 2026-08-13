@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { WorkflowFilters } from "@/components/workflow-filters";
-import {
-  formatRegistryDate,
-  getAllWorkflows,
-  getRegistry,
-} from "@/lib/registry";
+import { getAllWorkflows, getRegistry } from "@/lib/registry";
 import { createPageMetadata } from "@/lib/site-metadata";
 
 export const metadata: Metadata = createPageMetadata({
@@ -20,18 +17,16 @@ export default function WorkflowsPage() {
 
   return (
     <div className="shell page-section">
-      <header className="page-header split-header">
+      <header className="page-header directory-header">
         <div>
-          <p className="eyebrow">Registry index</p>
-          <h1>Workflows</h1>
-          <p>Browse current Weft Place listings by platform, purpose, and category.</p>
-        </div>
-        <div className="prototype-note">
-          <span aria-hidden="true">i</span>
-          <p><strong>{registry.workflow_count} Registry entries</strong>Last generated {formatRegistryDate(registry.generated_at)}. The website does not execute workflows.</p>
+          <p className="eyebrow">Workflow marketplace</p>
+          <h1>Find a workflow</h1>
+          <p>Search {registry.workflow_count} current workflows by what they do, where they run, or where they come from.</p>
         </div>
       </header>
-      <WorkflowFilters workflows={workflows} />
+      <Suspense fallback={<div className="directory-loading">Loading workflow search…</div>}>
+        <WorkflowFilters workflows={workflows} />
+      </Suspense>
     </div>
   );
 }

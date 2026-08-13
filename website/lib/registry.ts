@@ -66,6 +66,38 @@ export type Registry = {
   workflows: RegistryWorkflow[];
 };
 
+export type MarketplaceWorkflow = {
+  summary: string;
+  originalCreator: string | null;
+  sourceLabel: string;
+  sourceUrl: string;
+  acquisitionUrl: string;
+  listingMaintainer: string;
+  limitation: string | null;
+  useSteps: string[];
+  source: {
+    repository: string;
+    path: string;
+    ref: string;
+    attributionBasis: string;
+    licenseEvidence: string;
+    transformation: string;
+    sha256?: string;
+  };
+};
+
+const PROJECT_REPOSITORY = "https://github.com/jerz1y07/weftalis";
+const PROJECT_SOURCE_REF = "f943d0be6ab1eec969fe2149e08dd0b5a2e00c82";
+
+const JSON_REPAIR_UPSTREAM = {
+  repository: "https://github.com/svcvit/Awesome-Dify-Workflow",
+  path: "DSL/json-repair.yml",
+  ref: "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+  rawUrl:
+    "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/json-repair.yml",
+  sha256: "5859d8c833593069cfe781da27d585a24cdbbf5e03a50af56b2ae01045d491ad",
+} as const;
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object" && !Array.isArray(value);
 }
@@ -185,7 +217,9 @@ export function getRegistry(): Registry {
 }
 
 export function getAllWorkflows(): RegistryWorkflow[] {
-  return registry.workflows;
+  return [...registry.workflows].sort((left, right) =>
+    left.name.localeCompare(right.name, "en"),
+  );
 }
 
 export function getWorkflowById(id: string): RegistryWorkflow | undefined {
@@ -193,15 +227,100 @@ export function getWorkflowById(id: string): RegistryWorkflow | undefined {
 }
 
 export function getFeaturedWorkflows(): RegistryWorkflow[] {
-  return registry.workflows;
+  return getAllWorkflows();
 }
 
 export function getPlatforms(): string[] {
-  return [...new Set(registry.workflows.map((workflow) => workflow.platform))];
+  return [...new Set(registry.workflows.map((workflow) => workflow.platform))].sort();
 }
 
 export function getCategories(): string[] {
-  return [...new Set(registry.workflows.flatMap((workflow) => workflow.categories))];
+  return [...new Set(registry.workflows.flatMap((workflow) => workflow.categories))].sort();
+}
+
+export function formatPublicLabel(value: string): string {
+  if (value === "dify") return "Dify";
+  if (value === "n8n") return "n8n";
+
+  return value
+    .split("-")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function publicMaintainerName(value: string): string {
+  if (value === "Weftalis Contributors") return "Weft Place contributors";
+  if (value === "Weftalis maintainers") return "Weft Place maintainers";
+  return value;
+}
+
+export function getMarketplaceWorkflow(
+  workflow: RegistryWorkflow,
+): MarketplaceWorkflow {
+  if (workflow.id === "json-repair") {
+    return {
+      summary:
+        "Repairs malformed or non-standard JSON text and returns the repaired string.",
+      originalCreator: "svcvit",
+      sourceLabel: "svcvit/Awesome-Dify-Workflow",
+      sourceUrl: `${JSON_REPAIR_UPSTREAM.repository}/blob/${JSON_REPAIR_UPSTREAM.ref}/${JSON_REPAIR_UPSTREAM.path}`,
+      acquisitionUrl: JSON_REPAIR_UPSTREAM.rawUrl,
+      listingMaintainer: publicMaintainerName(workflow.author),
+      limitation: "Requires the external json_repair package, with no version pinned by the workflow.",
+      useSteps: [
+        "Open the exact upstream Dify artifact with Get workflow.",
+        "Inspect the workflow and its embedded Python code before importing it into Dify.",
+        "Confirm that the json_repair dependency is available in your runtime, then compare repaired output with the original input.",
+      ],
+      source: {
+        repository: JSON_REPAIR_UPSTREAM.repository,
+        path: JSON_REPAIR_UPSTREAM.path,
+        ref: JSON_REPAIR_UPSTREAM.ref,
+        attributionBasis:
+          "Repository publisher identity, pinned README attribution, and introducing commit identity. This does not establish legal identity or sole authorship.",
+        licenseEvidence:
+          "MIT, based on repository-level license evidence at the pinned revision; no per-file SPDX header was found.",
+        transformation: "The listed artifact is byte-identical to upstream; no functional changes are recorded.",
+        sha256: JSON_REPAIR_UPSTREAM.sha256,
+      },
+    };
+  }
+
+  const isWritingWorkflow = workflow.id === "human-reviewed-writing-pipeline";
+  const sourceUrl = `${PROJECT_REPOSITORY}/blob/${PROJECT_SOURCE_REF}/${workflow.source_file}`;
+  const acquisitionUrl = `https://raw.githubusercontent.com/jerz1y07/weftalis/${PROJECT_SOURCE_REF}/${workflow.source_file}`;
+
+  return {
+    summary: workflow.description,
+    originalCreator: null,
+    sourceLabel: "Weft Place repository",
+    sourceUrl,
+    acquisitionUrl,
+    listingMaintainer: publicMaintainerName(workflow.author),
+    limitation: isWritingWorkflow
+      ? "A person must approve the draft and fact-check notes before final copy is returned."
+      : "A person must review the collected evidence before the final summary is assembled.",
+    useSteps: isWritingWorkflow
+      ? [
+          "Open the recorded Dify artifact with Get workflow and inspect it before importing.",
+          "Provide source material and a writing brief when you run the workflow.",
+          "Review the draft and fact-check notes before approving the final output.",
+        ]
+      : [
+          "Open the recorded n8n artifact with Get workflow and inspect it before importing.",
+          "Provide a research topic and the public source URLs you want the workflow to use.",
+          "Review the collected evidence before allowing the final summary step.",
+        ],
+    source: {
+      repository: PROJECT_REPOSITORY,
+      path: workflow.source_file,
+      ref: PROJECT_SOURCE_REF,
+      attributionBasis:
+        "The Registry records a generic package author but does not independently establish an original creator identity.",
+      licenseEvidence: `${workflow.license}, as declared by the Registry package metadata.`,
+      transformation: "No separate upstream transformation record is present for this listing.",
+    },
+  };
 }
 
 export function formatRegistryDate(value: string): string {

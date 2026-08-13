@@ -17,7 +17,6 @@ export function SiteFooter() {
           <Link href="/submit">Submit workflow</Link>
           <a href="https://github.com/jerz1y07/weftalis">Project source <span aria-hidden="true">↗</span></a>
         </nav>
-        <p className="footer-note">Weft Place is a read-only listing service. It does not run workflows.</p>
       </div>
     </footer>
   );

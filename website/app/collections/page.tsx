@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { StatusBadge } from "@/components/status-badge";
-import { getWorkflowById } from "@/lib/registry";
+import { formatPublicLabel, getWorkflowById } from "@/lib/registry";
 import { createPageMetadata } from "@/lib/site-metadata";
 
 export const metadata: Metadata = createPageMetadata({
@@ -29,11 +28,11 @@ export default function CollectionsPage() {
     <div className="shell page-section collection-page">
       <header className="page-header collection-header">
         <div>
-          <p className="eyebrow">Prototype collection · Registry data</p>
+          <p className="eyebrow">A practical starting point</p>
           <h1>Research and Writing<br />Starter Stack</h1>
-          <p>A Weft Place prototype collection: first prepare reviewed research material, then use it as supplied material in a human-reviewed writing process.</p>
+          <p>First prepare reviewed research material, then use it as supplied material in a human-directed writing process.</p>
         </div>
-        <div className="collection-stat"><strong className="mono">02</strong><span>Registry workflows</span><small>Ordered prototype collection</small></div>
+        <div className="collection-stat"><strong className="mono">02</strong><span>Workflows</span><small>Research, then writing</small></div>
       </header>
       <section className="collection-flow" aria-label="Research and Writing Starter Stack workflows">
         {collectionWorkflows.map((workflow, index) => (
@@ -41,8 +40,7 @@ export default function CollectionsPage() {
             <div className="collection-marker"><span className="mono">{String(index + 1).padStart(2, "0")}</span>{index < collectionWorkflows.length - 1 && <i aria-hidden="true" />}</div>
             <div>
               <div className="collection-badges">
-                <span className="platform-badge">{workflow.platform}</span>
-                <StatusBadge status={workflow.validation.status} />
+                <span className="platform-badge">{formatPublicLabel(workflow.platform)}</span>
               </div>
               <h2><Link href={`/workflows/${workflow.id}`}>{workflow.name}</Link></h2>
               <p>{workflow.description}</p>
@@ -51,7 +49,7 @@ export default function CollectionsPage() {
           </article>
         ))}
       </section>
-      <div className="collection-disclaimer"><strong>This is a prototype collection, not an execution engine.</strong><p>The order explains a possible human-directed process. These two Workflow Packages are not automatically connected, and the website does not run them online.</p></div>
+      <div className="collection-disclaimer"><strong>A human-directed sequence</strong><p>The order explains one possible process. The two workflows are not automatically connected.</p></div>
     </div>
   );
 }

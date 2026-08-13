@@ -1,31 +1,50 @@
 import Link from "next/link";
-import type { RegistryWorkflow } from "@/lib/registry";
-import { StatusBadge } from "./status-badge";
+import {
+  formatPublicLabel,
+  getMarketplaceWorkflow,
+  type RegistryWorkflow,
+} from "@/lib/registry";
 
 export function WorkflowCard({ workflow }: { workflow: RegistryWorkflow }) {
+  const marketplace = getMarketplaceWorkflow(workflow);
+
   return (
     <article className="workflow-card">
-      <div className="card-topline">
-        <span className="platform-badge">{workflow.platform}</span>
-        <StatusBadge status={workflow.validation.status} />
-      </div>
-      <div>
-        <p className="eyebrow">{workflow.categories.join(" · ") || "Uncategorized"}</p>
+      <div className="workflow-main">
+        <div className="card-topline">
+          <span className="platform-badge">{formatPublicLabel(workflow.platform)}</span>
+          <span className="category-line">
+            {workflow.categories.map(formatPublicLabel).join(" · ") || "Uncategorized"}
+          </span>
+        </div>
         <h3>
           <Link href={`/workflows/${workflow.id}`}>{workflow.name}</Link>
         </h3>
-        <p className="card-description">{workflow.description}</p>
+        <p className="card-description">{marketplace.summary}</p>
+        {marketplace.limitation ? (
+          <p className="card-limitation">
+            <span>What to know</span>
+            {marketplace.limitation}
+          </p>
+        ) : null}
       </div>
-      <dl className="card-facts">
-        <div><dt>License</dt><dd>{workflow.license}</dd></div>
-        <div><dt>Risk</dt><dd>{workflow.safety.risk_level}</dd></div>
-        <div><dt>Human review</dt><dd>{workflow.human_review.required ? "Required" : "Not required"}</dd></div>
-      </dl>
-      <div className="card-footer">
-        <span className="mono">v{workflow.version}</span>
-        <Link className="text-link" href={`/workflows/${workflow.id}`}>
-          Inspect workflow <span aria-hidden="true">→</span>
-        </Link>
+      <div className="workflow-side">
+        <div className="card-context">
+          <p className="card-byline">
+            {marketplace.originalCreator
+              ? `By ${marketplace.originalCreator}`
+              : `From the ${marketplace.sourceLabel}`}
+          </p>
+          <p className="card-license">{workflow.license} license</p>
+        </div>
+        <div className="card-actions">
+          <Link className="card-view-action" href={`/workflows/${workflow.id}`}>
+            View workflow <span aria-hidden="true">→</span>
+          </Link>
+          <a className="quiet-link" href={marketplace.acquisitionUrl}>
+            Get workflow <span aria-hidden="true">↗</span>
+          </a>
+        </div>
       </div>
     </article>
   );
