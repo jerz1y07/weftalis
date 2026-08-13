@@ -196,31 +196,64 @@ phase. Implementation must map them from recorded manifest and provenance
 evidence; it must not silently treat the current generic `author` value as all
 three roles.
 
-## 12. Early admission and publication language
+## 12. Open-first admission and Listing language
 
-Weft Place uses a practical early-stage admission threshold. A candidate may
-proceed to human approval when all of the following are true:
+Weft Place is an open-first AI Workflow Registry. Human review is not a
+universal prerequisite for a Workflow to become publicly Listed. Keep these
+evidence and moderation states distinct:
 
-- it is a real upstream workflow artifact, not invented by Weft Place;
-- its upstream source is identifiable and retrievable;
-- provenance and applicable license evidence are recorded;
-- the artifact is structurally usable for its intended platform;
-- upstream documentation, examples, tests, or other evidence indicates that it
-  is intended to run;
-- no obvious credential leak, destructive defect, unacceptable provenance
-  problem, or other blocking issue is found; and
-- a human maintainer approves publication.
+- `Discovered`;
+- `Listed`;
+- `Static reviewed`;
+- `Runtime tested`;
+- `Compatibility verified`;
+- `Human reviewed`;
+- `Featured`; and
+- `Quarantined` or `Removed`.
 
-Independent runtime testing by Weft Place is not mandatory for every early
-listing. Use `Runtime-tested by Weft Place` only when corresponding runtime
-evidence is recorded. Otherwise use:
+`Listed` means only that Weft Place included the Workflow with a traceable
+source and sufficient minimum admission evidence. Listing does not imply that a
+Workflow is safe, secure, runtime tested, compatible, production ready, high
+quality, human reviewed, or recommended.
+
+A Workflow is eligible for ordinary Listing when all of the following are true:
+
+- it is a real upstream or legitimately submitted Workflow artifact;
+- its repository source is identifiable and retrievable, or its direct-upload
+  provenance is valid;
+- provenance is recorded;
+- license evidence has no clear blocking issue;
+- the artifact can be parsed and is structurally plausible;
+- no obvious secret or credential leakage is found;
+- no clear malicious content is found; and
+- no other high-confidence quarantine signal is present.
+
+Independent runtime testing by Weft Place is not mandatory for ordinary
+Listing. Use `Runtime-tested by Weft Place` only when corresponding runtime
+evidence is recorded. Otherwise the evidence model may state:
 
 > Not independently runtime-tested by Weft Place.
 
-Schema or static review is never proof of safety, compatibility, executability,
-production readiness, or quality. Prefer the neutral publication state
-`Listed on Weft Place`. Use `validated`, `verified`, `trusted`, or `human
-reviewed` only when the precise claim is supported and useful in context.
+Schema validation, successful parsing, static inspection, and Listing status
+are never proof of safety, compatibility, executability, production readiness,
+or quality. Prefer the neutral state `Listed on Weft Place`. Use `validated`,
+`verified`, `trusted`, `runtime tested`, `compatibility verified`, or `human
+reviewed` only when the precise claim is independently supported and useful in
+context.
+
+Human review is required as an escalation mechanism for ambiguous provenance;
+ambiguous or conflicting licenses; possible secrets or credentials; suspicious
+code execution; filesystem writes; destructive actions or external publishing;
+high-risk network behavior; substantial source transformation; reports or
+complaints; higher trust claims; and Featured or curated listings. It must not
+become the default scaling bottleneck for ordinary Listings.
+
+Listing, Workflow Package creation, and Adapter creation are separate
+decisions. A public Listing does not require a local `packages/` Workflow
+Package. `packages/` should primarily contain Weft Place-maintained Packages,
+legally redistributable packaged artifacts, Adapters, and curated or
+compatibility-supported Packages. Do not create a Package merely to make a
+Workflow visible in the Registry. Create an Adapter only when it is needed.
 
 ## 13. Collection rules
 
@@ -234,20 +267,33 @@ reviewed` only when the precise claim is supported and useful in context.
 - A collection describes a useful grouping or sequence; it does not imply that
   its workflows are automatically connected or executed by Weft Place.
 
-## 14. Submission transition model
+## 14. Submission and source transition model
 
-The current public model is simple and truthful:
+The currently implemented public entry point is:
 
 > Submission currently happens through a GitHub pull request. The contribution
-> guide explains the files and checks required for publication.
+> guide explains the files and checks required for consideration.
 
 Use the action label `Submit workflow` and route it to a usable, exact entry
 point. Ordinary submitters should not need to understand internal Package,
 Registry, schema, Validator, or builder terminology before starting.
 
-A future simplified submission may ask for repository URL, workflow artifact
-path, and optional ref and platform information. That future form, upload flow,
-and submission backend are not part of this phase and must not be presented as
+The long-term source model must support both repository-backed upstream
+artifacts and direct-upload artifacts. Future product flows should let people
+submit a repository URL or directly upload a Workflow artifact, view submission
+status, and use ordinary discovery and acquisition features without a GitHub
+account. GitHub remains an engineering and provenance source, not a requirement
+for ordinary users.
+
+Never invent a repository, commit, or upstream source for a direct upload.
+Future direct-upload provenance should record `source_type = direct_upload`,
+the submitter, upload timestamp, original artifact hash, declared author, and
+declared license. Every direct upload must enter an isolated Intake or
+quarantine boundary and must never directly mutate `packages/`, `registry/`, or
+`website/`.
+
+The simplified form, direct-upload flow, submission-status interface, and
+backend are not implemented in this phase and must not be presented as
 available.
 
 ## 15. English-first localization boundary

@@ -1,10 +1,10 @@
-# Weftalis Intake Architecture
+# Weft Place Intake Architecture
 
 ## Purpose and boundaries
 
-The Phase 12A intake pipeline is a local, review-first process for collecting evidence about public upstream workflow artifacts. It accepts a batch submission manifest, resolves each claimed source to exact GitHub bytes, performs conservative static inspection, and writes a local review record.
+The Phase 12A intake pipeline is a local, review-first process for collecting evidence about public upstream workflow artifacts. It accepts a batch submission manifest, resolves each claimed source to exact GitHub bytes, performs conservative static inspection, and writes a local review record. This is the behavior of the current GitHub-backed engineering tool, not the complete Weft Place source or admission model.
 
-Intake treats submissions and artifacts as untrusted data. It does not execute workflows, install their dependencies, test them against Dify or n8n, create a Workflow Package, update the public Registry, or publish anything. Passing intake only means that the available evidence was recorded for a human reviewer.
+Intake treats submissions and artifacts as untrusted data. It does not execute workflows, install their dependencies, test them against Dify or n8n, create a Workflow Package, update the public Registry, or publish anything. Passing this Intake pipeline means only that evidence was recorded. It does not imply safety, compatibility, runtime testing, human review, Listing, or any other trust claim.
 
 ## Submission-to-review lifecycle
 
@@ -19,13 +19,13 @@ Intake treats submissions and artifacts as untrusted data. It does not execute w
 9. The artifact is parsed as supported Dify or n8n data when its shape is recognized. Static risk, dependency, credential-reference, identifier, and secret-like-value signals are extracted without execution.
 10. The new record is compared with existing local review records and earlier entries in the same batch.
 11. Intake writes a quarantined record when safe resolution fails, Git blob integrity is missing or mismatched, supported JSON/YAML is malformed, or potential secret-like values are detected. Other successfully processed candidates stop at `needs_review`.
-12. A human reviewer must decide what, if anything, happens next. Intake cannot publish.
+12. The current Phase 12A tool stops for a human decision because it has no Listing decision or publication capability. That implementation limit is not a universal human-review prerequisite for ordinary Listing.
 
 A source failure is recorded conservatively and does not stop later submissions in the same validated batch.
 
 ## Schema model
 
-The active community submission schema is `tools/intake/schemas/community-submission.schema.json`. It requires:
+The active Phase 12A community submission schema is `tools/intake/schemas/community-submission.schema.json`. It requires:
 
 - record version `1.0`;
 - a public GitHub repository URL;
@@ -34,6 +34,8 @@ The active community submission schema is `tools/intake/schemas/community-submis
 - submitter name or handle plus an authorship-claim boolean.
 
 A submission may select at most one of `branch`, `tag`, or a full commit SHA. It may also provide a Dify, n8n, or unknown platform hint, an upstream author or organization, a license claim, notes, and a submission ID. Unknown fields are rejected.
+
+These GitHub-only requirements describe the current schema, not the long-term product contract. A future source model must also support direct uploads without inventing repository or commit provenance. Direct-upload records should carry a distinct source type, submitter, upload timestamp, original artifact hash, declared author, and declared license, and must enter an isolated Intake or quarantine boundary.
 
 The batch manifest, resolved artifact, static audit, moderation status, and combined review record each have a versioned JSON Schema. The review record links these models and adds duplicate status, warnings, and uncertainties. Schema loading is limited to files ending in `.schema.json`, and generated review records are validated before they are written.
 
@@ -118,7 +120,7 @@ License information remains evidence, not authorization. Intake keeps three conc
 - repository-level evidence returned by GitHub's License API at the pinned commit; and
 - file-level SPDX identifiers found by scanning the first 100 artifact lines.
 
-Repository evidence may be found, missing, ambiguous, or unavailable. File evidence may be found, missing, ambiguous, or not scanned. Neither result proves authorship, ownership, applicability to the artifact, or legal permission. Human provenance and license review remains required.
+Repository evidence may be found, missing, ambiguous, or unavailable. File evidence may be found, missing, ambiguous, or not scanned. Neither result proves authorship, ownership, applicability to the artifact, or legal permission. Ambiguous or conflicting provenance or license evidence requires human escalation; ordinary Listing does not require universal human review when minimum admission evidence has no clear blocking issue.
 
 ## Review queue output
 
@@ -133,7 +135,7 @@ The default queue is the Git-ignored `intake-review` directory. Each review dire
 
 Writes use a staging directory and restrictive file modes before an atomic rename. Output containment rejects symbolic links at the review root and every relevant reviews, staging, artifact, existing-record, and destination path. It checks lexical and resolved containment before reads and writes, after directory creation, and again before final writes and rename. Output cannot use the repository root or overlap Packages, Registry, website, or Git metadata. If output is placed inside the repository, only the default `intake-review` location is allowed.
 
-Moderation history records the automated stages. The CLI can end at `needs_review` or `quarantined`; `approved` and `rejected` are reserved for a human reviewer and require a recorded human decision. The moderation schema fixes `automatic_publication` to `false`.
+Moderation history records the automated stages. The current CLI can end at `needs_review` or `quarantined`; `approved` and `rejected` are reserved by the current schema for a human reviewer and require a recorded human decision. The moderation schema fixes `automatic_publication` to `false`. These Phase 12A statuses must not collapse the separate product states `Discovered`, `Listed`, `Static reviewed`, `Runtime tested`, `Compatibility verified`, `Human reviewed`, `Featured`, and `Quarantined` or `Removed`.
 
 ## Dry-run behavior
 
@@ -141,8 +143,10 @@ Moderation history records the automated stages. The CLI can end at `needs_revie
 
 Dry-run does not create an output directory or write submission, artifact, audit, moderation, or review files. Its in-memory record leaves the stored artifact path and stored-byte hashes unset.
 
-## Separation from Packages and Registry publication
+## Separation from Listing, Packages, and Registry publication
 
 Intake output is evidence for moderation, not a Workflow Package and not a Registry Entry. The output guard rejects paths that overlap `packages/`, `registry/`, `website/`, or `.git/`, and the CLI has no Package-generation or publication step.
 
-Any future conversion of a human-approved review record into a Package must be a separate, explicit process with its own validation and provenance decisions. Any later Registry publication must remain another separately authorized process. Neither boundary is crossed by Phase 12A intake.
+A public Listed Workflow does not require a local Workflow Package. Listing eligibility is a separate decision based on traceable source and sufficient minimum admission evidence; it does not require independent runtime testing or universal human approval. Human review is reserved for escalation signals and higher trust or curated claims.
+
+If a later decision creates a Package, conversion must be a separate, explicit process with its own validation, provenance, and redistribution decisions. `packages/` should primarily contain Weft Place-maintained, legally redistributable, Adapter, curated, or compatibility-supported artifacts. Adapter creation is optional. Neither Listing nor Package boundaries are crossed by Phase 12A Intake.
