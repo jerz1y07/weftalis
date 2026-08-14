@@ -88,6 +88,19 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="collection-preview shell" aria-labelledby="home-collection-title">
+        <div>
+          <p className="eyebrow">One current collection</p>
+          <h2 id="home-collection-title">Research and writing</h2>
+        </div>
+        <div>
+          <p>Move from public-source research to a human-reviewed draft with two workflows listed today.</p>
+          <Link className="text-link" href="/collections">
+            View collection <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+      </section>
+
       <section className="marketplace-note shell" aria-labelledby="marketplace-note-title">
         <p className="eyebrow">Strict underneath, simple on the surface</p>
         <h2 id="marketplace-note-title">Choose by purpose. Check the evidence when you need it.</h2>
