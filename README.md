@@ -50,7 +50,7 @@ The Validator checks the manifest structure, SPDX expression syntax, referenced 
 
 These checks do **not** prove that a Workflow is safe, truthful, useful, legally reusable, compatible with a runtime version, or executable. They cannot detect every secret, unknown node, indirect data transfer, malicious instruction, obfuscated behavior, license problem, or mismatch between metadata and runtime behavior. A `valid` Registry status is not an endorsement or security certification.
 
-Version 0.1 accepts only n8n and Dify Packages. Human review of source files, permissions, data flows, external services, licenses, examples, and intended behavior remains required before acceptance and before reuse.
+Version 0.1 accepts only n8n and Dify Packages. Repository changes that add Packages receive maintainer review before merge. Package acceptance is separate from public Listing: ordinary real Workflows with traceable sources and sufficient minimum admission evidence may become Listed without universal item-by-item human approval. Listing and Validator results do not remove the need for adopters to inspect source files, permissions, data flows, external services, licenses, examples, and intended behavior before reuse.
 
 ## Architecture
 
@@ -62,7 +62,7 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) for contribution scope, safety rules, an
 
 Brand usage is documented in [BRAND.md](BRAND.md).
 
-Version 0.1 currently accepts Workflow Packages for n8n and dify only. Every Package must pass automated checks and human review. A passing Validator result is not a guarantee of absolute safety.
+Version 0.1 currently accepts Workflow Package contributions for n8n and dify only. Each Package Pull Request must pass automated checks and maintainer review before merge. This repository review is separate from ordinary public Listing, which does not require universal item-by-item human approval. A passing Validator result is not a guarantee of absolute safety.
 
 ## License
 

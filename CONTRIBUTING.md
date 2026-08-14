@@ -33,7 +33,7 @@ Follow [Submitting Workflows](docs/submitting-workflows.md). Start from `package
 
 Version 0.1 accepts only n8n and dify Workflow Packages. Other platforms need a separately reviewed specification and Adapter change before their Packages can be accepted.
 
-The Validator passing does not prove that a Workflow is absolutely safe, correct, useful, or legally reusable. Secret scanning and capability detection can miss risks or report harmless text. Every submitted Workflow still requires human review under [Reviewing Workflows](docs/reviewing-workflows.md).
+The Validator passing does not prove that a Workflow is absolutely safe, correct, useful, or legally reusable. Secret scanning and capability detection can miss risks or report harmless text. Ordinary real Workflows with traceable sources and sufficient minimum admission evidence may become Listed without universal item-by-item human approval. Ambiguous provenance or licensing, possible credentials, suspicious or high-risk behavior, higher trust claims, and Featured or curated placement require human escalation. A Workflow Package Pull Request remains a repository change that maintainers review under [Reviewing Workflows](docs/reviewing-workflows.md) before merge.
 
 ## Contribute code
 

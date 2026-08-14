@@ -33,4 +33,4 @@
 - [ ] I ran the Registry Builder and `verify-registry`.
 - [ ] I synced `website/generated/registry.json` from the root Registry.
 - [ ] I understand that Validator success does not prove absolute safety.
-- [ ] I understand that every Workflow still requires human review.
+- [ ] I understand that ordinary Listing does not require universal human approval, while ambiguity, risk, higher trust claims, and Featured or curated placement require escalation.
