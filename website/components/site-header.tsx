@@ -1,20 +1,18 @@
 import Link from "next/link";
 
 const links = [
-  { href: "/workflows", label: "Discover" },
+  { href: "/workflows", label: "Workflows" },
   { href: "/collections", label: "Collections" },
-  { href: "/submit", label: "Submit" },
+  { href: "/submit", label: "Submit workflow" },
 ];
 
 export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="shell nav-shell">
-        <Link className="brand" href="/" aria-label="Weftalis home">
-          <span className="brand-mark" aria-hidden="true">
-            W
-          </span>
-          <span>Weftalis</span>
+        <Link className="brand" href="/" aria-label="Weft Place home">
+          <span className="wordmark-primary">WEFT</span>
+          <span className="wordmark-secondary">PLACE</span>
         </Link>
         <nav className="nav-links" aria-label="Primary navigation">
           {links.map((link) => (
@@ -22,9 +20,6 @@ export function SiteHeader() {
               {link.label}
             </Link>
           ))}
-          <span className="nav-disabled" aria-disabled="true" title="GitHub connection is not available in this prototype">
-            GitHub <span aria-hidden="true">↗</span>
-          </span>
         </nav>
       </div>
     </header>

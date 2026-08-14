@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   }),
   title: {
     default: DEFAULT_SITE_TITLE,
-    template: "%s · Weftalis",
+    template: "%s · Weft Place",
   },
 };
 

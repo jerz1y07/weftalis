@@ -1,6 +1,6 @@
 # Submitting a Weftalis Workflow Package
 
-This guide explains how to prepare an n8n or dify Workflow Package for Weftalis and propose it through a Pull Request. The Registry never executes the submitted Workflow.
+This guide explains how to prepare an n8n or dify Workflow Package for Weftalis and propose it through a Pull Request. Creating a Package and publicly Listing a Workflow are separate decisions: an ordinary Listing does not require a local Package or universal item-by-item human approval. The Registry never executes the submitted Workflow.
 
 ## Before you begin
 
@@ -63,7 +63,7 @@ npm run build
 cd ..
 ```
 
-Fix every error. Read every warning and explain any warning that cannot be removed. A passing result still requires human review.
+Fix every error. Read every warning and explain any warning that cannot be removed. A passing result is limited static evidence; it does not prove safety, compatibility, runtime behavior, production readiness, human review, or recommendation. Ambiguous provenance or licensing, possible credentials, suspicious or high-risk behavior, higher trust claims, and Featured or curated placement require human escalation.
 
 ## 8. Build and verify the Registry
 
@@ -102,4 +102,4 @@ Commit the generated `website/generated/registry.json`. Do not edit it by hand a
 
 Review the changed files, create focused commits, push them to your fork, and open a Pull Request against the main repository. Complete the Pull Request template, including external services, high-risk capabilities, Human Review, tests, and areas needing special reviewer attention.
 
-Automated CI will repeat the Validator, Builder, Registry verification, website checks, and build. Maintainers will then perform the manual checks in [Reviewing Workflows](reviewing-workflows.md). Passing CI is necessary, but it does not guarantee acceptance or safety.
+Automated CI will repeat the Validator, Builder, Registry verification, website checks, and build. Maintainers will then review the Package Pull Request using [Reviewing Workflows](reviewing-workflows.md). That review controls whether the repository change is merged; it is not a universal prerequisite for ordinary public Listing. Passing CI is necessary for the Package Pull Request, but it does not guarantee acceptance or safety.

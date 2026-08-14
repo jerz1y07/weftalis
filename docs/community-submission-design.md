@@ -1,12 +1,12 @@
-# Weftalis Community Submission Design
+# Weft Place Community Submission Design
 
 ## Status and intent
 
-This document describes the intended future community-facing flow around the existing Phase 12A local intake records and schemas. The public submission service, identity system, moderation UI, and approved-record-to-Package conversion do not exist in Phase 12A.
+This document describes the intended future community-facing flow around the existing Phase 12A local intake records and schemas. The public submission service, direct-upload path, identity system, moderation UI, Listing decision flow, and optional record-to-Package conversion do not exist in Phase 12A.
 
-The design keeps the current safety boundary: a community submission is a claim that asks for review. It is not a Workflow Package, approval, publication request with automatic effect, or instruction to run a workflow.
+The design keeps the current safety boundary: a community submission is an untrusted claim that enters Intake. It is not a Workflow Package, automatic Listing, trust claim, or instruction to run a workflow. Human review is an escalation mechanism rather than a universal prerequisite for ordinary Listing.
 
-## Submission contract
+## Current repository-backed contract
 
 Each submission must provide:
 
@@ -29,11 +29,26 @@ At most one ref selector is allowed. If none is supplied, intake uses the reposi
 
 Optional context includes a submission ID, upstream author or organization, license claim, and notes. Extra fields are rejected by the current schema.
 
+This contract describes the existing GitHub-backed Phase 12A path only. It must not be treated as the only possible source model or as a GitHub account requirement for ordinary users.
+
+## Future direct-upload contract
+
+The long-term product must also accept direct-upload Workflow artifacts. It must never invent a repository, commit, or upstream source for an upload. A future direct-upload record should support:
+
+- `source_type: direct_upload`;
+- submitter;
+- upload timestamp;
+- original artifact hash;
+- declared author; and
+- declared license.
+
+Direct uploads must always enter an isolated Intake or quarantine boundary and must never directly mutate `packages/`, `registry/`, or `website/`. People should be able to discover, obtain, and submit Workflows, and view submission status, without needing a GitHub account.
+
 ## Authorship and license claims
 
-`claims_authorship` is required as an explicit boolean so the submitter must state whether they claim to be an author. A handle is not verified identity, and either boolean value remains only a claim.
+`claims_authorship` is required by the current Phase 12A schema as an explicit boolean so the submitter must state whether they claim to be an author. A handle is not verified identity, and either boolean value remains only a claim.
 
-The optional `upstream_author_or_organization` and `license_claim` fields provide review context. They are not trusted provenance or legal evidence. Automated intake separately records repository-level GitHub license evidence and scans the first 100 artifact lines for SPDX identifiers. Human reviewers must decide whether the evidence applies to the exact artifact and whether publication would be permitted.
+The optional `upstream_author_or_organization` and `license_claim` fields provide review context. They are not trusted provenance or legal evidence. Automated Intake separately records repository-level GitHub license evidence and scans the first 100 artifact lines for SPDX identifiers. Ambiguous or conflicting applicability requires human escalation; an automated result alone must not be represented as legal clearance.
 
 No form wording, checkbox, repository location, or automated license result should be represented as proof of ownership, consent, or legal clearance.
 
@@ -84,32 +99,33 @@ The current moderation schema defines:
 
 Phase 12A automatically records progress and finishes at `needs_review` or `quarantined`. It does not automatically produce `approved`. The schemas require `approved` and `rejected` decisions to include reviewer identity, review time, and rationale.
 
-## Human review requirements
+## Human review escalation
 
-Before approval, a reviewer must inspect the pinned original artifact and the recorded evidence, including:
+Human review is required when Intake finds ambiguity or elevated risk, including:
 
-- source and submitter provenance;
-- authorship and license applicability;
-- resolution or integrity warnings;
-- secret-like or personal values;
-- code and shell behavior;
-- network destinations and data transmission;
-- credential requirements;
-- external writes and destructive operations;
-- triggers, webhooks, human gates, and reachability;
-- models, providers, plugins, custom nodes, and other dependencies;
-- duplicate matches; and
-- platform compatibility and configuration assumptions that intake leaves unverified.
+- ambiguous source, submitter, authorship, or direct-upload provenance;
+- ambiguous or conflicting license applicability;
+- possible secrets or credentials;
+- suspicious code or shell execution;
+- filesystem writes;
+- destructive actions or external publishing;
+- high-risk network behavior or data transmission;
+- substantial source transformation;
+- reports or complaints;
+- higher trust or compatibility claims; and
+- Featured or curated placement.
 
-Reviewers must account for false positives, false negatives, unsupported nodes, indirect behavior, and changes in Dify or n8n semantics. Approval cannot be based solely on the absence of automated findings.
+Reviewers must account for false positives, false negatives, unsupported nodes, indirect behavior, and changes in Dify or n8n semantics. A human decision cannot be based solely on the absence of automated findings. Human review must not become the default scaling bottleneck for ordinary Listings that meet minimum admission eligibility without an escalation signal.
+
+Ordinary Listing requires a real artifact, traceable repository or valid direct-upload provenance, recorded provenance, no clear blocking license issue, a parseable and structurally plausible artifact, and no obvious secret leak, malicious content, or other high-confidence quarantine signal. Independent runtime testing by Weft Place is not mandatory.
 
 ## Approval, rejection, and quarantine
 
-**Approval** records that a named human reviewer accepts the intake evidence for a possible later Package process. Approval does not create a Package, update the Registry, publish a website record, execute a workflow, or certify production readiness.
+**Approval** records that a named human reviewer accepts the Intake evidence at the stated scope. Approval does not create a Package, automatically List a Workflow, execute it, or certify safety, compatibility, quality, or production readiness.
 
-**Rejection** records a named human reviewer's rationale and stops the candidate from moving toward a Package through this review. The local evidence should remain available for audit according to the project's retention policy; Phase 12A does not implement deletion or retention automation.
+**Rejection** records a named human reviewer's rationale and stops the candidate from moving forward through this review path. The local evidence should remain available for audit according to the project's retention policy; Phase 12A does not implement deletion or retention automation.
 
-**Quarantine** isolates a candidate that could not be resolved safely or requires special investigation. Current automatic reasons include source-resolution failure, private or non-public repository visibility, missing or mismatched Git blob integrity evidence, invalid UTF-8 or malformed hinted Dify YAML/n8n JSON, and potential secret-like artifact values. Quarantine is not approval or rejection. A human must investigate before any later decision, and no quarantined candidate may cross the Package boundary.
+**Quarantine** isolates a candidate that could not be resolved safely or requires special investigation. Current automatic reasons include source-resolution failure, private or non-public repository visibility, missing or mismatched Git blob integrity evidence, invalid UTF-8 or malformed hinted Dify YAML/n8n JSON, and potential secret-like artifact values. Quarantine is not approval or rejection. A human must investigate before any later decision, and no quarantined candidate may become Listed or cross the Package boundary.
 
 The future community-facing layer must not conceal warnings, silently downgrade quarantine, or let a submitter set moderation fields.
 
@@ -124,9 +140,11 @@ A duplicate match should point reviewers to the matching review IDs. It should n
 
 Hash and source matching do not detect all forks, mirrors, renamed files, or semantically equivalent variants.
 
-## Future approved-record-to-Package boundary
+## Listing and optional Package boundaries
 
-A future conversion may begin only from a human-approved review record and must be implemented as a separate, explicit operation. That later process would need to:
+A future Listing decision must be separate from Intake storage. `Listed` means only that Weft Place included the Workflow with a traceable source and sufficient minimum admission evidence. It does not imply safety, runtime testing, compatibility, production readiness, quality, human review, or recommendation.
+
+Listing does not require a local `packages/` Workflow Package. If a later decision creates a Package, it must be implemented as a separate, explicit operation. That later process would need to:
 
 - select the exact pinned and fingerprinted bytes;
 - re-check provenance and license decisions;
@@ -134,12 +152,12 @@ A future conversion may begin only from a human-approved review record and must 
 - run the separate Package and Validator checks required at that time; and
 - produce a reviewable change before any Registry publication.
 
-The intake record is an input to that possible process, not a Package template that can be copied blindly. Phase 12A implements none of these conversion or publication steps.
+The Intake record is evidence for those possible decisions, not a Package template that can be copied blindly. Package creation should be limited primarily to Weft Place-maintained, legally redistributable, Adapter, curated, or compatibility-supported artifacts. Adapter creation is optional. Phase 12A implements none of these Listing, conversion, or publication steps.
 
 ## Prohibited shortcuts
 
-There must be no direct anonymous auto-publication. A future submission interface may accept an unverified handle as a claim, but anonymity or lack of verified identity must never remove human moderation.
+There must be no path for an untrusted submission to directly mutate public Registry data or website output. A future submission interface may accept an unverified handle as a claim; ambiguous identity or provenance must trigger human escalation.
 
 The submission system must never execute a submitted workflow, node, embedded script, shell command, plugin, custom node, model call, webhook, credential operation, network request declared by the workflow, or external write. Its own narrowly scoped GitHub retrieval requests are source-resolution operations, not workflow execution.
 
-Automatic publication must remain `false`. Human approval, Package generation, Package validation, Registry publication, and deployment must remain separate, explicit boundaries.
+For the current Phase 12A schema, `automatic_publication` remains `false`. Intake, Listing decisions, optional Package generation, Package validation, Registry materialization, and deployment remain separate boundaries. Ordinary Listing does not require every one of those steps or a universal human approval gate.

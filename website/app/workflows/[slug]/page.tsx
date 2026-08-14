@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { StatusBadge } from "@/components/status-badge";
 import {
+  formatPublicLabel,
   formatRegistryDate,
   getAllWorkflows,
+  getMarketplaceWorkflow,
   getWorkflowById,
   type RegistryField,
 } from "@/lib/registry";
@@ -24,13 +25,9 @@ export async function generateMetadata({ params }: WorkflowDetailProps): Promise
 
   return createPageMetadata({
     title: workflow.name,
-    description: workflow.description,
+    description: getMarketplaceWorkflow(workflow).summary,
     pathname: `workflows/${workflow.id}/`,
   });
-}
-
-function DetailList({ items }: { items: string[] }) {
-  return <ul className="detail-list">{items.map((item) => <li key={item}>{item}</li>)}</ul>;
 }
 
 function FieldList({ fields, inputs = false }: { fields: RegistryField[]; inputs?: boolean }) {
@@ -50,121 +47,183 @@ function FieldList({ fields, inputs = false }: { fields: RegistryField[]; inputs
 }
 
 function labelFromKey(value: string) {
-  return value.split("_").map((part) => part[0].toUpperCase() + part.slice(1)).join(" ");
+  return value
+    .split("_")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
 }
 
 export default async function WorkflowDetailPage({ params }: WorkflowDetailProps) {
   const workflow = getWorkflowById((await params).slug);
   if (!workflow) notFound();
 
+  const marketplace = getMarketplaceWorkflow(workflow);
+  const declaredCapabilities = Object.entries(workflow.permissions)
+    .filter(([, enabled]) => enabled)
+    .map(([key]) => labelFromKey(key));
   const testingItems = workflow.testing
     ? [
-        `Status: ${workflow.testing.status}`,
-        `Last tested: ${workflow.testing.last_tested ?? "Not declared"}`,
-        `Tested platform version: ${workflow.testing.tested_platform_version ?? "Not declared"}`,
+        workflow.testing.status === "untested"
+          ? "Not independently runtime-tested by Weft Place."
+          : `Recorded test status: ${workflow.testing.status}`,
+        `Last tested: ${workflow.testing.last_tested ?? "Not recorded"}`,
+        `Tested platform version: ${workflow.testing.tested_platform_version ?? "Not recorded"}`,
       ]
-    : ["No testing metadata declared."];
+    : ["No testing metadata is recorded."];
 
   return (
     <div className="shell page-section detail-page">
       <Link className="back-link" href="/workflows"><span aria-hidden="true">←</span> All workflows</Link>
+
       <header className="detail-hero">
         <div className="detail-title">
-          <div className="card-topline detail-badges">
-            <span className="platform-badge">{workflow.platform}</span>
-            <StatusBadge status={workflow.validation.status} />
-          </div>
+          <p className="eyebrow">{formatPublicLabel(workflow.platform)} workflow</p>
           <h1>{workflow.name}</h1>
-          <p>{workflow.description}</p>
+          <p className="detail-summary-lede">{marketplace.summary}</p>
+          <p className="detail-source-line">
+            {marketplace.originalCreator ? (
+              <>Created by <strong>{marketplace.originalCreator}</strong> · from <a href={marketplace.sourceUrl}>{marketplace.sourceLabel}</a></>
+            ) : (
+              <>From the <a href={marketplace.sourceUrl}>{marketplace.sourceLabel}</a> · original creator not established from available evidence</>
+            )}
+          </p>
+          <p className="detail-meta">
+            {formatPublicLabel(workflow.platform)} <span>·</span> {workflow.license} <span>·</span> {workflow.categories.map(formatPublicLabel).join(" · ")}
+          </p>
         </div>
         <div className="detail-actions">
-          <button className="button primary-button" disabled>Download package</button>
-          <button className="button secondary-button" disabled>View source ↗</button>
-          <small>Actions are disabled. No download or GitHub link is available.</small>
+          <a className="button primary-button" href={marketplace.acquisitionUrl}>
+            Get workflow <span aria-hidden="true">↗</span>
+          </a>
+          <a className="button secondary-button" href={marketplace.sourceUrl}>
+            View source <span aria-hidden="true">↗</span>
+          </a>
+          <small>Both actions open the exact recorded artifact or source.</small>
         </div>
       </header>
 
-      <div className="metadata-strip">
-        <div><span>Workflow ID</span><strong className="mono">{workflow.id}</strong></div>
-        <div><span>Author</span><strong>{workflow.author}</strong></div>
-        <div><span>Version</span><strong className="mono">v{workflow.version}</strong></div>
-        <div><span>License</span><strong>{workflow.license}</strong></div>
+      <div className="primary-detail-sections">
+        <section className="primary-detail-section">
+          <p className="eyebrow">Purpose</p>
+          <h2>What it does</h2>
+          <p>{marketplace.summary}</p>
+          <div className="outcome-list">
+            <h3>Produces</h3>
+            <ul>
+              {workflow.outputs.map((output) => (
+                <li key={output.name}>{output.description}</li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section className="primary-detail-section">
+          <p className="eyebrow">Acquisition</p>
+          <h2>How to use</h2>
+          <ol className="use-steps">
+            {marketplace.useSteps.map((step, index) => (
+              <li key={step}><span className="mono">{String(index + 1).padStart(2, "0")}</span><p>{step}</p></li>
+            ))}
+          </ol>
+        </section>
+
+        <section className="primary-detail-section limitation-section">
+          <p className="eyebrow">Important limitation</p>
+          <h2>What to know</h2>
+          <p>{marketplace.limitation ?? "No material limitation is recorded in the current listing."}</p>
+          <p className="supporting-note">A Weft Place listing is not proof of safety, compatibility, successful execution, production readiness, or quality.</p>
+        </section>
       </div>
 
-      <div className="detail-layout">
-        <div className="detail-content">
-          <section className="detail-section">
-            <div className="detail-section-heading"><span className="section-icon">↔</span><div><p className="eyebrow">Data contract</p><h2>Inputs &amp; outputs</h2></div></div>
-            <div className="two-column-list">
-              <div><h3>Inputs</h3><FieldList fields={workflow.inputs} inputs /></div>
-              <div><h3>Outputs</h3><FieldList fields={workflow.outputs} /></div>
+      <div className="detail-disclosures">
+        <details>
+          <summary>
+            <span><strong>Technical details</strong><small>Requirements, inputs, outputs, and declared capabilities</small></span>
+            <span aria-hidden="true">+</span>
+          </summary>
+          <div className="disclosure-content">
+            <div className="evidence-grid">
+              <section>
+                <h3>Platform and classification</h3>
+                <dl className="evidence-list">
+                  <div><dt>Platform</dt><dd>{formatPublicLabel(workflow.platform)}</dd></div>
+                  <div><dt>Minimum version</dt><dd>{workflow.minimum_platform_version}</dd></div>
+                  <div><dt>Package version</dt><dd>{workflow.version}</dd></div>
+                  <div><dt>Use cases</dt><dd>{workflow.categories.map(formatPublicLabel).join(", ")}</dd></div>
+                  <div><dt>Tags</dt><dd>{workflow.tags.map(formatPublicLabel).join(", ")}</dd></div>
+                </dl>
+              </section>
+              <section>
+                <h3>Declared capabilities</h3>
+                <p>{declaredCapabilities.length ? declaredCapabilities.join(", ") : "None declared."}</p>
+                <h3>Human checkpoints</h3>
+                <p>{workflow.human_review.checkpoints.join(" ") || "No checkpoint is declared in the Workflow."}</p>
+              </section>
             </div>
-          </section>
-
-          <section className="detail-section">
-            <div className="detail-section-heading"><span className="section-icon">◇</span><div><p className="eyebrow">Runtime</p><h2>Platform &amp; classification</h2></div></div>
-            <div className="two-column-list">
-              <div>
-                <h3>Platform</h3>
-                <DetailList items={[workflow.platform, `Minimum version: ${workflow.minimum_platform_version}`]} />
-              </div>
-              <div>
-                <h3>Categories &amp; tags</h3>
-                <DetailList items={[
-                  `Categories: ${workflow.categories.join(", ") || "None declared"}`,
-                  `Tags: ${workflow.tags.join(", ") || "None declared"}`,
-                ]} />
-              </div>
+            <div className="two-column-list field-columns">
+              <section><h3>Inputs</h3><FieldList fields={workflow.inputs} inputs /></section>
+              <section><h3>Outputs</h3><FieldList fields={workflow.outputs} /></section>
             </div>
-          </section>
+          </div>
+        </details>
 
-          <section className="detail-section">
-            <div className="detail-section-heading"><span className="section-icon">!</span><div><p className="eyebrow">Declared access</p><h2>Permissions &amp; safety</h2></div></div>
-            <div className="two-column-list">
-              <div>
-                <h3>Permissions</h3>
-                <DetailList items={Object.entries(workflow.permissions).map(
-                  ([key, enabled]) => `${labelFromKey(key)}: ${enabled ? "Declared" : "Not requested"}`,
-                )} />
-              </div>
-              <div>
-                <h3>Safety</h3>
-                <DetailList items={[
-                  `Risk level: ${workflow.safety.risk_level}`,
-                  `Stores user data: ${workflow.safety.stores_user_data ? "Yes" : "No"}`,
-                  `Sends data externally: ${workflow.safety.sends_data_externally ? "Yes" : "No"}`,
-                  `Contains credentials: ${workflow.safety.contains_credentials ? "Yes" : "No"}`,
-                ]} />
-              </div>
+        <details>
+          <summary>
+            <span><strong>Source details</strong><small>Creator context, exact source, license, and transformations</small></span>
+            <span aria-hidden="true">+</span>
+          </summary>
+          <div className="disclosure-content">
+            <dl className="evidence-list wide-evidence-list">
+              <div><dt>Original creator</dt><dd>{marketplace.originalCreator ?? "Not established from available evidence"}</dd></div>
+              <div><dt>Upstream source</dt><dd><a href={marketplace.sourceUrl}>{marketplace.source.repository}</a></dd></div>
+              <div><dt>Exact path</dt><dd className="mono">{marketplace.source.path}</dd></div>
+              <div><dt>Recorded ref</dt><dd className="mono">{marketplace.source.ref}</dd></div>
+              <div><dt>Attribution basis</dt><dd>{marketplace.source.attributionBasis}</dd></div>
+              <div><dt>License evidence</dt><dd>{marketplace.source.licenseEvidence}</dd></div>
+              <div><dt>Recorded transformation</dt><dd>{marketplace.source.transformation}</dd></div>
+              <div><dt>Listing maintained by</dt><dd>{marketplace.listingMaintainer}</dd></div>
+            </dl>
+          </div>
+        </details>
+
+        <details>
+          <summary>
+            <span><strong>Audit details</strong><small>Testing, static Registry checks, review evidence, and hashes</small></span>
+            <span aria-hidden="true">+</span>
+          </summary>
+          <div className="disclosure-content">
+            <div className="evidence-grid">
+              <section>
+                <h3>Testing record</h3>
+                <ul className="plain-list">{testingItems.map((item) => <li key={item}>{item}</li>)}</ul>
+              </section>
+              <section>
+                <h3>Registry check</h3>
+                <ul className="plain-list">
+                  <li>Recorded validation state: {workflow.validation.status}</li>
+                  <li>Checked: {formatRegistryDate(workflow.validation.checked_at)}</li>
+                  <li>Warnings recorded: {workflow.validation.warnings.length}</li>
+                </ul>
+              </section>
+              <section>
+                <h3>Declared safety metadata</h3>
+                <ul className="plain-list">
+                  <li>Risk level: {workflow.safety.risk_level}</li>
+                  <li>Sends data externally: {workflow.safety.sends_data_externally ? "Yes" : "No"}</li>
+                  <li>Stores user data: {workflow.safety.stores_user_data ? "Yes" : "No"}</li>
+                  <li>Contains credentials: {workflow.safety.contains_credentials ? "Yes" : "No"}</li>
+                </ul>
+              </section>
+              <section>
+                <h3>Artifact hash</h3>
+                <p className={marketplace.source.sha256 ? "mono hash-value" : undefined}>
+                  {marketplace.source.sha256 ?? "No artifact hash is present in the public listing evidence."}
+                </p>
+              </section>
             </div>
-          </section>
-
-          <section className="detail-section review-section">
-            <div className="detail-section-heading"><span className="section-icon">✓</span><div><p className="eyebrow">Required judgment</p><h2>Human review</h2></div></div>
-            <p className="detail-summary">Human review required: <strong>{workflow.human_review.required ? "Yes" : "No"}</strong></p>
-            <DetailList items={workflow.human_review.checkpoints.length ? workflow.human_review.checkpoints : ["No checkpoints declared."]} />
-          </section>
-
-          <section className="detail-section">
-            <div className="detail-section-heading"><span className="section-icon">#</span><div><p className="eyebrow">Package record</p><h2>Testing &amp; source metadata</h2></div></div>
-            <div className="two-column-list">
-              <div><h3>Testing</h3><DetailList items={testingItems} /></div>
-              <div><h3>Registry paths</h3><DetailList items={[
-                `Package: ${workflow.package_path}`,
-                `Source file: ${workflow.source_file}`,
-              ]} /></div>
-            </div>
-          </section>
-        </div>
-
-        <aside className="validation-panel">
-          <p className="eyebrow">Validation status</p>
-          <StatusBadge status={workflow.validation.status} />
-          <h2>Validator checks passed</h2>
-          <p>Checked {formatRegistryDate(workflow.validation.checked_at)}.</p>
-          <div className="validation-divider" />
-          <p className="validation-warning"><strong>Human review remains required</strong>Validator approval does not guarantee absolute safety, quality, accuracy, or fitness for your use case. Inspect the package yourself before reuse.</p>
-        </aside>
+            <p className="audit-note">These records describe declared metadata and static evidence at their stated scope. They do not establish safety or current platform compatibility.</p>
+          </div>
+        </details>
       </div>
     </div>
   );

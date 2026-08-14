@@ -14,7 +14,7 @@ The main boundaries are:
 2. **Local intake to GitHub.** Repository metadata, ref resolution, Contents API responses, license responses, raw bytes, headers, and status codes are external input even when received from an allowed GitHub host.
 3. **Artifact bytes to static parsers.** YAML, JSON, node configuration, embedded code text, identifiers, and dependency declarations are untrusted data.
 4. **Generated metadata to human review.** Automated findings are incomplete and may be wrong. Reviewers must not treat them as trusted conclusions.
-5. **Review output to Packages and the public Registry.** Intake output must remain isolated. Crossing into Package generation or Registry publication requires a separate human-controlled process that does not exist in Phase 12A.
+5. **Review output to Listing, Packages, and the public Registry.** Intake output must remain isolated. Listing decisions, optional Package generation, and Registry materialization require separate controlled processes that do not exist in Phase 12A.
 
 An optional `GITHUB_TOKEN` is local process configuration. It is sent only as an HTTP authorization header by the GitHub client and must never be placed in a manifest, artifact, error, review record, or repository file.
 
@@ -113,7 +113,7 @@ Static analysis cannot reliably determine:
 - compatibility with a specific Dify or n8n version; or
 - whether upstream content changes outside the pinned commit.
 
-Obfuscation and unsupported node types can evade heuristics. Findings can also be false positives. Human inspection of the preserved bytes and their context is required.
+Obfuscation and unsupported node types can evade heuristics. Findings can also be false positives. When a candidate triggers human escalation, the reviewer must inspect the preserved bytes and their context rather than relying on the automated findings alone.
 
 ## What passing intake does not prove
 
@@ -129,8 +129,8 @@ A candidate that reaches `needs_review` has not been shown to be:
 
 The recorded runtime status remains `untested`, and compatibility remains `unverified`.
 
-## Publication invariant
+## Current Intake publication invariant
 
-Automatic publication must remain impossible. The moderation schema fixes `automatic_publication` to `false`; the CLI ends at `needs_review` or `quarantined`; human decisions are required for `approved` and `rejected`; and output containment blocks overlap with Packages, Registry, website, and Git metadata.
+Automatic publication from the current Phase 12A Intake tool must remain impossible. The moderation schema fixes `automatic_publication` to `false`; the CLI ends at `needs_review` or `quarantined`; human decisions are required for its `approved` and `rejected` statuses; and output containment blocks overlap with Packages, Registry, website, and Git metadata.
 
-Even human approval of an intake record is evidence for a later decision, not publication. Phase 12A contains no conversion, Registry update, push, release, or deployment path. Future work must preserve an explicit, auditable human boundary between intake approval, Package generation, Package validation, and public Registry publication.
+Even human approval of an Intake record is evidence for a later decision, not Listing or publication. Phase 12A contains no Listing decision, conversion, Registry update, push, release, or deployment path. Future work must preserve explicit, auditable boundaries between Intake, Listing decisions, optional Package generation and validation, Registry materialization, and deployment. Those boundaries prevent an untrusted submission from directly mutating public data; they do not make human approval or Package creation universal prerequisites for ordinary Listing.

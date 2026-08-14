@@ -1,140 +1,110 @@
+import Form from "next/form";
 import Link from "next/link";
 import { WorkflowCard } from "@/components/workflow-card";
 import {
-  formatRegistryDate,
+  formatPublicLabel,
+  getCategories,
   getFeaturedWorkflows,
   getPlatforms,
   getRegistry,
 } from "@/lib/registry";
 
-const trustPrinciples = [
-  {
-    icon: "01",
-    title: "Inspect before reuse",
-    text: "Inputs, outputs, dependencies, and permissions stay visible so adopters can make informed choices.",
-  },
-  {
-    icon: "02",
-    title: "Validation is explicit",
-    text: "A clear status distinguishes structurally reviewed examples from workflows still awaiting review.",
-  },
-  {
-    icon: "03",
-    title: "Humans stay in control",
-    text: "Review checkpoints show where judgment is required. The registry never runs a workflow for you.",
-  },
-];
-
 export default function Home() {
   const registry = getRegistry();
   const featuredWorkflows = getFeaturedWorkflows();
   const platforms = getPlatforms();
-  const exampleWorkflow = featuredWorkflows[0];
-
-  if (!exampleWorkflow) {
-    throw new Error("The homepage requires at least one Registry Workflow for its package preview.");
-  }
+  const categories = getCategories();
 
   return (
     <>
       <section className="hero">
         <div className="shell hero-grid">
           <div className="hero-copy">
-            <div className="announcement">
-              <span className="announcement-dot" aria-hidden="true" />
-              Weftalis · Static Registry · {registry.workflow_count} workflows
-            </div>
-            <h1>Discover reusable and verifiable workflows</h1>
+            <p className="hero-wordmark">WEFT <span>PLACE</span></p>
+            <h1>The place for open AI workflows.</h1>
             <p className="hero-lede">
-              Weftalis is an open-source registry for publishing, inspecting, validating, versioning, and
-              reusing workflows across platforms. Understand each package before you reuse anything.
+              Find real workflow artifacts, understand what they do, and follow their recorded source to use them.
             </p>
-            <div className="search-visual" role="search" aria-label="Workflow search preview">
-              <span aria-hidden="true">⌕</span>
-              <input aria-label="Search workflows" placeholder="Search workflows, platforms, or categories…" disabled />
-              <span className="shortcut">Coming soon</span>
-            </div>
+            <Form className="hero-search" action="/workflows">
+              <label htmlFor="home-workflow-search">Search workflows</label>
+              <div>
+                <input
+                  id="home-workflow-search"
+                  name="q"
+                  type="search"
+                  placeholder="Search by task, platform, or creator"
+                />
+                <button type="submit">Search</button>
+              </div>
+            </Form>
             <div className="hero-actions">
-              <Link className="button primary-button" href="/workflows">
+              <Link className="text-link" href="/workflows">
                 Browse workflows <span aria-hidden="true">→</span>
               </Link>
-              <Link className="button secondary-button" href="/submit">
-                How submission works
+              <Link className="quiet-link" href="/submit">
+                Submit workflow
               </Link>
             </div>
           </div>
-          <div className="registry-preview" aria-label="Example workflow package preview">
-            <div className="preview-bar">
-              <span>workflow.yaml</span>
-              <span className="preview-dots" aria-hidden="true">•••</span>
-            </div>
-            <div className="code-lines mono" aria-hidden="true">
-              <p><span className="code-key">id:</span> {exampleWorkflow.id}</p>
-              <p><span className="code-key">version:</span> {exampleWorkflow.version}</p>
-              <p><span className="code-key">platform:</span> {exampleWorkflow.platform}</p>
-              <p><span className="code-key">permissions:</span></p>
-              <p className="indent">network_access: {String(exampleWorkflow.permissions.network_access)}</p>
-              <p><span className="code-key">human_review:</span></p>
-              <p className="indent">required: {String(exampleWorkflow.human_review.required)}</p>
-            </div>
-            <div className="preview-validation">
-              <span className="validation-icon" aria-hidden="true">✓</span>
-              <div>
-                <strong>Validation passed</strong>
-                <span>Human review remains required</span>
-              </div>
-            </div>
-          </div>
+          <aside className="hero-index" aria-label="Current marketplace coverage">
+            <p className="eyebrow">Browse what exists now</p>
+            <strong>{registry.workflow_count} workflows</strong>
+            <dl>
+              <div><dt>Platforms</dt><dd>{platforms.map(formatPublicLabel).join(" · ")}</dd></div>
+              <div><dt>Use cases</dt><dd>{categories.map(formatPublicLabel).join(" · ")}</dd></div>
+              <div><dt>Access</dt><dd>Follow the exact source recorded for each workflow</dd></div>
+            </dl>
+          </aside>
         </div>
       </section>
 
       <section className="section shell">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">Curated examples</p>
-            <h2>Featured Workflows</h2>
+            <p className="eyebrow">Available now</p>
+            <h2>Current workflows</h2>
           </div>
           <Link className="text-link" href="/workflows">View all workflows <span aria-hidden="true">→</span></Link>
         </div>
-        <div className="workflow-grid">
+        <div className="workflow-list">
           {featuredWorkflows.map((workflow) => <WorkflowCard workflow={workflow} key={workflow.id} />)}
         </div>
-        <p className="registry-timestamp">Registry last generated: {formatRegistryDate(registry.generated_at)}</p>
       </section>
 
-      <section className="platform-section">
-        <div className="shell platform-row">
+      <section className="use-case-section">
+        <div className="shell use-case-row">
           <div>
-            <p className="eyebrow">Portable by design</p>
-            <h2>Supported Platforms</h2>
-            <p>Examples currently represent two workflow ecosystems. More can be described as the open package format evolves.</p>
+            <p className="eyebrow">Current use cases</p>
+            <h2>Browse by use case</h2>
+            <p>Explore the categories represented by current workflows.</p>
           </div>
-          <div className="platform-list" aria-label="Supported platforms">
-            {platforms.map((platform) => (
-              <span key={platform}><b aria-hidden="true">{platform.slice(0, 1).toUpperCase()}</b> {platform}</span>
+          <div className="use-case-list" aria-label="Workflow use cases">
+            {categories.map((category) => (
+              <Link href={{ pathname: "/workflows", query: { category } }} key={category}>
+                {formatPublicLabel(category)} <span aria-hidden="true">→</span>
+              </Link>
             ))}
-            <span className="muted-platform"><b aria-hidden="true">+</b> More later</span>
           </div>
         </div>
       </section>
 
-      <section className="section shell trust-section">
-        <div className="section-heading trust-heading">
-          <div>
-            <p className="eyebrow">Trust is a process</p>
-            <h2>Clarity before execution</h2>
-          </div>
-          <p>A registry listing is context, not an endorsement. Safe reuse begins with transparent metadata and careful human judgment.</p>
+      <section className="collection-preview shell" aria-labelledby="home-collection-title">
+        <div>
+          <p className="eyebrow">One current collection</p>
+          <h2 id="home-collection-title">Research and writing</h2>
         </div>
-        <div className="trust-grid">
-          {trustPrinciples.map((item) => (
-            <article className="trust-card" key={item.icon}>
-              <span className="principle-number mono">{item.icon}</span>
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-            </article>
-          ))}
+        <div>
+          <p>Move from public-source research to a human-reviewed draft with two workflows listed today.</p>
+          <Link className="text-link" href="/collections">
+            View collection <span aria-hidden="true">→</span>
+          </Link>
         </div>
+      </section>
+
+      <section className="marketplace-note shell" aria-labelledby="marketplace-note-title">
+        <p className="eyebrow">Strict underneath, simple on the surface</p>
+        <h2 id="marketplace-note-title">Choose by purpose. Check the evidence when you need it.</h2>
+        <p>A listing helps you discover a workflow and reach its recorded source. It is not proof of safety, compatibility, successful execution, production readiness, or quality.</p>
       </section>
     </>
   );
