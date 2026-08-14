@@ -1,19 +1,9 @@
 import type { NextConfig } from "next";
-
-const basePath = process.env.WEFTALIS_BASE_PATH ?? "";
-
-if (
-  basePath !== "" &&
-  (!basePath.startsWith("/") || basePath.endsWith("/") || basePath.includes("//"))
-) {
-  throw new Error(
-    'WEFTALIS_BASE_PATH must be empty or start with one "/" and have no trailing "/".',
-  );
-}
+import { SITE_BASE_PATH } from "./lib/site-config";
 
 const nextConfig: NextConfig = {
   output: "export",
-  basePath,
+  basePath: SITE_BASE_PATH,
   trailingSlash: true,
 };
 
