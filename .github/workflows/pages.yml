@@ -52,18 +52,29 @@ jobs:
       - name: Confirm website Registry was committed
         run: git diff --exit-code -- website/generated/registry.json
 
+      - name: Resolve GitHub Pages deployment target
+        env:
+          PAGES_DEPLOY_TARGET: ${{ vars.PAGES_DEPLOY_TARGET }}
+        run: |
+          if [[ "$PAGES_DEPLOY_TARGET" == "custom-domain" ]]; then
+            site_url="https://weft.place/"
+            site_base_path=""
+          else
+            site_url="https://jerz1y07.github.io/weftalis/"
+            site_base_path="/weftalis"
+          fi
+
+          {
+            printf 'SITE_URL=%s\n' "$site_url"
+            printf 'SITE_BASE_PATH=%s\n' "$site_base_path"
+          } >> "$GITHUB_ENV"
+
       - name: Build static website for GitHub Pages
         working-directory: website
-        env:
-          SITE_URL: https://jerz1y07.github.io/weftalis/
-          SITE_BASE_PATH: /weftalis
         run: npm run build
 
       - name: Check generated GitHub Pages website
         working-directory: website
-        env:
-          SITE_URL: https://jerz1y07.github.io/weftalis/
-          SITE_BASE_PATH: /weftalis
         run: npm run check-export
 
       - name: Upload GitHub Pages artifact
