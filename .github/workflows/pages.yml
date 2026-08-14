@@ -1,4 +1,4 @@
-name: Deploy Weftalis Pages
+name: Deploy Weft Place Pages
 
 on:
   push:
@@ -55,8 +55,16 @@ jobs:
       - name: Build static website for GitHub Pages
         working-directory: website
         env:
-          WEFTALIS_BASE_PATH: /weftalis
+          SITE_URL: https://jerz1y07.github.io/weftalis/
+          SITE_BASE_PATH: /weftalis
         run: npm run build
+
+      - name: Check generated GitHub Pages website
+        working-directory: website
+        env:
+          SITE_URL: https://jerz1y07.github.io/weftalis/
+          SITE_BASE_PATH: /weftalis
+        run: npm run check-export
 
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v5

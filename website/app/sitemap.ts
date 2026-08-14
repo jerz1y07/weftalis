@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getAllWorkflows } from "@/lib/registry";
-import { getProductionUrl } from "@/lib/site-metadata";
+import { getSiteUrl } from "@/lib/site-config";
 
 const staticRoutes = ["", "workflows/", "collections/", "submit/"];
 
@@ -12,6 +12,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   );
 
   return [...staticRoutes, ...workflowRoutes].map((pathname) => ({
-    url: getProductionUrl(pathname).toString(),
+    url: getSiteUrl(pathname).toString(),
   }));
 }

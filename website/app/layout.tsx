@@ -4,13 +4,13 @@ import { SiteHeader } from "@/components/site-header";
 import {
   createPageMetadata,
   DEFAULT_SITE_TITLE,
-  PRODUCTION_SITE_URL,
   SITE_NAME,
 } from "@/lib/site-metadata";
+import { SITE_URL } from "@/lib/site-config";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: PRODUCTION_SITE_URL,
+  metadataBase: SITE_URL,
   applicationName: SITE_NAME,
   ...createPageMetadata({
     title: DEFAULT_SITE_TITLE,
