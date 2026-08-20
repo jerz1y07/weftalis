@@ -1,6 +1,23 @@
-# Weftalis Registry Builder v0.1
+# Weft Place Registry Builder
 
-The Weftalis Registry Builder scans local Workflow Packages and creates stable, reviewable JSON data for Weftalis. It never executes a Workflow.
+The Registry Builder combines validated local Workflow Packages with controlled
+package-independent admission records and creates one stable, reviewable Weft
+Place Registry. It never executes a Workflow.
+
+## Two legitimate Listing sources
+
+- `packages/<workflow-id>/workflow.yaml` remains the source for package-backed
+  Listings and continues through the existing Validator.
+- `admissions/package-independent/<listing-id>.json` is the source for an
+  upstream or direct-upload Listing that does not require a Package. The record
+  references Intake/review evidence, and the Builder computes the admission
+  outcome rather than trusting a self-declared Listing state.
+
+Clean minimum evidence becomes `Listed` without universal human approval.
+Ambiguous provenance or licensing, elevated risk, substantial transformation,
+reports, or unsupported higher-trust claims become `Needs Review`. Integrity,
+parse, clear license, possible-secret, and malicious-content blockers become
+`Quarantined`. Neither path executes imported artifacts.
 
 ## Relationship to the Validator
 
@@ -30,7 +47,7 @@ npm run verify-registry
 
 The verifier calls the existing Registry Builder and Validator, writes the fresh result only inside a temporary directory under `tools/registry-builder`, and removes that directory afterward. It never overwrites `registry/registry.json` or `registry/rejected.json`.
 
-Comparison ignores only root-level `generated_at` in both Registry documents and `validation.checked_at` in accepted Workflow entries. Workflow count, IDs, canonical ID order, metadata, permissions, Human Review, safety declarations, validation state, and rejected Packages must otherwise match exactly. A different order fails because Registry Builder's alphabetical order is canonical.
+Comparison ignores only root-level `generated_at` in both Registry documents and `validation.checked_at` in accepted Workflow entries. Workflow count, IDs, canonical ID order, metadata, evidence claims, validation state, rejected Packages, and escalated Listing candidates must otherwise match exactly. A different order fails because Registry Builder's alphabetical order is canonical.
 
 Difference messages name JSON paths and difference types without printing field values. Exit code `0` means the committed data matches, `1` means data differs, and `2` means the verification tool could not run or read valid Registry files. The verifier reads Workflow files as data and never executes them.
 
@@ -60,7 +77,10 @@ The tool does not recursively discover nested Packages.
 
 `registry/registry.json` contains only valid, normalized Workflow entries. It is intended to become a stable read-only data source for the website and future GitHub-native submission checks.
 
-`registry/rejected.json` contains invalid candidates, repair-oriented errors, and warnings. Rejection does not prevent valid Packages from being written to the main Registry. A valid empty rejected file is always generated when nothing is rejected.
+`registry/rejected.json` contains invalid Packages and package-independent
+Listing candidates that require review or quarantine. One failed candidate does
+not prevent unrelated valid Listings from being written. A valid empty rejected
+file is always generated when nothing is rejected.
 
 Both files use two-space formatted JSON, stable field order, and alphabetical ordering. A single build timestamp is used for `generated_at` and each entry's `validation.checked_at`.
 
@@ -77,14 +97,15 @@ Paths are repository-relative POSIX paths. Registry Builder rejects any attempt 
 
 ## Exit codes
 
-- `0`: both JSON files were generated, even if one or more Packages were rejected.
+- `0`: both JSON files were generated, even if one or more candidates were rejected or escalated.
 - `1`: Registry generation or output writing failed.
 - `2`: the tool could not start, determine its repository root, or load the Validator.
 
 ## Current limitations
 
-- Discovery is local and limited to one Package version per top-level folder.
+- Package discovery is local and limited to one Package version per top-level folder.
 - Static validation cannot prove that metadata is truthful, a Workflow is useful, or an export will run correctly.
-- Secret scanning and platform capability detection are heuristic and require human review.
+- Secret and capability signals are heuristic. Findings or uncertainty trigger
+  escalation; no finding is proof of safety or completeness.
 - Registry Builder does not connect to GitHub, external services, workflow platforms, or the website.
 - It does not execute, publish, install, or deploy any Workflow.

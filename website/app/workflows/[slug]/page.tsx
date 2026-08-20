@@ -58,7 +58,7 @@ export default async function WorkflowDetailPage({ params }: WorkflowDetailProps
   if (!workflow) notFound();
 
   const marketplace = getMarketplaceWorkflow(workflow);
-  const declaredCapabilities = Object.entries(workflow.permissions)
+  const declaredCapabilities = Object.entries(workflow.permissions ?? {})
     .filter(([, enabled]) => enabled)
     .map(([key]) => labelFromKey(key));
   const testingItems = workflow.testing
@@ -82,9 +82,9 @@ export default async function WorkflowDetailPage({ params }: WorkflowDetailProps
           <p className="detail-summary-lede">{marketplace.summary}</p>
           <p className="detail-source-line">
             {marketplace.originalCreator ? (
-              <>Created by <strong>{marketplace.originalCreator}</strong> · from <a href={marketplace.sourceUrl}>{marketplace.sourceLabel}</a></>
+              <>Created by <strong>{marketplace.originalCreator}</strong> · from {marketplace.sourceUrl ? <a href={marketplace.sourceUrl}>{marketplace.sourceLabel}</a> : marketplace.sourceLabel}</>
             ) : (
-              <>From the <a href={marketplace.sourceUrl}>{marketplace.sourceLabel}</a> · original creator not established from available evidence</>
+              <>From {marketplace.sourceUrl ? <a href={marketplace.sourceUrl}>{marketplace.sourceLabel}</a> : marketplace.sourceLabel} · original creator not established from available evidence</>
             )}
           </p>
           <p className="detail-meta">
@@ -92,13 +92,17 @@ export default async function WorkflowDetailPage({ params }: WorkflowDetailProps
           </p>
         </div>
         <div className="detail-actions">
-          <a className="button primary-button" href={marketplace.acquisitionUrl}>
-            Get workflow <span aria-hidden="true">↗</span>
-          </a>
-          <a className="button secondary-button" href={marketplace.sourceUrl}>
-            View source <span aria-hidden="true">↗</span>
-          </a>
-          <small>Both actions open the exact recorded artifact or source.</small>
+          {marketplace.acquisitionUrl ? (
+            <a className="button primary-button" href={marketplace.acquisitionUrl}>
+              Get workflow <span aria-hidden="true">↗</span>
+            </a>
+          ) : <small>No usable acquisition target is currently recorded.</small>}
+          {marketplace.sourceUrl ? (
+            <a className="button secondary-button" href={marketplace.sourceUrl}>
+              View source <span aria-hidden="true">↗</span>
+            </a>
+          ) : null}
+          {marketplace.acquisitionUrl && marketplace.sourceUrl ? <small>Both actions open the exact recorded artifact or source.</small> : null}
         </div>
       </header>
 
@@ -147,8 +151,8 @@ export default async function WorkflowDetailPage({ params }: WorkflowDetailProps
                 <h3>Platform and classification</h3>
                 <dl className="evidence-list">
                   <div><dt>Platform</dt><dd>{formatPublicLabel(workflow.platform)}</dd></div>
-                  <div><dt>Minimum version</dt><dd>{workflow.minimum_platform_version}</dd></div>
-                  <div><dt>Package version</dt><dd>{workflow.version}</dd></div>
+                  <div><dt>Minimum version</dt><dd>{workflow.minimum_platform_version ?? "Not recorded"}</dd></div>
+                  <div><dt>Package version</dt><dd>{workflow.version ?? "Not applicable"}</dd></div>
                   <div><dt>Use cases</dt><dd>{workflow.categories.map(formatPublicLabel).join(", ")}</dd></div>
                   <div><dt>Tags</dt><dd>{workflow.tags.map(formatPublicLabel).join(", ")}</dd></div>
                 </dl>
@@ -157,7 +161,7 @@ export default async function WorkflowDetailPage({ params }: WorkflowDetailProps
                 <h3>Declared capabilities</h3>
                 <p>{declaredCapabilities.length ? declaredCapabilities.join(", ") : "None declared."}</p>
                 <h3>Human checkpoints</h3>
-                <p>{workflow.human_review.checkpoints.join(" ") || "No checkpoint is declared in the Workflow."}</p>
+                <p>{workflow.human_review?.checkpoints.join(" ") || "No checkpoint is recorded for this Listing."}</p>
               </section>
             </div>
             <div className="two-column-list field-columns">
@@ -175,9 +179,9 @@ export default async function WorkflowDetailPage({ params }: WorkflowDetailProps
           <div className="disclosure-content">
             <dl className="evidence-list wide-evidence-list">
               <div><dt>Original creator</dt><dd>{marketplace.originalCreator ?? "Not established from available evidence"}</dd></div>
-              <div><dt>Upstream source</dt><dd><a href={marketplace.sourceUrl}>{marketplace.source.repository}</a></dd></div>
-              <div><dt>Exact path</dt><dd className="mono">{marketplace.source.path}</dd></div>
-              <div><dt>Recorded ref</dt><dd className="mono">{marketplace.source.ref}</dd></div>
+              <div><dt>Upstream source</dt><dd>{marketplace.sourceUrl ? <a href={marketplace.sourceUrl}>{marketplace.source.repository ?? marketplace.sourceLabel}</a> : "No repository source is recorded."}</dd></div>
+              <div><dt>Exact path</dt><dd className="mono">{marketplace.source.path ?? "Not applicable"}</dd></div>
+              <div><dt>Recorded ref</dt><dd className="mono">{marketplace.source.ref ?? "Not recorded"}</dd></div>
               <div><dt>Attribution basis</dt><dd>{marketplace.source.attributionBasis}</dd></div>
               <div><dt>License evidence</dt><dd>{marketplace.source.licenseEvidence}</dd></div>
               <div><dt>Recorded transformation</dt><dd>{marketplace.source.transformation}</dd></div>
@@ -208,10 +212,10 @@ export default async function WorkflowDetailPage({ params }: WorkflowDetailProps
               <section>
                 <h3>Declared safety metadata</h3>
                 <ul className="plain-list">
-                  <li>Risk level: {workflow.safety.risk_level}</li>
-                  <li>Sends data externally: {workflow.safety.sends_data_externally ? "Yes" : "No"}</li>
-                  <li>Stores user data: {workflow.safety.stores_user_data ? "Yes" : "No"}</li>
-                  <li>Contains credentials: {workflow.safety.contains_credentials ? "Yes" : "No"}</li>
+                  <li>Risk level: {workflow.safety?.risk_level ?? "Not declared for this Listing"}</li>
+                  <li>Sends data externally: {workflow.safety ? (workflow.safety.sends_data_externally ? "Yes" : "No") : "Not declared"}</li>
+                  <li>Stores user data: {workflow.safety ? (workflow.safety.stores_user_data ? "Yes" : "No") : "Not declared"}</li>
+                  <li>Contains credentials: {workflow.safety ? (workflow.safety.contains_credentials ? "Yes" : "No") : "Not declared"}</li>
                 </ul>
               </section>
               <section>

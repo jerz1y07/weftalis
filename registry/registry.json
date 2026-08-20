@@ -1,6 +1,6 @@
 {
-  "schema_version": "0.1",
-  "generated_at": "2026-07-21T03:06:32.338Z",
+  "schema_version": "0.2",
+  "generated_at": "2026-08-20T05:10:51.382Z",
   "workflow_count": 3,
   "workflows": [
     {
@@ -71,11 +71,41 @@
       "package_path": "packages/human-reviewed-writing-pipeline",
       "source_file": "packages/human-reviewed-writing-pipeline/source/workflow.yml",
       "readme_file": "packages/human-reviewed-writing-pipeline/README.md",
+      "listing_source": "package",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "The Package manifest records a maintainer or author label but does not independently establish original creator identity.",
+        "listing_maintainer": "Weftalis Contributors",
+        "source": {
+          "source_type": "package",
+          "repository_url": null,
+          "artifact_path": "packages/human-reviewed-writing-pipeline/source/workflow.yml"
+        },
+        "acquisition_url": null,
+        "license_evidence": "Apache-2.0, as declared by the validated Package manifest.",
+        "transformation_evidence": "No independent transformation evidence is recorded in the Package manifest.",
+        "important_limitations": [
+          "Package test metadata does not establish current compatibility, safety, or production readiness."
+        ],
+        "use_steps": [],
+        "provenance_reference": "packages/human-reviewed-writing-pipeline/workflow.yaml"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": true,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
       "validation": {
         "status": "valid",
         "errors": [],
         "warnings": [],
-        "checked_at": "2026-07-21T03:06:32.338Z"
+        "checked_at": "2026-08-20T05:10:51.382Z"
       }
     },
     {
@@ -135,11 +165,41 @@
       "package_path": "packages/json-repair",
       "source_file": "packages/json-repair/source/upstream/DSL/json-repair.yml",
       "readme_file": "packages/json-repair/README.md",
+      "listing_source": "package",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "The Package manifest records a maintainer or author label but does not independently establish original creator identity.",
+        "listing_maintainer": "Weftalis maintainers",
+        "source": {
+          "source_type": "package",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_path": "packages/json-repair/source/upstream/DSL/json-repair.yml"
+        },
+        "acquisition_url": null,
+        "license_evidence": "MIT, as declared by the validated Package manifest.",
+        "transformation_evidence": "No independent transformation evidence is recorded in the Package manifest.",
+        "important_limitations": [
+          "Not independently runtime-tested by Weft Place."
+        ],
+        "use_steps": [],
+        "provenance_reference": "packages/json-repair/workflow.yaml"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
       "validation": {
         "status": "valid",
         "errors": [],
         "warnings": [],
-        "checked_at": "2026-07-21T03:06:32.338Z"
+        "checked_at": "2026-08-20T05:10:51.382Z"
       }
     },
     {
@@ -210,11 +270,41 @@
       "package_path": "packages/multi-source-research-assistant",
       "source_file": "packages/multi-source-research-assistant/source/workflow.json",
       "readme_file": "packages/multi-source-research-assistant/README.md",
+      "listing_source": "package",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "The Package manifest records a maintainer or author label but does not independently establish original creator identity.",
+        "listing_maintainer": "Weftalis Contributors",
+        "source": {
+          "source_type": "package",
+          "repository_url": null,
+          "artifact_path": "packages/multi-source-research-assistant/source/workflow.json"
+        },
+        "acquisition_url": null,
+        "license_evidence": "MIT, as declared by the validated Package manifest.",
+        "transformation_evidence": "No independent transformation evidence is recorded in the Package manifest.",
+        "important_limitations": [
+          "Package test metadata does not establish current compatibility, safety, or production readiness."
+        ],
+        "use_steps": [],
+        "provenance_reference": "packages/multi-source-research-assistant/workflow.yaml"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": true,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
       "validation": {
         "status": "valid",
         "errors": [],
         "warnings": [],
-        "checked_at": "2026-07-21T03:06:32.338Z"
+        "checked_at": "2026-08-20T05:10:51.382Z"
       }
     }
   ]

@@ -47,7 +47,7 @@ export async function runCli(dependencies: CliDependencies = {}): Promise<number
     await verifyRepositoryRoot(repositoryRoot);
     validatePackage = await (dependencies.loadValidator ?? defaultLoadValidator)();
   } catch {
-    error("Weftalis Registry Build\n\nRegistry Builder could not start or load the Validator.\nNo Workflow was executed.");
+    error("Weft Place Registry Build\n\nRegistry Builder could not start or load the Validator.\nNo Workflow was executed.");
     return 2;
   }
 
@@ -56,15 +56,18 @@ export async function runCli(dependencies: CliDependencies = {}): Promise<number
     await (dependencies.write ?? writeOutput)(repositoryRoot, result.registry, result.rejected);
 
     const lines = [
-      "Weftalis Registry Build",
+      "Weft Place Registry Build",
       "",
       `Discovered packages: ${result.discoveredCount}`,
+      `Discovered package-independent candidates: ${result.discoveredListingCount}`,
       `Ignored templates: ${result.ignoredTemplates}`,
-      `Valid packages: ${result.registry.workflow_count}`,
-      `Rejected packages: ${result.rejected.rejected_count}`,
+      `Public Listings: ${result.registry.workflow_count}`,
+      `Rejected packages: ${result.rejected.packages.length}`,
+      `Escalated Listings: ${result.escalatedListingCount}`,
       "",
       ...result.registry.workflows.map((workflow) => `✓ ${workflow.id}`),
       ...result.rejected.packages.map((item) => `✗ ${item.id ?? item.package_path}`),
+      ...result.rejected.listings.map((item) => `! ${item.id ?? item.record_path} (${item.admission_state})`),
       "",
       "Wrote:",
       "- registry/registry.json",
@@ -76,7 +79,7 @@ export async function runCli(dependencies: CliDependencies = {}): Promise<number
     return 0;
   } catch (caught) {
     const message = caught instanceof Error ? caught.message.split("\n")[0] : "Unknown build error";
-    error(`Weftalis Registry Build\n\nRegistry generation failed: ${message}\nNo Workflow was executed.`);
+    error(`Weft Place Registry Build\n\nRegistry generation failed: ${message}\nNo Workflow was executed.`);
     return 1;
   }
 }

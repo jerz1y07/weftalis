@@ -1,21 +1,28 @@
-# Weftalis v0.1 Architecture
+# Weft Place Registry Architecture
 
-Weftalis v0.1 is a file-based, read-only registry. Its tools inspect Workflow Packages but never execute them.
+Weft Place is a file-based, read-only Registry. Its tools inspect Workflow
+Packages and controlled admission evidence but never execute imported Workflows.
 
 ```text
-packages/<workflow-id>/
-        |
-        v
-Weftalis Validator -----> validation errors and warnings
-        |
-        v
-Registry Builder -------> registry/registry.json
-        |                 registry/rejected.json
-        v
-Website sync -----------> website/generated/registry.json
-        |
-        v
-Next.js static export --> GitHub Pages
+packages/<workflow-id>/ ---> Package Validator ---------+
+                                                       |
+isolated Intake evidence                               v
+        |                                      Registry Builder
+        v                                              |
+controlled admission record ---------------------------+
+  (no Package required)                                |
+                                    +------------------+------------------+
+                                    v                                     v
+                         registry/registry.json               registry/rejected.json
+                                    |
+                                    v
+                              Website sync
+                                    |
+                                    v
+                     website/generated/registry.json
+                                    |
+                                    v
+                         Next.js static export
 ```
 
 ## Components
@@ -24,6 +31,7 @@ Next.js static export --> GitHub Pages
 - **Workflow Package Specification v0.1** defines the metadata structure and JSON Schema. It does not define execution semantics.
 - **Validator** parses local files as untrusted data and reports structural, path, license, secret-pattern, platform-shape, permission, and safety-declaration findings.
 - **Registry Builder** discovers Packages, calls the Validator, and emits normalized accepted and rejected Registry JSON. It does not duplicate the Validator rules.
+- **Package-independent admission records** are controlled evidence projections outside Intake. Registry Builder derives `Listed`, `Needs Review`, or `Quarantined`; records cannot self-publish. Clean ordinary Listings do not require a Package or universal human approval.
 - **Website sync** copies accepted Registry metadata into a committed generated file and checks the fields required by the website.
 - **Static website** imports generated Registry data at build time and exports HTML. It has no server, database, API, upload, authentication, or execution path.
 - **GitHub Actions** repeats read-only validation and build checks. A separate least-privilege workflow deploys only `website/out` to GitHub Pages.
@@ -36,4 +44,4 @@ The website build consumes the committed generated Registry. `WEFTALIS_BASE_PATH
 
 ## Trust boundary
 
-The automated path checks only what can be inferred from static files and a limited set of known patterns. It does not contact n8n or Dify, test external services, execute nodes, prove metadata claims, establish license ownership, or certify safety. Human review is required before acceptance and again before reuse.
+The automated path checks only what can be inferred from static files and a limited set of known patterns. It does not contact n8n or Dify, test external services, execute nodes, prove metadata claims, establish license ownership, or certify safety. Human review is an escalation mechanism for ambiguous or risky admission evidence and remains necessary before reuse; it is not a universal prerequisite for an ordinary public Listing.

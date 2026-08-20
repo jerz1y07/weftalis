@@ -1,4 +1,4 @@
-# Weftalis Intake Threat Model
+# Weft Place Intake Threat Model
 
 ## Scope and security objective
 
@@ -98,7 +98,7 @@ Signals are intentionally conservative. A detected signal means relevant text or
 
 Artifact duplicates are detected by SHA-256. Source duplicates are detected by normalized repository, exact path, and pinned commit. These checks can identify identical bytes or repeated source coordinates in the local review set, but they cannot identify semantically equivalent rewrites, copied artifacts with small changes, mirrors, renamed repositories, rewritten history, or reviews outside the local queue.
 
-A unique hash does not prove originality. A repository URL, submitter authorship claim, upstream author field, or license claim does not prove identity, ownership, consent, or legal permission. Repository-level license evidence may not apply to the file, and an SPDX header may be incorrect or unauthorized. Human provenance and license review remains mandatory.
+A unique hash does not prove originality. A repository URL, submitter authorship claim, upstream author field, or license claim does not prove identity, ownership, consent, or legal permission. Repository-level license evidence may not apply to the file, and an SPDX header may be incorrect or unauthorized. Ambiguous or conflicting provenance and license evidence requires human escalation; ordinary Listing may proceed without universal human review only when the separate admission layer records sufficient evidence and no escalation signal exists.
 
 ## Limitations of static analysis
 

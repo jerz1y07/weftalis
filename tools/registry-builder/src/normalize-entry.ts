@@ -45,6 +45,9 @@ export function normalizeEntry(
   const packagePath = toPosixRelative(repositoryRoot, packageRoot);
   const errors = report.issues.filter((issue) => issue.severity === "error").map(publicIssue);
   const warnings = report.issues.filter((issue) => issue.severity === "warning").map(publicIssue);
+  const sourceFile = `${packagePath}/${manifest.runtime.source_file}`;
+  const manifestPath = `${packagePath}/workflow.yaml`;
+  const runtimeTested = manifest.testing?.status === "passed";
 
   return {
     id: manifest.id,
@@ -97,8 +100,41 @@ export function normalizeEntry(
         }
       : null,
     package_path: packagePath,
-    source_file: `${packagePath}/${manifest.runtime.source_file}`,
+    source_file: sourceFile,
     readme_file: `${packagePath}/${manifest.files.readme}`,
+    listing_source: "package",
+    listing: {
+      state: "listed",
+      original_creator: null,
+      creator_evidence:
+        "The Package manifest records a maintainer or author label but does not independently establish original creator identity.",
+      listing_maintainer: manifest.author,
+      source: {
+        source_type: "package",
+        repository_url: manifest.repository ?? null,
+        artifact_path: sourceFile,
+      },
+      acquisition_url: null,
+      license_evidence: `${manifest.license}, as declared by the validated Package manifest.`,
+      transformation_evidence: "No independent transformation evidence is recorded in the Package manifest.",
+      important_limitations: [
+        runtimeTested
+          ? "Package test metadata does not establish current compatibility, safety, or production readiness."
+          : "Not independently runtime-tested by Weft Place.",
+      ],
+      use_steps: [],
+      provenance_reference: manifestPath,
+    },
+    claims: {
+      discovered: true,
+      listed: true,
+      static_reviewed: true,
+      runtime_tested: runtimeTested,
+      compatibility_verified: false,
+      human_reviewed: false,
+      featured: false,
+      removed: false,
+    },
     validation: {
       status: "valid",
       errors,

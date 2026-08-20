@@ -3,6 +3,8 @@ import path from "node:path";
 
 import { parse } from "yaml";
 
+import { admitListingCandidate, type ListingAdmissionResult } from "./admit-listing.js";
+import { discoverListingCandidates } from "./discover-listing-candidates.js";
 import { discoverPackages } from "./discover-packages.js";
 import { normalizeEntry, publicIssue, toPosixRelative } from "./normalize-entry.js";
 import type {
@@ -130,10 +132,51 @@ function splitIssues(report: ValidationReport, builderIssues: ValidationIssue[])
   };
 }
 
+function escalateListingIdentityConflicts(
+  admissions: ListingAdmissionResult[],
+  packageIds: string[],
+): void {
+  const accepted = admissions.filter((result) => result.entry !== null);
+  const packageIdSet = new Set(packageIds.map((id) => id.toLocaleLowerCase("en-US")));
+  const listingGroups = new Map<string, ListingAdmissionResult[]>();
+
+  for (const result of accepted) {
+    const key = result.entry!.id.toLocaleLowerCase("en-US");
+    listingGroups.set(key, [...(listingGroups.get(key) ?? []), result]);
+  }
+
+  for (const [key, group] of listingGroups) {
+    const conflictsWithPackage = packageIdSet.has(key);
+    const conflictsWithListing = group.length > 1;
+    if (!conflictsWithPackage && !conflictsWithListing) continue;
+
+    for (const result of group) {
+      const entry = result.entry!;
+      const recordPath = result.recordPath;
+      result.entry = null;
+      result.escalation = {
+        record_path: recordPath,
+        id: entry.id,
+        admission_state: "needs_review",
+        reasons: [{
+          code: "admission.registry-id-conflict",
+          message: "Package-backed and package-independent Listings must not compete for the same case-insensitive id.",
+          file: recordPath,
+          line: null,
+        }],
+      };
+    }
+  }
+}
+
 export async function buildRegistry(options: BuildRegistryOptions): Promise<BuildResult> {
   const generatedAt = options.generatedAt ?? new Date().toISOString();
   const packagesRoot = path.join(options.repositoryRoot, "packages");
-  const discovery = await discoverPackages(packagesRoot);
+  const admissionsRoot = path.join(options.repositoryRoot, "admissions", "package-independent");
+  const [discovery, listingDiscovery] = await Promise.all([
+    discoverPackages(packagesRoot),
+    discoverListingCandidates(admissionsRoot),
+  ]);
   const results = await Promise.all(
     discovery.packages.map((candidate) => inspectCandidate(candidate, options.validatePackage)),
   );
@@ -167,24 +210,40 @@ export async function buildRegistry(options: BuildRegistryOptions): Promise<Buil
     });
   }
 
+  const admissions = await Promise.all(listingDiscovery.candidates.map((candidate) =>
+    admitListingCandidate(candidate, options.repositoryRoot, generatedAt)));
+  escalateListingIdentityConflicts(
+    admissions,
+    results.flatMap((result) => result.readableId ? [result.readableId] : []),
+  );
+  const escalatedListings = [];
+  for (const admission of admissions) {
+    if (admission.entry) workflows.push(admission.entry);
+    if (admission.escalation) escalatedListings.push(admission.escalation);
+  }
+
   workflows.sort((left, right) => left.id.localeCompare(right.id, "en"));
   rejected.sort((left, right) => left.package_path.localeCompare(right.package_path, "en"));
+  escalatedListings.sort((left, right) => left.record_path.localeCompare(right.record_path, "en"));
 
   return {
     registry: {
-      schema_version: "0.1",
+      schema_version: "0.2",
       generated_at: generatedAt,
       workflow_count: workflows.length,
       workflows,
     },
     rejected: {
-      schema_version: "0.1",
+      schema_version: "0.2",
       generated_at: generatedAt,
-      rejected_count: rejected.length,
+      rejected_count: rejected.length + escalatedListings.length,
       packages: rejected,
+      listings: escalatedListings,
     },
     discoveredCount: discovery.packages.length,
     ignoredTemplates: discovery.ignoredTemplates,
     ignoredDirectories: discovery.ignoredDirectories,
+    discoveredListingCount: listingDiscovery.candidates.length,
+    escalatedListingCount: escalatedListings.length,
   };
 }
