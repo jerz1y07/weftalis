@@ -107,6 +107,8 @@ function baseAdmissionRecord(id: string): PackageIndependentAdmissionRecord {
     },
     evidence: {
       intake_review_id: `fixture-review-${id}`,
+      intake_created_at: "2026-07-17T00:00:00.000Z",
+      artifact_retrieved_at: "2026-07-17T00:00:00.000Z",
       provenance_status: "recorded",
       source_resolution: "resolved",
       artifact_integrity: "verified",
@@ -116,6 +118,8 @@ function baseAdmissionRecord(id: string): PackageIndependentAdmissionRecord {
       secret_scan_status: "none_detected",
       malicious_content_status: "none_detected",
       transformation_status: "none",
+      transformation_evidence: "Fixture evidence records no transformation of the source artifact.",
+      transformed_artifact: null,
       risk_signals: {
         credentials: "not_detected",
         code_execution: "not_detected",
@@ -256,7 +260,7 @@ describe("Registry generation", () => {
   it("does not admit mismatched repository and artifact source coordinates", async () => {
     await createAdmissionRecord("mismatched-source-fixture", (record) => {
       if (record.source.source_type === "repository") {
-        record.source.artifact_url = record.source.artifact_url.replace("fixture-owner", "different-owner");
+        record.source.artifact_url = record.source.artifact_url!.replace("fixture-owner", "different-owner");
       }
     });
     const result = await buildRegistry({ repositoryRoot: temporaryRoot, validatePackage: validStub });

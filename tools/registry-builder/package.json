@@ -12,6 +12,7 @@
     "test": "vitest run",
     "build": "tsc -p tsconfig.build.json",
     "build-registry": "node --import tsx src/cli.ts",
+    "admission:promote": "node --import tsx src/promote-cli.ts",
     "verify-registry": "node --import tsx src/verify-cli.ts"
   },
   "dependencies": {

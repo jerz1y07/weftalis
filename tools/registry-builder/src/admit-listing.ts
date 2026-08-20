@@ -1,4 +1,4 @@
-import { readFile, stat } from "node:fs/promises";
+import { lstat, readFile, realpath, stat } from "node:fs/promises";
 import path from "node:path";
 
 import { toPosixRelative } from "./normalize-entry.js";
@@ -17,6 +17,11 @@ export interface ListingAdmissionResult {
   id: string | null;
   entry: RegistryEntry | null;
   escalation: EscalatedListing | null;
+}
+
+export interface AdmissionDecision {
+  state: "listed" | "needs_review" | "quarantined";
+  reasons: PublicIssue[];
 }
 
 type JsonRecord = Record<string, unknown>;
@@ -44,6 +49,14 @@ function isNullableString(value: unknown): value is string | null {
   return value === null || isNonEmptyString(value);
 }
 
+function isNullableDate(value: unknown): value is string | null {
+  return value === null || (isNonEmptyString(value) && !Number.isNaN(Date.parse(value)));
+}
+
+function isNullableSha256(value: unknown): value is string | null {
+  return value === null || (typeof value === "string" && sha256Pattern.test(value));
+}
+
 function isStringArray(value: unknown, allowEmpty = true): value is string[] {
   return Array.isArray(value)
     && (allowEmpty || value.length > 0)
@@ -64,7 +77,7 @@ function isHttpsUrl(value: unknown): value is string {
   }
 }
 
-function containsPotentialSecret(value: string): boolean {
+export function containsPotentialSecret(value: string): boolean {
   const patterns = [
     /\bsk-(?:proj-)?[A-Za-z0-9_-]{16,}\b/,
     /\bgh[pousr]_[A-Za-z0-9]{20,}\b/,
@@ -98,10 +111,10 @@ function githubRepositoryCoordinates(value: string): { owner: string; repository
 
 function repositoryUrlsMatchSource(value: JsonRecord): boolean {
   if (typeof value.repository_url !== "string"
-    || typeof value.artifact_url !== "string"
-    || typeof value.acquisition_url !== "string"
     || typeof value.artifact_path !== "string"
-    || typeof value.immutable_ref !== "string") return false;
+    || typeof value.immutable_ref !== "string"
+    || typeof value.artifact_url !== "string"
+    || typeof value.acquisition_url !== "string") return false;
   const coordinates = githubRepositoryCoordinates(value.repository_url);
   if (!coordinates) return false;
   const encodedPath = value.artifact_path.split("/").map(encodeURIComponent).join("/");
@@ -127,15 +140,19 @@ function isRepositorySource(value: unknown): value is PackageIndependentListingS
 
   return value.source_type === "repository"
     && isHttpsUrl(value.repository_url)
-    && isHttpsUrl(value.artifact_url)
-    && isHttpsUrl(value.acquisition_url)
+    && (value.artifact_url === null || isHttpsUrl(value.artifact_url))
+    && (value.acquisition_url === null || isHttpsUrl(value.acquisition_url))
     && isRelativeArtifactPath(value.artifact_path)
-    && typeof value.immutable_ref === "string"
-    && commitPattern.test(value.immutable_ref)
-    && typeof value.original_artifact_sha256 === "string"
-    && sha256Pattern.test(value.original_artifact_sha256)
+    && (value.immutable_ref === null
+      || (typeof value.immutable_ref === "string" && commitPattern.test(value.immutable_ref)))
+    && isNullableSha256(value.original_artifact_sha256)
     && isNullableString(value.version)
-    && repositoryUrlsMatchSource(value);
+    && (
+      value.artifact_url === null
+        && value.acquisition_url === null
+        && value.immutable_ref === null
+      || repositoryUrlsMatchSource(value)
+    );
 }
 
 function isDirectUploadSource(value: unknown): value is PackageIndependentListingSource {
@@ -150,11 +167,9 @@ function isDirectUploadSource(value: unknown): value is PackageIndependentListin
   ])) return false;
 
   return value.source_type === "direct_upload"
-    && isNonEmptyString(value.submitter)
-    && isNonEmptyString(value.uploaded_at)
-    && !Number.isNaN(Date.parse(value.uploaded_at))
-    && typeof value.original_artifact_sha256 === "string"
-    && sha256Pattern.test(value.original_artifact_sha256)
+    && isNullableString(value.submitter)
+    && isNullableDate(value.uploaded_at)
+    && isNullableSha256(value.original_artifact_sha256)
     && isNullableString(value.declared_author)
     && isNullableString(value.declared_license)
     && (value.acquisition_url === null || isHttpsUrl(value.acquisition_url));
@@ -183,6 +198,8 @@ function isRiskSignals(value: unknown): value is AdmissionRiskSignals {
 function isEvidence(value: unknown): value is PackageIndependentAdmissionRecord["evidence"] {
   if (!isRecord(value) || !hasExactKeys(value, [
     "intake_review_id",
+    "intake_created_at",
+    "artifact_retrieved_at",
     "provenance_status",
     "source_resolution",
     "artifact_integrity",
@@ -192,6 +209,8 @@ function isEvidence(value: unknown): value is PackageIndependentAdmissionRecord[
     "secret_scan_status",
     "malicious_content_status",
     "transformation_status",
+    "transformation_evidence",
+    "transformed_artifact",
     "risk_signals",
     "runtime_status",
     "compatibility_status",
@@ -222,7 +241,20 @@ function isEvidence(value: unknown): value is PackageIndependentAdmissionRecord[
     && reviewedAt === null
     && rationale === null;
 
+  const transformedArtifact = value.transformed_artifact;
+  const validTransformedArtifact = transformedArtifact === null || (
+    isRecord(transformedArtifact)
+    && hasExactKeys(transformedArtifact, ["sha256", "owner", "license"])
+    && typeof transformedArtifact.sha256 === "string"
+    && sha256Pattern.test(transformedArtifact.sha256)
+    && isNonEmptyString(transformedArtifact.owner)
+    && isNonEmptyString(transformedArtifact.license)
+  );
+
   return isNonEmptyString(value.intake_review_id)
+    && isNonEmptyString(value.intake_created_at)
+    && !Number.isNaN(Date.parse(value.intake_created_at))
+    && isNullableDate(value.artifact_retrieved_at)
     && isEnum(value.provenance_status, ["recorded", "uncertain"] as const)
     && isEnum(value.source_resolution, ["resolved", "failed", "not_applicable"] as const)
     && isEnum(value.artifact_integrity, ["verified", "failed"] as const)
@@ -232,6 +264,9 @@ function isEvidence(value: unknown): value is PackageIndependentAdmissionRecord[
     && isEnum(value.secret_scan_status, ["none_detected", "potential_values_detected", "not_scanned"] as const)
     && isEnum(value.malicious_content_status, ["none_detected", "suspected", "not_assessed"] as const)
     && isEnum(value.transformation_status, ["none", "non_material", "substantial", "unknown"] as const)
+    && isNonEmptyString(value.transformation_evidence)
+    && validTransformedArtifact
+    && (value.transformation_status === "none" ? transformedArtifact === null : true)
     && isRiskSignals(value.risk_signals)
     && isEnum(value.runtime_status, ["untested", "passed", "failed"] as const)
     && isEnum(value.compatibility_status, ["unverified", "verified"] as const)
@@ -289,17 +324,26 @@ function issue(code: string, message: string, recordPath: string): PublicIssue {
 async function evidenceReferenceExists(repositoryRoot: string, reference: string): Promise<boolean> {
   if (isHttpsUrl(reference)) return true;
   if (!isRelativeArtifactPath(reference)) return false;
-  const target = path.resolve(repositoryRoot, reference);
-  const relative = path.relative(repositoryRoot, target);
+  const root = path.resolve(repositoryRoot);
+  const target = path.resolve(root, reference);
+  const relative = path.relative(root, target);
   if (relative === "" || relative === ".." || relative.startsWith(`..${path.sep}`)) return false;
   try {
+    let current = root;
+    for (const segment of relative.split(path.sep)) {
+      current = path.join(current, segment);
+      if ((await lstat(current)).isSymbolicLink()) return false;
+    }
+    const [realRoot, realTarget] = await Promise.all([realpath(root), realpath(target)]);
+    const realRelative = path.relative(realRoot, realTarget);
+    if (realRelative === "" || realRelative === ".." || realRelative.startsWith(`..${path.sep}`)) return false;
     return (await stat(target)).isFile();
   } catch {
     return false;
   }
 }
 
-async function referenceIssues(
+export async function admissionReferenceIssues(
   record: PackageIndependentAdmissionRecord,
   repositoryRoot: string,
   recordPath: string,
@@ -330,8 +374,27 @@ function quarantineReasons(
   if (record.evidence.source_resolution === "failed") {
     reasons.push(issue("admission.source-resolution-failed", "Source resolution failed.", recordPath));
   }
+  if (record.source.source_type === "repository" && (
+    record.source.immutable_ref === null
+    || record.source.original_artifact_sha256 === null
+    || record.source.artifact_url === null
+    || record.source.acquisition_url === null
+  )) {
+    reasons.push(issue(
+      "admission.repository-provenance-incomplete",
+      "Repository artifact identity or immutable acquisition evidence is incomplete.",
+      recordPath,
+    ));
+  }
   if (record.evidence.artifact_integrity === "failed") {
     reasons.push(issue("admission.artifact-integrity-failed", "Artifact integrity evidence failed.", recordPath));
+  }
+  if (record.source.source_type === "direct_upload" && record.source.original_artifact_sha256 === null) {
+    reasons.push(issue(
+      "admission.direct-upload-artifact-hash-missing",
+      "Direct-upload artifact identity is missing and requires quarantine.",
+      recordPath,
+    ));
   }
   if (record.evidence.parsing_status === "failed") {
     reasons.push(issue("admission.parse-failed", "The artifact could not be parsed.", recordPath));
@@ -384,6 +447,47 @@ function reviewReasons(
   return reasons;
 }
 
+function missingRequiredProvenanceReasons(
+  record: PackageIndependentAdmissionRecord,
+  recordPath: string,
+): PublicIssue[] {
+  if (record.source.source_type !== "direct_upload") return [];
+  const reasons: PublicIssue[] = [];
+  if (record.source.submitter === null || record.source.uploaded_at === null) {
+    reasons.push(issue(
+      "admission.direct-upload-provenance-incomplete",
+      "Direct-upload submitter or upload timestamp is missing.",
+      recordPath,
+    ));
+  }
+  if (record.source.declared_author === null) {
+    reasons.push(issue("admission.direct-upload-author-missing", "Direct-upload declared author evidence is missing.", recordPath));
+  }
+  if (record.source.declared_license === null) {
+    reasons.push(issue("admission.direct-upload-license-missing", "Direct-upload declared license evidence is missing.", recordPath));
+  }
+  return reasons;
+}
+
+export function decideAdmissionRecord(
+  record: PackageIndependentAdmissionRecord,
+  recordPath: string,
+): AdmissionDecision {
+  const quarantine = quarantineReasons(record, recordPath);
+  if (quarantine.length > 0) return { state: "quarantined", reasons: quarantine };
+
+  const missingRequiredProvenance = missingRequiredProvenanceReasons(record, recordPath);
+  if (missingRequiredProvenance.length > 0) {
+    return { state: "needs_review", reasons: missingRequiredProvenance };
+  }
+
+  const review = reviewReasons(record, recordPath);
+  if (review.length > 0 && record.evidence.human_review.status !== "approved") {
+    return { state: "needs_review", reasons: review };
+  }
+  return { state: "listed", reasons: [] };
+}
+
 function normalizeListing(
   record: PackageIndependentAdmissionRecord,
   recordPath: string,
@@ -422,9 +526,7 @@ function normalizeListing(
       source: record.source,
       acquisition_url: record.source.acquisition_url,
       license_evidence: record.license_evidence,
-      transformation_evidence: record.evidence.transformation_status === "none"
-        ? "Admission evidence records no transformation of the source artifact."
-        : "Admission evidence records a non-material or human-reviewed source transformation.",
+      transformation_evidence: record.evidence.transformation_evidence,
       important_limitations: [...record.important_limitations],
       use_steps: [...record.use_steps],
       provenance_reference: record.evidence.evidence_references[0]!,
@@ -524,15 +626,15 @@ export async function admitListingCandidate(
   if (record.id !== candidate.name) {
     structuralReasons.push(issue("admission.id-file-mismatch", "Listing id must exactly match its JSON filename.", recordPath));
   }
-  structuralReasons.push(...await referenceIssues(record, repositoryRoot, recordPath));
+  structuralReasons.push(...await admissionReferenceIssues(record, repositoryRoot, recordPath));
 
-  const quarantine = quarantineReasons(record, recordPath);
-  if (quarantine.length > 0) {
+  const decision = decideAdmissionRecord(record, recordPath);
+  if (decision.state === "quarantined") {
     return {
       recordPath,
       id: record.id,
       entry: null,
-      escalation: { record_path: recordPath, id: record.id, admission_state: "quarantined", reasons: quarantine },
+      escalation: { record_path: recordPath, id: record.id, admission_state: "quarantined", reasons: decision.reasons },
     };
   }
 
@@ -550,14 +652,12 @@ export async function admitListingCandidate(
     };
   }
 
-  const review = reviewReasons(record, recordPath);
-  const humanReviewed = record.evidence.human_review.status === "approved";
-  if (review.length > 0 && !humanReviewed) {
+  if (decision.state === "needs_review") {
     return {
       recordPath,
       id: record.id,
       entry: null,
-      escalation: { record_path: recordPath, id: record.id, admission_state: "needs_review", reasons: review },
+      escalation: { record_path: recordPath, id: record.id, admission_state: "needs_review", reasons: decision.reasons },
     };
   }
 

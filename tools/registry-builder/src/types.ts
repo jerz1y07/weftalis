@@ -94,19 +94,19 @@ export interface ListingClaims {
 export interface RepositoryListingSource {
   source_type: "repository";
   repository_url: string;
-  artifact_url: string;
-  acquisition_url: string;
+  artifact_url: string | null;
+  acquisition_url: string | null;
   artifact_path: string;
-  immutable_ref: string;
-  original_artifact_sha256: string;
+  immutable_ref: string | null;
+  original_artifact_sha256: string | null;
   version: string | null;
 }
 
 export interface DirectUploadListingSource {
   source_type: "direct_upload";
-  submitter: string;
-  uploaded_at: string;
-  original_artifact_sha256: string;
+  submitter: string | null;
+  uploaded_at: string | null;
+  original_artifact_sha256: string | null;
   declared_author: string | null;
   declared_license: string | null;
   acquisition_url: string | null;
@@ -144,6 +144,8 @@ export interface PackageIndependentAdmissionRecord {
   source: PackageIndependentListingSource;
   evidence: {
     intake_review_id: string;
+    intake_created_at: string;
+    artifact_retrieved_at: string | null;
     provenance_status: "recorded" | "uncertain";
     source_resolution: "resolved" | "failed" | "not_applicable";
     artifact_integrity: "verified" | "failed";
@@ -153,6 +155,12 @@ export interface PackageIndependentAdmissionRecord {
     secret_scan_status: "none_detected" | "potential_values_detected" | "not_scanned";
     malicious_content_status: "none_detected" | "suspected" | "not_assessed";
     transformation_status: "none" | "non_material" | "substantial" | "unknown";
+    transformation_evidence: string;
+    transformed_artifact: {
+      sha256: string;
+      owner: string;
+      license: string;
+    } | null;
     risk_signals: AdmissionRiskSignals;
     runtime_status: "untested" | "passed" | "failed";
     compatibility_status: "unverified" | "verified";
