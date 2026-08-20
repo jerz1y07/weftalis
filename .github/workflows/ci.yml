@@ -27,6 +27,22 @@ jobs:
         with:
           node-version-file: .nvmrc
 
+      - name: Install Discovery dependencies safely
+        working-directory: tools/discovery
+        run: npm ci --ignore-scripts
+
+      - name: Check Discovery types
+        working-directory: tools/discovery
+        run: npm run typecheck
+
+      - name: Test Discovery
+        working-directory: tools/discovery
+        run: npm test
+
+      - name: Build Discovery
+        working-directory: tools/discovery
+        run: npm run build
+
       - name: Install Intake dependencies safely
         working-directory: tools/intake
         run: npm ci --ignore-scripts

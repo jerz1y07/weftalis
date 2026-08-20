@@ -1,0 +1,63 @@
+{
+  "repository": {
+    "name": "workflow-fixtures",
+    "private": false,
+    "visibility": "public",
+    "owner": {
+      "login": "FixtureOrg"
+    },
+    "default_branch": "main",
+    "archived": false
+  },
+  "commit": {
+    "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "tree": {
+    "truncated": false,
+    "tree": [
+      {
+        "path": "README.md",
+        "type": "blob",
+        "sha": "0000000000000000000000000000000000000000",
+        "size": 80
+      },
+      {
+        "path": "workflows/beta_workflow.json",
+        "type": "blob",
+        "sha": "2222222222222222222222222222222222222222",
+        "size": 240
+      },
+      {
+        "path": "workflows/alpha-workflow.json",
+        "type": "blob",
+        "sha": "1111111111111111111111111111111111111111",
+        "size": 120
+      },
+      {
+        "path": "workflows/empty.json",
+        "type": "blob",
+        "sha": "3333333333333333333333333333333333333333",
+        "size": 0
+      },
+      {
+        "path": null,
+        "type": "blob",
+        "sha": "4444444444444444444444444444444444444444",
+        "size": 100
+      },
+      {
+        "path": "workflows",
+        "type": "tree",
+        "sha": "5555555555555555555555555555555555555555"
+      }
+    ]
+  },
+  "license": {
+    "name": "LICENSE",
+    "path": "LICENSE",
+    "license": {
+      "name": "MIT License",
+      "spdx_id": "MIT"
+    }
+  }
+}

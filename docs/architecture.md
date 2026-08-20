@@ -4,35 +4,37 @@ Weft Place is a file-based, read-only Registry. Its tools inspect Workflow
 Packages and controlled admission evidence but never execute imported Workflows.
 
 ```text
-packages/<workflow-id>/ ---> Package Validator ---------+
-                                                       |
-isolated Intake evidence                               v
-        |                                      Registry Builder
-        v                                              |
-controlled promotion request                           |
-        |                                              |
-        v                                              |
-Admission Promoter (preview by default)                |
-        |                                              |
-        v                                              |
-controlled admission record ---------------------------+
-  (no Package required)                                |
-                                    +------------------+------------------+
-                                    v                                     v
-                         registry/registry.json               registry/rejected.json
-                                    |
-                                    v
-                              Website sync
-                                    |
-                                    v
-                     website/generated/registry.json
-                                    |
-                                    v
-                         Next.js static export
+public Workflow ecosystems
+  -> External Discovery (preview or ignored local evidence)
+  -> normalized candidate + Intake handoff
+  -> existing Intake
+  -> isolated Intake evidence
+  -> controlled promotion request
+  -> Admission Promoter (preview by default)
+  -> controlled admission record (no Package required) ----+
+                                                            |
+packages/<workflow-id>/ -> Package Validator ---------------+
+                                                            |
+                                                            v
+                                                     Registry Builder
+                                                            |
+                                      +---------------------+--------------------+
+                                      v                                          v
+                           registry/registry.json                    registry/rejected.json
+                                      |
+                                      v
+                                Website sync
+                                      |
+                                      v
+                       website/generated/registry.json
+                                      |
+                                      v
+                           Next.js static export
 ```
 
 ## Components
 
+- **External Discovery** uses source adapters to resolve public artifacts to factual, normalized candidates with deterministic immutable identities. Its default mode is preview-only; optional live evidence stays in the Git-ignored `discovery-workspace/`. It neither parses Workflow behavior nor writes Intake, Package, admission, Registry, or website data.
 - **Workflow Packages** contain `workflow.yaml`, a README, an original n8n or Dify export, and optional safe examples.
 - **Workflow Package Specification v0.1** defines the metadata structure and JSON Schema. It does not define execution semantics.
 - **Validator** parses local files as untrusted data and reports structural, path, license, secret-pattern, platform-shape, permission, and safety-declaration findings.
@@ -52,3 +54,5 @@ The website build consumes the committed generated Registry. `WEFTALIS_BASE_PATH
 ## Trust boundary
 
 The automated path checks only what can be inferred from static files and a limited set of known patterns. Promotion consumes recorded evidence instead of fetching or parsing upstream content again. Neither promotion nor Registry generation contacts n8n or Dify, tests external services, executes nodes, proves metadata claims, establishes license ownership, or certifies safety. Human review is an escalation mechanism for ambiguous or risky admission evidence and remains necessary before reuse; it is not a universal prerequisite for an ordinary public Listing.
+
+Discovery is even narrower: a candidate means only that a configured public source exposed an artifact-shaped file at recorded source coordinates. Repository ownership is not artifact authorship, repository-level license evidence may not apply to a file, and Discovery makes no safety, runtime, compatibility, quality, production-readiness, recommendation, or Listing claim. Existing Intake remains responsible for retrieval integrity, parsing, static evidence, and quarantine decisions.
