@@ -50,6 +50,34 @@ function workflow(id: string): RegistryEntry {
     package_path: `packages/${id}`,
     source_file: `packages/${id}/source/workflow.json`,
     readme_file: `packages/${id}/README.md`,
+    listing_source: "package",
+    listing: {
+      state: "listed",
+      original_creator: null,
+      creator_evidence: "Fixture package evidence.",
+      listing_maintainer: "Registry Builder Tests",
+      source: {
+        source_type: "package",
+        repository_url: null,
+        artifact_path: `packages/${id}/source/workflow.json`,
+      },
+      acquisition_url: null,
+      license_evidence: "MIT fixture declaration.",
+      transformation_evidence: "Fixture transformation evidence.",
+      important_limitations: ["Fixture only."],
+      use_steps: [],
+      provenance_reference: `packages/${id}/workflow.yaml`,
+    },
+    claims: {
+      discovered: true,
+      listed: true,
+      static_reviewed: true,
+      runtime_tested: false,
+      compatibility_verified: false,
+      human_reviewed: false,
+      featured: false,
+      removed: false,
+    },
     validation: {
       status: "valid",
       errors: [],
@@ -61,7 +89,7 @@ function workflow(id: string): RegistryEntry {
 
 function registry(workflows: RegistryEntry[], generatedAt = "2026-07-17T00:00:00.000Z"): RegistryDocument {
   return {
-    schema_version: "0.1",
+    schema_version: "0.2",
     generated_at: generatedAt,
     workflow_count: workflows.length,
     workflows,
@@ -70,10 +98,11 @@ function registry(workflows: RegistryEntry[], generatedAt = "2026-07-17T00:00:00
 
 function rejected(generatedAt = "2026-07-17T00:00:00.000Z"): RejectedDocument {
   return {
-    schema_version: "0.1",
+    schema_version: "0.2",
     generated_at: generatedAt,
     rejected_count: 0,
     packages: [],
+    listings: [],
   };
 }
 
@@ -124,8 +153,8 @@ describe("Registry normalization comparison", () => {
   it("fails when permissions, safety declarations, or Validation status differ", () => {
     const generated = documents();
     const committed = documents();
-    committed.registry.workflows[0]!.permissions.network_access = true;
-    committed.registry.workflows[0]!.safety.risk_level = "high";
+    committed.registry.workflows[0]!.permissions!.network_access = true;
+    committed.registry.workflows[0]!.safety!.risk_level = "high";
     (committed.registry.workflows[0]!.validation as { status: string }).status = "outdated";
     expect(compareRegistryDocuments(generated, committed)).toEqual(expect.arrayContaining([
       "registry/registry.json: $.workflows[0].permissions.network_access (value changed)",

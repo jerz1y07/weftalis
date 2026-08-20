@@ -73,6 +73,110 @@ export interface DiscoveryResult {
   ignoredDirectories: number;
 }
 
+export type ListingAdmissionState =
+  | "discovered"
+  | "listed"
+  | "needs_review"
+  | "quarantined"
+  | "removed";
+
+export interface ListingClaims {
+  discovered: boolean;
+  listed: boolean;
+  static_reviewed: boolean;
+  runtime_tested: boolean;
+  compatibility_verified: boolean;
+  human_reviewed: boolean;
+  featured: boolean;
+  removed: boolean;
+}
+
+export interface RepositoryListingSource {
+  source_type: "repository";
+  repository_url: string;
+  artifact_url: string;
+  acquisition_url: string;
+  artifact_path: string;
+  immutable_ref: string;
+  original_artifact_sha256: string;
+  version: string | null;
+}
+
+export interface DirectUploadListingSource {
+  source_type: "direct_upload";
+  submitter: string;
+  uploaded_at: string;
+  original_artifact_sha256: string;
+  declared_author: string | null;
+  declared_license: string | null;
+  acquisition_url: string | null;
+}
+
+export type PackageIndependentListingSource =
+  | RepositoryListingSource
+  | DirectUploadListingSource;
+
+export interface AdmissionRiskSignals {
+  credentials: "detected" | "not_detected" | "unknown";
+  code_execution: "detected" | "not_detected" | "unknown";
+  filesystem_writes: "detected" | "not_detected" | "unknown";
+  destructive_actions: "detected" | "not_detected" | "unknown";
+  external_publishing: "detected" | "not_detected" | "unknown";
+  high_risk_network: "detected" | "not_detected" | "unknown";
+  user_reports: "present" | "none" | "unknown";
+}
+
+export interface PackageIndependentAdmissionRecord {
+  record_version: "1.0";
+  id: string;
+  title: string;
+  summary: string;
+  platform: string;
+  categories: string[];
+  tags: string[];
+  original_creator: string | null;
+  creator_evidence: string;
+  listing_maintainer: string;
+  license_expression: string;
+  license_evidence: string;
+  important_limitations: string[];
+  use_steps: string[];
+  source: PackageIndependentListingSource;
+  evidence: {
+    intake_review_id: string;
+    provenance_status: "recorded" | "uncertain";
+    source_resolution: "resolved" | "failed" | "not_applicable";
+    artifact_integrity: "verified" | "failed";
+    parsing_status: "parsed" | "failed" | "unsupported";
+    structure_status: "plausible" | "uncertain";
+    license_status: "no_clear_blocker" | "unclear" | "conflicting" | "blocked";
+    secret_scan_status: "none_detected" | "potential_values_detected" | "not_scanned";
+    malicious_content_status: "none_detected" | "suspected" | "not_assessed";
+    transformation_status: "none" | "non_material" | "substantial" | "unknown";
+    risk_signals: AdmissionRiskSignals;
+    runtime_status: "untested" | "passed" | "failed";
+    compatibility_status: "unverified" | "verified";
+    evidence_references: string[];
+    human_review: {
+      status: "not_required" | "approved";
+      evidence_reference: string | null;
+      reviewer: string | null;
+      reviewed_at: string | null;
+      rationale: string | null;
+    };
+  };
+}
+
+export interface DiscoveredListingCandidate {
+  name: string;
+  recordPath: string;
+}
+
+export interface ListingDiscoveryResult {
+  candidates: DiscoveredListingCandidate[];
+  ignoredFiles: number;
+}
+
 export interface PublicIssue {
   code: string;
   message: string;
@@ -83,25 +187,44 @@ export interface PublicIssue {
 export interface RegistryEntry {
   id: string;
   name: string;
-  version: string;
+  version: string | null;
   description: string;
   author: string;
   license: string;
   platform: string;
-  minimum_platform_version: string;
+  minimum_platform_version: string | null;
   categories: string[];
   tags: string[];
   inputs: WorkflowManifest["inputs"];
   outputs: WorkflowManifest["outputs"];
-  permissions: WorkflowManifest["permissions"];
-  human_review: WorkflowManifest["human_review"];
-  safety: WorkflowManifest["safety"];
+  permissions: WorkflowManifest["permissions"] | null;
+  human_review: WorkflowManifest["human_review"] | null;
+  safety: WorkflowManifest["safety"] | null;
   testing: WorkflowManifest["testing"] | null;
-  package_path: string;
-  source_file: string;
-  readme_file: string;
+  package_path: string | null;
+  source_file: string | null;
+  readme_file: string | null;
+  listing_source: "package" | "package_independent";
+  listing: {
+    state: "listed";
+    original_creator: string | null;
+    creator_evidence: string;
+    listing_maintainer: string;
+    source: PackageIndependentListingSource | {
+      source_type: "package";
+      repository_url: string | null;
+      artifact_path: string;
+    };
+    acquisition_url: string | null;
+    license_evidence: string;
+    transformation_evidence: string;
+    important_limitations: string[];
+    use_steps: string[];
+    provenance_reference: string;
+  };
+  claims: ListingClaims;
   validation: {
-    status: "valid";
+    status: "valid" | "admitted";
     errors: PublicIssue[];
     warnings: PublicIssue[];
     checked_at: string;
@@ -109,7 +232,7 @@ export interface RegistryEntry {
 }
 
 export interface RegistryDocument {
-  schema_version: "0.1";
+  schema_version: "0.2";
   generated_at: string;
   workflow_count: number;
   workflows: RegistryEntry[];
@@ -123,11 +246,19 @@ export interface RejectedPackage {
   warnings: PublicIssue[];
 }
 
+export interface EscalatedListing {
+  record_path: string;
+  id: string | null;
+  admission_state: Exclude<ListingAdmissionState, "discovered" | "listed" | "removed">;
+  reasons: PublicIssue[];
+}
+
 export interface RejectedDocument {
-  schema_version: "0.1";
+  schema_version: "0.2";
   generated_at: string;
   rejected_count: number;
   packages: RejectedPackage[];
+  listings: EscalatedListing[];
 }
 
 export interface BuildResult {
@@ -136,4 +267,6 @@ export interface BuildResult {
   discoveredCount: number;
   ignoredTemplates: number;
   ignoredDirectories: number;
+  discoveredListingCount: number;
+  escalatedListingCount: number;
 }

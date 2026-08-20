@@ -1,6 +1,6 @@
 import registryJson from "@/generated/registry.json";
 
-export type ValidationStatus = "valid";
+export type ValidationStatus = "valid" | "admitted";
 
 export type RegistryField = {
   name: string;
@@ -22,35 +22,72 @@ export type RegistryPermissions = {
 export type RegistryWorkflow = {
   id: string;
   name: string;
-  version: string;
+  version: string | null;
   description: string;
   author: string;
   license: string;
   platform: string;
-  minimum_platform_version: string;
+  minimum_platform_version: string | null;
   categories: string[];
   tags: string[];
   inputs: RegistryField[];
   outputs: RegistryField[];
-  permissions: RegistryPermissions;
+  permissions: RegistryPermissions | null;
   human_review: {
     required: boolean;
     checkpoints: string[];
-  };
+  } | null;
   safety: {
     stores_user_data: boolean;
     sends_data_externally: boolean;
     contains_credentials: boolean;
     risk_level: string;
-  };
+  } | null;
   testing: {
     status: string;
     last_tested?: string;
     tested_platform_version?: string;
   } | null;
-  package_path: string;
-  source_file: string;
-  readme_file: string;
+  package_path: string | null;
+  source_file: string | null;
+  readme_file: string | null;
+  listing_source: "package" | "package_independent";
+  listing: {
+    state: "listed";
+    original_creator: string | null;
+    creator_evidence: string;
+    listing_maintainer: string;
+    source: {
+      source_type: "package" | "repository" | "direct_upload";
+      repository_url?: string | null;
+      artifact_url?: string;
+      acquisition_url?: string | null;
+      artifact_path?: string;
+      immutable_ref?: string;
+      original_artifact_sha256?: string;
+      version?: string | null;
+      submitter?: string;
+      uploaded_at?: string;
+      declared_author?: string | null;
+      declared_license?: string | null;
+    };
+    acquisition_url: string | null;
+    license_evidence: string;
+    transformation_evidence: string;
+    important_limitations: string[];
+    use_steps: string[];
+    provenance_reference: string;
+  };
+  claims: {
+    discovered: boolean;
+    listed: boolean;
+    static_reviewed: boolean;
+    runtime_tested: boolean;
+    compatibility_verified: boolean;
+    human_reviewed: boolean;
+    featured: boolean;
+    removed: boolean;
+  };
   validation: {
     status: ValidationStatus;
     errors: unknown[];
@@ -70,15 +107,15 @@ export type MarketplaceWorkflow = {
   summary: string;
   originalCreator: string | null;
   sourceLabel: string;
-  sourceUrl: string;
-  acquisitionUrl: string;
+  sourceUrl: string | null;
+  acquisitionUrl: string | null;
   listingMaintainer: string;
   limitation: string | null;
   useSteps: string[];
   source: {
-    repository: string;
-    path: string;
-    ref: string;
+    repository: string | null;
+    path: string | null;
+    ref: string | null;
     attributionBasis: string;
     licenseEvidence: string;
     transformation: string;
@@ -110,6 +147,10 @@ function hasBoolean(record: Record<string, unknown>, key: string): boolean {
   return typeof record[key] === "boolean";
 }
 
+function isNullableString(value: unknown): value is string | null {
+  return value === null || typeof value === "string";
+}
+
 function isStringArray(value: unknown): value is string[] {
   return Array.isArray(value) && value.every((item) => typeof item === "string");
 }
@@ -134,22 +175,19 @@ function isWorkflow(value: unknown): value is RegistryWorkflow {
   const stringFields = [
     "id",
     "name",
-    "version",
     "description",
     "author",
     "license",
     "platform",
-    "minimum_platform_version",
-    "package_path",
-    "source_file",
-    "readme_file",
   ];
   if (!stringFields.every((field) => hasString(value, field))) return false;
+  if (!isNullableString(value.version) || !isNullableString(value.minimum_platform_version)) return false;
+  if (!isNullableString(value.package_path) || !isNullableString(value.source_file) || !isNullableString(value.readme_file)) return false;
   if (!isStringArray(value.categories) || !isStringArray(value.tags)) return false;
   if (!Array.isArray(value.inputs) || !value.inputs.every((field) => isRegistryField(field, true))) return false;
   if (!Array.isArray(value.outputs) || !value.outputs.every((field) => isRegistryField(field, false))) return false;
 
-  if (!isRecord(value.permissions)) return false;
+  if (value.permissions !== null && !isRecord(value.permissions)) return false;
   const permissionFields: (keyof RegistryPermissions)[] = [
     "network_access",
     "filesystem_read",
@@ -159,18 +197,20 @@ function isWorkflow(value: unknown): value is RegistryWorkflow {
     "code_execution",
     "credential_access",
   ];
-  if (!permissionFields.every((field) => hasBoolean(value.permissions as Record<string, unknown>, field))) return false;
+  if (isRecord(value.permissions)
+    && !permissionFields.every((field) => hasBoolean(value.permissions as Record<string, unknown>, field))) return false;
 
-  if (!isRecord(value.human_review)) return false;
-  if (!hasBoolean(value.human_review, "required") || !isStringArray(value.human_review.checkpoints)) return false;
+  if (value.human_review !== null && !isRecord(value.human_review)) return false;
+  if (isRecord(value.human_review)
+    && (!hasBoolean(value.human_review, "required") || !isStringArray(value.human_review.checkpoints))) return false;
 
-  if (!isRecord(value.safety)) return false;
-  if (
+  if (value.safety !== null && !isRecord(value.safety)) return false;
+  if (isRecord(value.safety) && (
     !hasBoolean(value.safety, "stores_user_data") ||
     !hasBoolean(value.safety, "sends_data_externally") ||
     !hasBoolean(value.safety, "contains_credentials") ||
     !hasString(value.safety, "risk_level")
-  ) return false;
+  )) return false;
 
   if (value.testing !== null) {
     if (!isRecord(value.testing) || !hasString(value.testing, "status")) return false;
@@ -181,9 +221,35 @@ function isWorkflow(value: unknown): value is RegistryWorkflow {
     ) return false;
   }
 
+  if (value.listing_source !== "package" && value.listing_source !== "package_independent") return false;
+  if (!isRecord(value.listing) || value.listing.state !== "listed") return false;
+  if (!isNullableString(value.listing.original_creator)) return false;
+  if (!hasString(value.listing, "creator_evidence")
+    || !hasString(value.listing, "listing_maintainer")
+    || !hasString(value.listing, "license_evidence")
+    || !hasString(value.listing, "transformation_evidence")
+    || !hasString(value.listing, "provenance_reference")
+    || !isStringArray(value.listing.important_limitations)
+    || !isStringArray(value.listing.use_steps)
+    || !isRecord(value.listing.source)
+    || !isNullableString(value.listing.acquisition_url)) return false;
+
+  if (!isRecord(value.claims)) return false;
+  const claimFields = [
+    "discovered",
+    "listed",
+    "static_reviewed",
+    "runtime_tested",
+    "compatibility_verified",
+    "human_reviewed",
+    "featured",
+    "removed",
+  ];
+  if (!claimFields.every((field) => hasBoolean(value.claims as Record<string, unknown>, field))) return false;
+
   if (!isRecord(value.validation)) return false;
   return (
-    value.validation.status === "valid" &&
+    (value.validation.status === "valid" || value.validation.status === "admitted") &&
     Array.isArray(value.validation.errors) &&
     Array.isArray(value.validation.warnings) &&
     hasString(value.validation, "checked_at")
@@ -257,6 +323,34 @@ function publicMaintainerName(value: string): string {
 export function getMarketplaceWorkflow(
   workflow: RegistryWorkflow,
 ): MarketplaceWorkflow {
+  if (workflow.listing_source === "package_independent") {
+    const source = workflow.listing.source;
+    const isRepository = source.source_type === "repository";
+    const sourceLabel = isRepository && source.repository_url
+      ? source.repository_url.replace(/^https:\/\/github\.com\//, "")
+      : "Direct upload submission";
+
+    return {
+      summary: workflow.description,
+      originalCreator: workflow.listing.original_creator,
+      sourceLabel,
+      sourceUrl: isRepository ? source.artifact_url ?? null : null,
+      acquisitionUrl: workflow.listing.acquisition_url,
+      listingMaintainer: publicMaintainerName(workflow.listing.listing_maintainer),
+      limitation: workflow.listing.important_limitations[0] ?? null,
+      useSteps: [...workflow.listing.use_steps],
+      source: {
+        repository: isRepository ? source.repository_url ?? null : null,
+        path: isRepository ? source.artifact_path ?? null : null,
+        ref: isRepository ? source.immutable_ref ?? null : null,
+        attributionBasis: workflow.listing.creator_evidence,
+        licenseEvidence: workflow.listing.license_evidence,
+        transformation: workflow.listing.transformation_evidence,
+        ...(source.original_artifact_sha256 ? { sha256: source.original_artifact_sha256 } : {}),
+      },
+    };
+  }
+
   if (workflow.id === "json-repair") {
     return {
       summary:

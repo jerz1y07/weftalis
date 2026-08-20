@@ -2,8 +2,8 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 
 const registryPath = fileURLToPath(new URL("../generated/registry.json", import.meta.url));
-const allowedValidationStatuses = new Set(["valid"]);
-const requiredStringFields = ["id", "name", "description", "platform", "version"];
+const allowedValidationStatuses = new Set(["valid", "admitted"]);
+const requiredStringFields = ["id", "name", "description", "platform"];
 
 function requireObject(value, location) {
   if (value === null || typeof value !== "object" || Array.isArray(value)) {
@@ -45,6 +45,19 @@ function checkRegistry(value) {
       throw new Error(`Duplicate Workflow id: ${workflow.id}.`);
     }
     ids.add(workflow.id);
+
+    if (workflow.listing_source !== "package" && workflow.listing_source !== "package_independent") {
+      throw new Error(`${location}.listing_source must identify a supported Registry source.`);
+    }
+    const listing = requireObject(workflow.listing, `${location}.listing`);
+    if (listing.state !== "listed") {
+      throw new Error(`${location}.listing.state must be listed in the public Registry.`);
+    }
+    requireObject(listing.source, `${location}.listing.source`);
+    const claims = requireObject(workflow.claims, `${location}.claims`);
+    if (claims.listed !== true || claims.removed !== false) {
+      throw new Error(`${location}.claims must describe an active Listed Workflow.`);
+    }
 
     const validation = requireObject(workflow.validation, `${location}.validation`);
     if (typeof validation.status !== "string" || !allowedValidationStatuses.has(validation.status)) {

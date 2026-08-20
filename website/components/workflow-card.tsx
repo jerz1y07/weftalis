@@ -41,9 +41,13 @@ export function WorkflowCard({ workflow }: { workflow: RegistryWorkflow }) {
           <Link className="card-view-action" href={`/workflows/${workflow.id}`}>
             View workflow <span aria-hidden="true">→</span>
           </Link>
-          <a className="quiet-link" href={marketplace.acquisitionUrl}>
-            Get workflow <span aria-hidden="true">↗</span>
-          </a>
+          {marketplace.acquisitionUrl ? (
+            <a className="quiet-link" href={marketplace.acquisitionUrl}>
+              Get workflow <span aria-hidden="true">↗</span>
+            </a>
+          ) : (
+            <span className="quiet-link">Acquisition unavailable</span>
+          )}
         </div>
       </div>
     </article>
