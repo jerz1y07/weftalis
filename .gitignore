@@ -42,3 +42,6 @@ temp/
 
 # Local intake review queue (never part of the public Registry)
 /intake-review/
+
+# Local external discovery evidence (never production Registry data)
+/discovery-workspace/
