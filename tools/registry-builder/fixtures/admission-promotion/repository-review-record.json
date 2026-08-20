@@ -1,0 +1,226 @@
+{
+  "record_version": "1.0",
+  "review_id": "fixture-repository-workflow-0123456789abcdef",
+  "created_at": "2026-08-20T01:00:00.000Z",
+  "original_submission": {
+    "record_version": "1.0",
+    "submission_id": "fixture-repository-promotion",
+    "repository_url": "https://github.com/fixture-owner/fixture-repository",
+    "artifact_path": "workflows/valid-n8n.json",
+    "branch": "main",
+    "platform_hint": "n8n",
+    "workflow_name": "Fixture Repository Workflow",
+    "description": "Fixture-only Intake evidence for admission promotion tests.",
+    "submitter": {
+      "name_or_handle": "fixture-submitter",
+      "claims_authorship": false
+    },
+    "upstream_author_or_organization": "Fixture Organization",
+    "license_claim": "MIT",
+    "notes": "Fixture only; this is not real production provenance."
+  },
+  "resolved_artifact": {
+    "record_version": "1.0",
+    "resolution_status": "resolved",
+    "repository": {
+      "submitted_url": "https://github.com/fixture-owner/fixture-repository",
+      "normalized_url": "https://github.com/fixture-owner/fixture-repository",
+      "owner": "fixture-owner",
+      "name": "fixture-repository"
+    },
+    "requested_ref": {
+      "kind": "branch",
+      "value": "main",
+      "was_mutable": true
+    },
+    "resolved_commit": "0123456789abcdef0123456789abcdef01234567",
+    "artifact": {
+      "requested_path": "workflows/valid-n8n.json",
+      "verified_case_sensitive_path": "workflows/valid-n8n.json",
+      "contents_api_url": "https://api.github.com/repos/fixture-owner/fixture-repository/contents/workflows/valid-n8n.json?ref=0123456789abcdef0123456789abcdef01234567",
+      "raw_url": "https://raw.githubusercontent.com/fixture-owner/fixture-repository/0123456789abcdef0123456789abcdef01234567/workflows/valid-n8n.json",
+      "stored_path": "artifact/upstream/workflows/valid-n8n.json"
+    },
+    "fingerprint": {
+      "sha256": "0a35a71f3660d187c59e49941f167bbffe415c0db5c1f3c7c4407a358187cbf9",
+      "byte_size": 498,
+      "line_count": 24,
+      "git_blob_sha_reported": "65b46cc8ee4ea93362fa50f685a235bd7829d986",
+      "git_blob_sha_calculated": "65b46cc8ee4ea93362fa50f685a235bd7829d986",
+      "git_blob_sha_matches": true,
+      "stored_artifact_sha256": "0a35a71f3660d187c59e49941f167bbffe415c0db5c1f3c7c4407a358187cbf9",
+      "stored_artifact_matches_fetched": true
+    },
+    "retrieved_at": "2026-08-20T01:00:00.000Z",
+    "license_evidence": {
+      "submission_claim": "MIT",
+      "repository_level": {
+        "status": "found",
+        "spdx_id": "MIT",
+        "name": "MIT License",
+        "path": "LICENSE",
+        "git_blob_sha": "1111111111111111111111111111111111111111",
+        "evidence_url": "https://github.com/fixture-owner/fixture-repository/blob/0123456789abcdef0123456789abcdef01234567/LICENSE",
+        "scope": "repository-level",
+        "limitations": [
+          "Fixture evidence does not prove applicability or ownership."
+        ]
+      },
+      "file_level": {
+        "status": "missing",
+        "spdx_identifiers": [],
+        "method": "Fixture scan of the first 100 lines.",
+        "limitations": [
+          "No file-level SPDX header was present in the fixture."
+        ]
+      },
+      "limitations": [
+        "Fixture-only license evidence is not legal authorization."
+      ]
+    },
+    "failure": null,
+    "warnings": [
+      "The fixture branch was resolved to an immutable commit.",
+      "No file-level SPDX identifier was found in the fixture."
+    ]
+  },
+  "static_audit": {
+    "record_version": "1.0",
+    "artifact_available": true,
+    "platform": "n8n",
+    "parsing_status": "parsed",
+    "application_or_workflow_type": "workflow",
+    "schema_indicators": [
+      "nodes",
+      "connections"
+    ],
+    "nodes": [
+      {
+        "id": "node-1",
+        "name": "Manual Start",
+        "type": "n8n-nodes-base.manualTrigger"
+      },
+      {
+        "id": "node-2",
+        "name": "Prepare Result",
+        "type": "n8n-nodes-base.set"
+      }
+    ],
+    "node_count": 2,
+    "edge_count": 1,
+    "signals": {
+      "code_execution": [],
+      "shell_execution": [],
+      "model_or_llm": [],
+      "provider_references": [],
+      "credential_references": [],
+      "environment_variable_references": [],
+      "http_or_network": [],
+      "external_writes": [],
+      "webhooks_or_triggers": [],
+      "required_plugins_or_custom_nodes": [],
+      "human_review_or_approval": [],
+      "hard_coded_identifiers": []
+    },
+    "dependencies": {
+      "providers": [],
+      "models": [],
+      "plugins": [],
+      "custom_nodes": [],
+      "other": []
+    },
+    "secret_scan": {
+      "status": "none_detected",
+      "finding_count": 0,
+      "findings": [],
+      "limitations": [
+        "The fixture scan is heuristic and is not proof of safety."
+      ]
+    },
+    "risk_summary": {
+      "code_execution": {
+        "status": "not_detected",
+        "evidence": [],
+        "caution": "Fixture static evidence only."
+      },
+      "shell_execution": {
+        "status": "not_detected",
+        "evidence": [],
+        "caution": "Fixture static evidence only."
+      },
+      "network_access": {
+        "status": "not_detected",
+        "evidence": [],
+        "caution": "Fixture static evidence only."
+      },
+      "credential_requirements": {
+        "status": "not_detected",
+        "evidence": [],
+        "caution": "Fixture static evidence only."
+      },
+      "external_writes": {
+        "status": "not_detected",
+        "evidence": [],
+        "caution": "Fixture static evidence only."
+      },
+      "personal_or_hard_coded_identifiers": {
+        "status": "not_detected",
+        "evidence": [],
+        "caution": "Fixture static evidence only."
+      },
+      "secret_scan_results": {
+        "status": "not_detected",
+        "evidence": [],
+        "caution": "Fixture static evidence only."
+      },
+      "dependency_declarations": {
+        "status": "not_detected",
+        "evidence": [],
+        "caution": "Fixture static evidence only."
+      }
+    },
+    "runtime_status": "untested",
+    "compatibility_status": "unverified",
+    "recommended_moderation_status": "needs_review",
+    "warnings": [],
+    "uncertainties": [
+      "Fixture static analysis cannot prove runtime behavior."
+    ],
+    "limitations": [
+      "No imported Workflow was executed.",
+      "Static review does not prove safety, compatibility, quality, or production readiness."
+    ]
+  },
+  "duplicate_status": {
+    "duplicate_artifact": false,
+    "artifact_matches": [],
+    "duplicate_source": false,
+    "source_matches": []
+  },
+  "moderation": {
+    "record_version": "1.0",
+    "current_status": "needs_review",
+    "automatic_publication": false,
+    "history": [
+      {
+        "status": "submitted",
+        "at": "2026-08-20T01:00:00.000Z",
+        "actor": "intake-cli",
+        "reason": "Fixture submission accepted for local Intake."
+      },
+      {
+        "status": "needs_review",
+        "at": "2026-08-20T01:00:00.000Z",
+        "actor": "intake-cli",
+        "reason": "Phase 12A Intake stopped without a Listing decision."
+      }
+    ],
+    "human_decision": null
+  },
+  "warnings": [
+    "Fixture-only evidence; do not present as real production provenance."
+  ],
+  "uncertainties": [
+    "Authorship, license applicability, runtime behavior, compatibility, usefulness, and safety are not proven."
+  ]
+}

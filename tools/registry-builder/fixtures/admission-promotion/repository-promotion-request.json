@@ -1,0 +1,42 @@
+{
+  "request_version": "1.0",
+  "listing": {
+    "id": "fixture-repository-workflow",
+    "title": "Fixture Repository Workflow",
+    "summary": "Fixture-only repository-backed Intake evidence used to test deterministic admission promotion.",
+    "categories": [
+      "testing"
+    ],
+    "tags": [
+      "fixture",
+      "intake-promotion"
+    ],
+    "listing_maintainer": "Weft Place fixture tests",
+    "important_limitations": [
+      "Fixture only; this is not real production provenance.",
+      "Not independently runtime-tested by Weft Place."
+    ],
+    "use_steps": [
+      "Inspect the exact immutable fixture source without executing it."
+    ]
+  },
+  "assessment": {
+    "license_status": "no_clear_blocker",
+    "license_evidence": "Fixture assessment records matching MIT submission and repository-level evidence; it is not legal authorization.",
+    "malicious_content_status": "none_detected",
+    "transformation": {
+      "status": "none",
+      "evidence": "Fixture assessment records that the upstream artifact bytes were not transformed.",
+      "transformed_artifact": null
+    },
+    "user_reports": "none"
+  },
+  "intake": {
+    "source_type": "repository",
+    "review_record_path": "tools/registry-builder/fixtures/admission-promotion/repository-review-record.json"
+  },
+  "evidence_references": [
+    "tools/registry-builder/fixtures/admission-promotion/repository-review-record.json",
+    "tools/registry-builder/fixtures/admission-promotion/repository-promotion-request.json"
+  ]
+}
