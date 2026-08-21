@@ -1,0 +1,74 @@
+{
+  "record_version": "1.0",
+  "categories": [],
+  "id": "disc-c41326fcff25f9a3f770d821aa97a65a",
+  "important_limitations": [
+    "Repository-level license evidence may not apply to this artifact.",
+    "Not independently runtime-tested by Weft Place.",
+    "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+  ],
+  "listing_maintainer": "Weft Place batch ingestion",
+  "summary": "Public dify Workflow artifact discovered at DSL/小支付-DEMO.yml in svcvit/Awesome-Dify-Workflow.",
+  "tags": [],
+  "title": "小支付 DEMO",
+  "use_steps": [
+    "Inspect the exact immutable upstream artifact and platform requirements before import."
+  ],
+  "platform": "dify",
+  "original_creator": null,
+  "creator_evidence": "Original creator was not established from the available Intake evidence.",
+  "license_expression": "MIT",
+  "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+  "source": {
+    "source_type": "repository",
+    "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+    "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E5%B0%8F%E6%94%AF%E4%BB%98-DEMO.yml",
+    "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E5%B0%8F%E6%94%AF%E4%BB%98-DEMO.yml",
+    "artifact_path": "DSL/小支付-DEMO.yml",
+    "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+    "original_artifact_sha256": "73c58aae42d6ab2ae8e68c7c005c934ab23239146bb03ab8465036f779d525f7",
+    "version": null
+  },
+  "evidence": {
+    "intake_review_id": "demo-260186565cee6594",
+    "intake_created_at": "2026-08-20T09:21:01.740Z",
+    "artifact_retrieved_at": "2026-08-20T09:21:01.740Z",
+    "provenance_status": "recorded",
+    "source_resolution": "resolved",
+    "artifact_integrity": "verified",
+    "parsing_status": "parsed",
+    "structure_status": "plausible",
+    "license_status": "no_clear_blocker",
+    "secret_scan_status": "none_detected",
+    "malicious_content_status": "not_assessed",
+    "transformation_status": "none",
+    "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+    "transformed_artifact": null,
+    "risk_signals": {
+      "credentials": "not_detected",
+      "code_execution": "not_detected",
+      "filesystem_writes": "not_detected",
+      "destructive_actions": "not_detected",
+      "external_publishing": "not_detected",
+      "high_risk_network": "unknown",
+      "user_reports": "unknown"
+    },
+    "runtime_status": "untested",
+    "compatibility_status": "unverified",
+    "evidence_references": [
+      "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-c41326fcff25f9a3f770d821aa97a65a/intake/reviews/demo-260186565cee6594/review-record.json",
+      "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-c41326fcff25f9a3f770d821aa97a65a/candidate.json",
+      "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E5%B0%8F%E6%94%AF%E4%BB%98-DEMO.yml",
+      "https://github.com/svcvit/Awesome-Dify-Workflow/commit/e730ed3627e5fa56fc1668d995b83178b6b1181c",
+      "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/LICENSE",
+      "https://github.com/svcvit/Awesome-Dify-Workflow"
+    ],
+    "human_review": {
+      "status": "not_required",
+      "evidence_reference": null,
+      "reviewer": null,
+      "reviewed_at": null,
+      "rationale": null
+    }
+  }
+}

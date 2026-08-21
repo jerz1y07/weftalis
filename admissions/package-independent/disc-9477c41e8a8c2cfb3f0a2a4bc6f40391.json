@@ -1,0 +1,74 @@
+{
+  "record_version": "1.0",
+  "categories": [],
+  "id": "disc-9477c41e8a8c2cfb3f0a2a4bc6f40391",
+  "important_limitations": [
+    "Repository-level license evidence may not apply to this artifact.",
+    "Not independently runtime-tested by Weft Place.",
+    "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+  ],
+  "listing_maintainer": "Weft Place batch ingestion",
+  "summary": "Public n8n Workflow artifact discovered at n8n/demo-data/workflows/srOnR8PAY3u4RSwb.json in n8n-io/self-hosted-ai-starter-kit.",
+  "tags": [],
+  "title": "srOnR8PAY3u4RSwb",
+  "use_steps": [
+    "Inspect the exact immutable upstream artifact and platform requirements before import."
+  ],
+  "platform": "n8n",
+  "original_creator": null,
+  "creator_evidence": "Original creator was not established from the available Intake evidence.",
+  "license_expression": "Apache-2.0",
+  "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+  "source": {
+    "source_type": "repository",
+    "repository_url": "https://github.com/n8n-io/self-hosted-ai-starter-kit",
+    "artifact_url": "https://github.com/n8n-io/self-hosted-ai-starter-kit/blob/662bd8892476b41d9084417a569cc84013354674/n8n/demo-data/workflows/srOnR8PAY3u4RSwb.json",
+    "acquisition_url": "https://raw.githubusercontent.com/n8n-io/self-hosted-ai-starter-kit/662bd8892476b41d9084417a569cc84013354674/n8n/demo-data/workflows/srOnR8PAY3u4RSwb.json",
+    "artifact_path": "n8n/demo-data/workflows/srOnR8PAY3u4RSwb.json",
+    "immutable_ref": "662bd8892476b41d9084417a569cc84013354674",
+    "original_artifact_sha256": "e4e3112000b61db5fed114b026b000912b90ff832f163c3e7cc0d839bb1b7bad",
+    "version": null
+  },
+  "evidence": {
+    "intake_review_id": "sronr8pay3u4rswb-eac77441f3857307",
+    "intake_created_at": "2026-08-20T09:21:01.740Z",
+    "artifact_retrieved_at": "2026-08-20T09:21:01.740Z",
+    "provenance_status": "recorded",
+    "source_resolution": "resolved",
+    "artifact_integrity": "verified",
+    "parsing_status": "parsed",
+    "structure_status": "plausible",
+    "license_status": "no_clear_blocker",
+    "secret_scan_status": "none_detected",
+    "malicious_content_status": "not_assessed",
+    "transformation_status": "none",
+    "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+    "transformed_artifact": null,
+    "risk_signals": {
+      "credentials": "detected",
+      "code_execution": "not_detected",
+      "filesystem_writes": "not_detected",
+      "destructive_actions": "not_detected",
+      "external_publishing": "not_detected",
+      "high_risk_network": "unknown",
+      "user_reports": "unknown"
+    },
+    "runtime_status": "untested",
+    "compatibility_status": "unverified",
+    "evidence_references": [
+      "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-9477c41e8a8c2cfb3f0a2a4bc6f40391/intake/reviews/sronr8pay3u4rswb-eac77441f3857307/review-record.json",
+      "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-9477c41e8a8c2cfb3f0a2a4bc6f40391/candidate.json",
+      "https://github.com/n8n-io/self-hosted-ai-starter-kit/blob/662bd8892476b41d9084417a569cc84013354674/n8n/demo-data/workflows/srOnR8PAY3u4RSwb.json",
+      "https://github.com/n8n-io/self-hosted-ai-starter-kit/commit/662bd8892476b41d9084417a569cc84013354674",
+      "https://github.com/n8n-io/self-hosted-ai-starter-kit/blob/662bd8892476b41d9084417a569cc84013354674/LICENSE",
+      "https://github.com/n8n-io/self-hosted-ai-starter-kit"
+    ],
+    "human_review": {
+      "status": "not_required",
+      "evidence_reference": null,
+      "reviewer": null,
+      "reviewed_at": null,
+      "rationale": null
+    }
+  }
+}

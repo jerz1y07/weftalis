@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getAllWorkflows } from "@/lib/registry";
+import { getRegistry } from "@/lib/registry";
 import { getSiteUrl } from "@/lib/site-config";
 
 const staticRoutes = ["", "workflows/", "collections/", "submit/"];
@@ -7,7 +7,7 @@ const staticRoutes = ["", "workflows/", "collections/", "submit/"];
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const workflowRoutes = getAllWorkflows().map(
+  const workflowRoutes = getRegistry().workflows.map(
     (workflow) => `workflows/${workflow.id}/`,
   );
 

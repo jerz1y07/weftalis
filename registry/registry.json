@@ -1,8 +1,2592 @@
 {
   "schema_version": "0.2",
-  "generated_at": "2026-08-20T05:10:51.382Z",
-  "workflow_count": 3,
+  "generated_at": "2026-08-21T07:22:30.008Z",
+  "workflow_count": 41,
   "workflows": [
+    {
+      "id": "disc-005775bb6f237fb744e7a5e161fd6642",
+      "name": "全书翻译",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/全书翻译.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E5%85%A8%E4%B9%A6%E7%BF%BB%E8%AF%91.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E5%85%A8%E4%B9%A6%E7%BF%BB%E8%AF%91.yml",
+          "artifact_path": "DSL/全书翻译.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "ff74c9e716d132abafe42fdb77e3e52110ec44bc6b91f0000ddf48c326c117a9",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E5%85%A8%E4%B9%A6%E7%BF%BB%E8%AF%91.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-005775bb6f237fb744e7a5e161fd6642/intake/reviews/workflow-599cc536222a35b7/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-01f6c58457f430bc63c7085a8dc656db",
+      "name": "LanguageConsistencyChecker",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/LanguageConsistencyChecker.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/LanguageConsistencyChecker.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/LanguageConsistencyChecker.yml",
+          "artifact_path": "DSL/LanguageConsistencyChecker.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "928e371dd0dc578a9635ea38fedda80bb612c5891e091ed238d18c45f44062cf",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/LanguageConsistencyChecker.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-01f6c58457f430bc63c7085a8dc656db/intake/reviews/languageconsistencychecker-7eae095f4b6a023a/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-0429bea473fbcc185d9f185fb832f969",
+      "name": "simple kimi",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/simple-kimi.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/simple-kimi.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/simple-kimi.yml",
+          "artifact_path": "DSL/simple-kimi.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "53972afa295ed0113876ec13b6c3bd4a8179b3775683237c109a33bcee320321",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/simple-kimi.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-0429bea473fbcc185d9f185fb832f969/intake/reviews/simple-kimi-ae1634874ece224b/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-0485600a6e7c52f7ff2b276007c48c30",
+      "name": "1002 Acuityscheduling Automate Triggered",
+      "version": null,
+      "description": "Public n8n Workflow artifact discovered at workflows/Acuityscheduling/1002_Acuityscheduling_Automate_Triggered.json in Zie619/n8n-workflows.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "n8n",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/Zie619/n8n-workflows",
+          "artifact_url": "https://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Acuityscheduling/1002_Acuityscheduling_Automate_Triggered.json",
+          "acquisition_url": "https://raw.githubusercontent.com/Zie619/n8n-workflows/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Acuityscheduling/1002_Acuityscheduling_Automate_Triggered.json",
+          "artifact_path": "workflows/Acuityscheduling/1002_Acuityscheduling_Automate_Triggered.json",
+          "immutable_ref": "94007c1445d9258a7da116646b79473e7c7c3282",
+          "original_artifact_sha256": "5ba90e370a90b089271c662bc982057968c768d82840c3c9f867383bb821cdf7",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/Zie619/n8n-workflows/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Acuityscheduling/1002_Acuityscheduling_Automate_Triggered.json",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-0485600a6e7c52f7ff2b276007c48c30/intake/reviews/1002-acuityscheduling-automate-triggered-032bfac934ecc5ef/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-0ad33e46ee93192e516e487538295ba9",
+      "name": "0472 Aggregate Gmail Create Triggered",
+      "version": null,
+      "description": "Public n8n Workflow artifact discovered at workflows/Aggregate/0472_Aggregate_Gmail_Create_Triggered.json in Zie619/n8n-workflows.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "n8n",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/Zie619/n8n-workflows",
+          "artifact_url": "https://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Aggregate/0472_Aggregate_Gmail_Create_Triggered.json",
+          "acquisition_url": "https://raw.githubusercontent.com/Zie619/n8n-workflows/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Aggregate/0472_Aggregate_Gmail_Create_Triggered.json",
+          "artifact_path": "workflows/Aggregate/0472_Aggregate_Gmail_Create_Triggered.json",
+          "immutable_ref": "94007c1445d9258a7da116646b79473e7c7c3282",
+          "original_artifact_sha256": "e4eaffb6009c5775442bd46b28e0e17a1bde198ec4dfbfc7ec0369e1d677cd50",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/Zie619/n8n-workflows/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Aggregate/0472_Aggregate_Gmail_Create_Triggered.json",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-0ad33e46ee93192e516e487538295ba9/intake/reviews/0472-aggregate-gmail-create-triggered-9b62aa9e61cd880a/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-0c8d82b81935b804c61edb715fbc68af",
+      "name": "matplotlib",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/matplotlib.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/matplotlib.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/matplotlib.yml",
+          "artifact_path": "DSL/matplotlib.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "d570c2e9f29c29a8e11183c2ebf128aa97c4abc532a9a507881aecf29221be75",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/matplotlib.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-0c8d82b81935b804c61edb715fbc68af/intake/reviews/matplotlib-84b370804b6a13d9/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-16df533c5be54baaccf31525aa016588",
+      "name": "llm2o1.cn",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/llm2o1.cn.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/llm2o1.cn.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/llm2o1.cn.yml",
+          "artifact_path": "DSL/llm2o1.cn.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "b70c89261a37ce37ddf5ae27869cc29ed33b0b53ac1a34dd7ceecd5cc3cf8674",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/llm2o1.cn.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-16df533c5be54baaccf31525aa016588/intake/reviews/llm2o1-cn-65376f37b17e0391/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-1cb01f6d4c84fdc7ea6de5305b9149bf",
+      "name": "Demo tod agent",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/Demo-tod_agent.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Demo-tod_agent.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Demo-tod_agent.yml",
+          "artifact_path": "DSL/Demo-tod_agent.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "e6046f2ccc73918e21ec08b47d4099c2cbb0ba955cd567868ac8a18618eaff12",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Demo-tod_agent.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-1cb01f6d4c84fdc7ea6de5305b9149bf/intake/reviews/demo-tod-agent-7e5d62b5420baceb/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-1fbe3afce9cfbc618fa90beadbdaaabc",
+      "name": "AgentFlow",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/AgentFlow.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/AgentFlow.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/AgentFlow.yml",
+          "artifact_path": "DSL/AgentFlow.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "458082601d060d91293a7a3a4098c494a8bb0107bdc51370d222f36e81a1991e",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/AgentFlow.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-1fbe3afce9cfbc618fa90beadbdaaabc/intake/reviews/agentflow-40ef189518839238/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-2088c76c8d6289da5fb1625fb0dc1b1a",
+      "name": "搜索大师",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/搜索大师.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E6%90%9C%E7%B4%A2%E5%A4%A7%E5%B8%88.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E6%90%9C%E7%B4%A2%E5%A4%A7%E5%B8%88.yml",
+          "artifact_path": "DSL/搜索大师.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "aa75d8820f210f44442b76d4b4413b10989a42e39f23cea48fbcbdc9d545fa99",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E6%90%9C%E7%B4%A2%E5%A4%A7%E5%B8%88.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-2088c76c8d6289da5fb1625fb0dc1b1a/intake/reviews/workflow-a774016feeb2f67f/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-2256874008875765b4da9c4e39988803",
+      "name": "完蛋！我被LLM包围了！（战绩排行版）",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/完蛋！我被LLM包围了！（战绩排行版）.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E5%AE%8C%E8%9B%8B%EF%BC%81%E6%88%91%E8%A2%ABLLM%E5%8C%85%E5%9B%B4%E4%BA%86%EF%BC%81%EF%BC%88%E6%88%98%E7%BB%A9%E6%8E%92%E8%A1%8C%E7%89%88%EF%BC%89.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E5%AE%8C%E8%9B%8B%EF%BC%81%E6%88%91%E8%A2%ABLLM%E5%8C%85%E5%9B%B4%E4%BA%86%EF%BC%81%EF%BC%88%E6%88%98%E7%BB%A9%E6%8E%92%E8%A1%8C%E7%89%88%EF%BC%89.yml",
+          "artifact_path": "DSL/完蛋！我被LLM包围了！（战绩排行版）.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "1324439fc753ec0baf2df1a7f9e0237ad7cdb8ba99608e902fb93b51ab082ac7",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E5%AE%8C%E8%9B%8B%EF%BC%81%E6%88%91%E8%A2%ABLLM%E5%8C%85%E5%9B%B4%E4%BA%86%EF%BC%81%EF%BC%88%E6%88%98%E7%BB%A9%E6%8E%92%E8%A1%8C%E7%89%88%EF%BC%89.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-2256874008875765b4da9c4e39988803/intake/reviews/llm-5e2466f2bc351553/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-26cc2b941923b913c78b5e4c5a81391b",
+      "name": "Python Coding Prompt",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/Python Coding Prompt.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Python%20Coding%20Prompt.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Python%20Coding%20Prompt.yml",
+          "artifact_path": "DSL/Python Coding Prompt.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "9530693c4159b422b4be165d364a2ee358db47904b4a01109b502e83a3a00daa",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Python%20Coding%20Prompt.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-26cc2b941923b913c78b5e4c5a81391b/intake/reviews/python-coding-prompt-5cccb3a12dddf926/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-27f984e517001e4b7f31186f88457df2",
+      "name": "Document chat template",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/Document_chat_template.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Document_chat_template.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Document_chat_template.yml",
+          "artifact_path": "DSL/Document_chat_template.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "0e4d52c4ee445095f7cd3e64ef3a4fe9db459dad48ea9e64dd4505c81adcbf56",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Document_chat_template.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-27f984e517001e4b7f31186f88457df2/intake/reviews/document-chat-template-56a44f191270ef03/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-412386dc279ffa0dfea2262a8423d67b",
+      "name": "完蛋！我被LLM包围了！",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/完蛋！我被LLM包围了！ .yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E5%AE%8C%E8%9B%8B%EF%BC%81%E6%88%91%E8%A2%ABLLM%E5%8C%85%E5%9B%B4%E4%BA%86%EF%BC%81%20.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E5%AE%8C%E8%9B%8B%EF%BC%81%E6%88%91%E8%A2%ABLLM%E5%8C%85%E5%9B%B4%E4%BA%86%EF%BC%81%20.yml",
+          "artifact_path": "DSL/完蛋！我被LLM包围了！ .yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "7a8a4acf00be07060ba0807d8d8350eb57cbd23607175cb04f5e9a5b024af34d",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E5%AE%8C%E8%9B%8B%EF%BC%81%E6%88%91%E8%A2%ABLLM%E5%8C%85%E5%9B%B4%E4%BA%86%EF%BC%81%20.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-412386dc279ffa0dfea2262a8423d67b/intake/reviews/llm-afef37a2260940de/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-4d0308ae0c19090fcd7e0ca5b1dfa56e",
+      "name": "0057 Activecampaign Create Triggered",
+      "version": null,
+      "description": "Public n8n Workflow artifact discovered at workflows/Activecampaign/0057_Activecampaign_Create_Triggered.json in Zie619/n8n-workflows.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "n8n",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/Zie619/n8n-workflows",
+          "artifact_url": "https://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Activecampaign/0057_Activecampaign_Create_Triggered.json",
+          "acquisition_url": "https://raw.githubusercontent.com/Zie619/n8n-workflows/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Activecampaign/0057_Activecampaign_Create_Triggered.json",
+          "artifact_path": "workflows/Activecampaign/0057_Activecampaign_Create_Triggered.json",
+          "immutable_ref": "94007c1445d9258a7da116646b79473e7c7c3282",
+          "original_artifact_sha256": "79d996808de65d5cf2c864fe969ab4cf4bbd72e31ae2ff632e5fdd22c3cf7a41",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/Zie619/n8n-workflows/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Activecampaign/0057_Activecampaign_Create_Triggered.json",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-4d0308ae0c19090fcd7e0ca5b1dfa56e/intake/reviews/0057-activecampaign-create-triggered-1889f58c65d98a99/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-569226ed1cea42160b7ba9bad55e58ff",
+      "name": "Deep Researcher On Dify",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/Deep Researcher On Dify .yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Deep%20Researcher%20On%20Dify%20.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Deep%20Researcher%20On%20Dify%20.yml",
+          "artifact_path": "DSL/Deep Researcher On Dify .yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "36530c6e2eeccec225351566357bda10ff229736b4361dacd74f2b50f2aa1a8a",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Deep%20Researcher%20On%20Dify%20.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-569226ed1cea42160b7ba9bad55e58ff/intake/reviews/deep-researcher-on-dify-90553ebae7dd10f4/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-5bf59214a03ae801059801f030874aee",
+      "name": "MCP amap",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/MCP-amap.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/MCP-amap.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/MCP-amap.yml",
+          "artifact_path": "DSL/MCP-amap.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "63520f293b9768f897b52caeee899e79eff43f10f6a73e0120c00f0c92862aa1",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/MCP-amap.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-5bf59214a03ae801059801f030874aee/intake/reviews/mcp-amap-7b6fd59785e35743/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-6688523a5792b566dde3bdd8d54190a7",
+      "name": "中译英",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/中译英.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E4%B8%AD%E8%AF%91%E8%8B%B1.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E4%B8%AD%E8%AF%91%E8%8B%B1.yml",
+          "artifact_path": "DSL/中译英.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "7e3678324ec3bbcdddd8cd91ff795f19c00078673441a13c956d2d5dafde9c75",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E4%B8%AD%E8%AF%91%E8%8B%B1.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-6688523a5792b566dde3bdd8d54190a7/intake/reviews/workflow-089a0a526225a3cf/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-66ee139115bd897024d0334d5d83f31a",
+      "name": "思考助手",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/思考助手.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E6%80%9D%E8%80%83%E5%8A%A9%E6%89%8B.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E6%80%9D%E8%80%83%E5%8A%A9%E6%89%8B.yml",
+          "artifact_path": "DSL/思考助手.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "4a466a697b487b0c98df4967b44d19a34c2e18e70d6a7b3025c4ba521c812532",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E6%80%9D%E8%80%83%E5%8A%A9%E6%89%8B.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-66ee139115bd897024d0334d5d83f31a/intake/reviews/workflow-cd5f9eec0d829618/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-8696b0a66d91540637d666b5ee7dd5d2",
+      "name": "translation workflow",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/translation_workflow.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/translation_workflow.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/translation_workflow.yml",
+          "artifact_path": "DSL/translation_workflow.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "e27dc5f6139d321c707f6dbcf6e577313281714815a4446f973a1fcdb95805a9",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/translation_workflow.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-8696b0a66d91540637d666b5ee7dd5d2/intake/reviews/translation-workflow-28358f801f9621d3/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-88da1859dcb1369861282503e07804aa",
+      "name": "Artifact",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/Artifact.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Artifact.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Artifact.yml",
+          "artifact_path": "DSL/Artifact.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "6933f1adb821131baf5acb5f3906e3ef641bf66c4cceff2f1964b09be1cf987a",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Artifact.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-88da1859dcb1369861282503e07804aa/intake/reviews/artifact-9bd961d824626769/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-8be67cd14977fa8db243b9644471f7be",
+      "name": "Claude3 Code Translation",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/Claude3 Code Translation.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Claude3%20Code%20Translation.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Claude3%20Code%20Translation.yml",
+          "artifact_path": "DSL/Claude3 Code Translation.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "703969963b556ffe196760a1dc295a2d769021a5bb5dc0e8e97a14fbb3f4542f",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Claude3%20Code%20Translation.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-8be67cd14977fa8db243b9644471f7be/intake/reviews/claude3-code-translation-284744072f5ccb95/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-9477c41e8a8c2cfb3f0a2a4bc6f40391",
+      "name": "srOnR8PAY3u4RSwb",
+      "version": null,
+      "description": "Public n8n Workflow artifact discovered at n8n/demo-data/workflows/srOnR8PAY3u4RSwb.json in n8n-io/self-hosted-ai-starter-kit.",
+      "author": "Weft Place batch ingestion",
+      "license": "Apache-2.0",
+      "platform": "n8n",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/n8n-io/self-hosted-ai-starter-kit",
+          "artifact_url": "https://github.com/n8n-io/self-hosted-ai-starter-kit/blob/662bd8892476b41d9084417a569cc84013354674/n8n/demo-data/workflows/srOnR8PAY3u4RSwb.json",
+          "acquisition_url": "https://raw.githubusercontent.com/n8n-io/self-hosted-ai-starter-kit/662bd8892476b41d9084417a569cc84013354674/n8n/demo-data/workflows/srOnR8PAY3u4RSwb.json",
+          "artifact_path": "n8n/demo-data/workflows/srOnR8PAY3u4RSwb.json",
+          "immutable_ref": "662bd8892476b41d9084417a569cc84013354674",
+          "original_artifact_sha256": "e4e3112000b61db5fed114b026b000912b90ff832f163c3e7cc0d839bb1b7bad",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/n8n-io/self-hosted-ai-starter-kit/662bd8892476b41d9084417a569cc84013354674/n8n/demo-data/workflows/srOnR8PAY3u4RSwb.json",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-9477c41e8a8c2cfb3f0a2a4bc6f40391/intake/reviews/sronr8pay3u4rswb-eac77441f3857307/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-9e0f92e20cd9804b79b805127df6bc11",
+      "name": "1085 Affinity Create Triggered",
+      "version": null,
+      "description": "Public n8n Workflow artifact discovered at workflows/Affinity/1085_Affinity_Create_Triggered.json in Zie619/n8n-workflows.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "n8n",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/Zie619/n8n-workflows",
+          "artifact_url": "https://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Affinity/1085_Affinity_Create_Triggered.json",
+          "acquisition_url": "https://raw.githubusercontent.com/Zie619/n8n-workflows/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Affinity/1085_Affinity_Create_Triggered.json",
+          "artifact_path": "workflows/Affinity/1085_Affinity_Create_Triggered.json",
+          "immutable_ref": "94007c1445d9258a7da116646b79473e7c7c3282",
+          "original_artifact_sha256": "07c7d4b21b0433c70ea0d27c502ceee0c44e3cbbffd1b23ba0007ae1cce6490a",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/Zie619/n8n-workflows/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Affinity/1085_Affinity_Create_Triggered.json",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-9e0f92e20cd9804b79b805127df6bc11/intake/reviews/1085-affinity-create-triggered-965fdbbf373516f7/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-a2e6e47f8d6e42ba3f61d399722989e6",
+      "name": "File read",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/File_read.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/File_read.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/File_read.yml",
+          "artifact_path": "DSL/File_read.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "70d9418316cfdae77e6ace9edbe2f325e998e966062f04ff9c1f5ef5d8f26361",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/File_read.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-a2e6e47f8d6e42ba3f61d399722989e6/intake/reviews/file-read-c19079805faa70d2/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-ab4e2afc5beae03306f19dff6565623e",
+      "name": "json translate",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/json_translate.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/json_translate.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/json_translate.yml",
+          "artifact_path": "DSL/json_translate.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "dce2197de5f75fd657ac841b58de6fd55a10860357d159c900fb3242af8ab964",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/json_translate.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-ab4e2afc5beae03306f19dff6565623e/intake/reviews/json-translate-53de62b57e7dd432/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-ade78b2d48199d771a2215eabfc54a0e",
+      "name": "DuckDuckGo翻译+LLM二次翻译",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/DuckDuckGo翻译+LLM二次翻译.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/DuckDuckGo%E7%BF%BB%E8%AF%91%2BLLM%E4%BA%8C%E6%AC%A1%E7%BF%BB%E8%AF%91.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/DuckDuckGo%E7%BF%BB%E8%AF%91%2BLLM%E4%BA%8C%E6%AC%A1%E7%BF%BB%E8%AF%91.yml",
+          "artifact_path": "DSL/DuckDuckGo翻译+LLM二次翻译.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "faf66974568eb1053a05b800e1e1f97a1dccc1349ab87f1f7c73d850d274050d",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/DuckDuckGo%E7%BF%BB%E8%AF%91%2BLLM%E4%BA%8C%E6%AC%A1%E7%BF%BB%E8%AF%91.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-ade78b2d48199d771a2215eabfc54a0e/intake/reviews/duckduckgo-llm-f0c2f3f6e3e356c6/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-b1f25d8cf7c26083d732761872952f29",
+      "name": "Agent工具调用",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/Agent工具调用.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Agent%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Agent%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8.yml",
+          "artifact_path": "DSL/Agent工具调用.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "0d1bb9d9f4851eef891aa57ecb96d91a2389f808c2b2438600eeee3579c29225",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Agent%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-b1f25d8cf7c26083d732761872952f29/intake/reviews/agent-707d4646b670447e/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-b2fa8dbe383e8021d0acdaed47b5b49e",
+      "name": "宝玉的英译中优化版",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/宝玉的英译中优化版.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E5%AE%9D%E7%8E%89%E7%9A%84%E8%8B%B1%E8%AF%91%E4%B8%AD%E4%BC%98%E5%8C%96%E7%89%88.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E5%AE%9D%E7%8E%89%E7%9A%84%E8%8B%B1%E8%AF%91%E4%B8%AD%E4%BC%98%E5%8C%96%E7%89%88.yml",
+          "artifact_path": "DSL/宝玉的英译中优化版.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "eb3aa466fdea9a54fdf118d1934063c2d7d268085d7143029b7053c43bc88b91",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E5%AE%9D%E7%8E%89%E7%9A%84%E8%8B%B1%E8%AF%91%E4%B8%AD%E4%BC%98%E5%8C%96%E7%89%88.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-b2fa8dbe383e8021d0acdaed47b5b49e/intake/reviews/workflow-180081eb8d7e4b4c/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-b32bd4f5fa20fde701a5b1afd70e2fa3",
+      "name": "dify course demo",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/dify_course_demo.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/dify_course_demo.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/dify_course_demo.yml",
+          "artifact_path": "DSL/dify_course_demo.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "bff61a0feaf3fbd6e1cb54bcb9e31a04be018d347820bf2a5798f9c69247fda8",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/dify_course_demo.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-b32bd4f5fa20fde701a5b1afd70e2fa3/intake/reviews/dify-course-demo-8a42e57ea1e80176/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-b98828d82fb6ca5d76981db53bd20a91",
+      "name": "SEO Slug Generator",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/SEO Slug Generator.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/SEO%20Slug%20Generator.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/SEO%20Slug%20Generator.yml",
+          "artifact_path": "DSL/SEO Slug Generator.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "8e1b5d2c6d744ac57ac1dd2ec42480cff34c5365e2d7ee93c04193f7cae5ff3b",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/SEO%20Slug%20Generator.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-b98828d82fb6ca5d76981db53bd20a91/intake/reviews/seo-slug-generator-2e9ca52eb5372040/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-ba3e62d227d79eb8aa86395e5ae6f4cf",
+      "name": "MCP",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/MCP.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/MCP.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/MCP.yml",
+          "artifact_path": "DSL/MCP.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "26ef4abd848dbc09d26ad4241d6f57d3cd8723f01be48146b09935a2d9bfcd99",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/MCP.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-ba3e62d227d79eb8aa86395e5ae6f4cf/intake/reviews/mcp-af8b6b7b10cb75b7/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-bc65f0038e616351c0ee36872810d5db",
+      "name": "json repair",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/json-repair.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/json-repair.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/json-repair.yml",
+          "artifact_path": "DSL/json-repair.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "5859d8c833593069cfe781da27d585a24cdbbf5e03a50af56b2ae01045d491ad",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/json-repair.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-bc65f0038e616351c0ee36872810d5db/intake/reviews/json-repair-0f10141f50df1993/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-c41326fcff25f9a3f770d821aa97a65a",
+      "name": "小支付 DEMO",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/小支付-DEMO.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E5%B0%8F%E6%94%AF%E4%BB%98-DEMO.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E5%B0%8F%E6%94%AF%E4%BB%98-DEMO.yml",
+          "artifact_path": "DSL/小支付-DEMO.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "73c58aae42d6ab2ae8e68c7c005c934ab23239146bb03ab8465036f779d525f7",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E5%B0%8F%E6%94%AF%E4%BB%98-DEMO.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-c41326fcff25f9a3f770d821aa97a65a/intake/reviews/demo-260186565cee6594/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-c4fa1caa11282e30d14f5cce9cd48b19",
+      "name": "图文知识库",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/图文知识库/图文知识库.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E5%9B%BE%E6%96%87%E7%9F%A5%E8%AF%86%E5%BA%93/%E5%9B%BE%E6%96%87%E7%9F%A5%E8%AF%86%E5%BA%93.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E5%9B%BE%E6%96%87%E7%9F%A5%E8%AF%86%E5%BA%93/%E5%9B%BE%E6%96%87%E7%9F%A5%E8%AF%86%E5%BA%93.yml",
+          "artifact_path": "DSL/图文知识库/图文知识库.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "3a66edfc4c724c0298ffece78e470509402870e9081f88422186ccf91ec8c4c6",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/%E5%9B%BE%E6%96%87%E7%9F%A5%E8%AF%86%E5%BA%93/%E5%9B%BE%E6%96%87%E7%9F%A5%E8%AF%86%E5%BA%93.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-c4fa1caa11282e30d14f5cce9cd48b19/intake/reviews/workflow-3c708a31b6de413d/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-ca9b19f20f92acfe35fac18b0586e11e",
+      "name": "Jina Reader Jinja",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/Jina Reader Jinja.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Jina%20Reader%20Jinja.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Jina%20Reader%20Jinja.yml",
+          "artifact_path": "DSL/Jina Reader Jinja.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "785912ce7b670c23eeb096c8169a2391200c243d531c5d7dd184244c55352394",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/Jina%20Reader%20Jinja.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-ca9b19f20f92acfe35fac18b0586e11e/intake/reviews/jina-reader-jinja-5c3f87b8cb0049b2/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-ce6faaa38b6c157d0f54734d0efab441",
+      "name": "chart demo",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/chart_demo.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/chart_demo.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/chart_demo.yml",
+          "artifact_path": "DSL/chart_demo.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "43e9b884b3dfbcdd68be974aa0929584ef46c5d3ede56db16ce28c16f8fb219d",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/chart_demo.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-ce6faaa38b6c157d0f54734d0efab441/intake/reviews/chart-demo-aa4cfc566335bb46/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
+    {
+      "id": "disc-d786d0e0273c0c26febedf3a7917a250",
+      "name": "jieba",
+      "version": null,
+      "description": "Public dify Workflow artifact discovered at DSL/jieba.yml in svcvit/Awesome-Dify-Workflow.",
+      "author": "Weft Place batch ingestion",
+      "license": "MIT",
+      "platform": "dify",
+      "minimum_platform_version": null,
+      "categories": [],
+      "tags": [],
+      "inputs": [],
+      "outputs": [],
+      "permissions": null,
+      "human_review": null,
+      "safety": null,
+      "testing": {
+        "status": "untested"
+      },
+      "package_path": null,
+      "source_file": null,
+      "readme_file": null,
+      "listing_source": "package_independent",
+      "listing": {
+        "state": "listed",
+        "original_creator": null,
+        "creator_evidence": "Original creator was not established from the available Intake evidence.",
+        "listing_maintainer": "Weft Place batch ingestion",
+        "source": {
+          "source_type": "repository",
+          "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+          "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/jieba.yml",
+          "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/jieba.yml",
+          "artifact_path": "DSL/jieba.yml",
+          "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+          "original_artifact_sha256": "7267b3699555f5d16e5f9618f9b344793432357041769f169a62ecfcff17fd8f",
+          "version": null
+        },
+        "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/jieba.yml",
+        "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+        "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+        "important_limitations": [
+          "Repository-level license evidence may not apply to this artifact.",
+          "Not independently runtime-tested by Weft Place.",
+          "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+        ],
+        "use_steps": [
+          "Inspect the exact immutable upstream artifact and platform requirements before import."
+        ],
+        "provenance_reference": "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-d786d0e0273c0c26febedf3a7917a250/intake/reviews/jieba-235a53a8385074e5/review-record.json"
+      },
+      "claims": {
+        "discovered": true,
+        "listed": true,
+        "static_reviewed": true,
+        "runtime_tested": false,
+        "compatibility_verified": false,
+        "human_reviewed": false,
+        "featured": false,
+        "removed": false
+      },
+      "validation": {
+        "status": "admitted",
+        "errors": [],
+        "warnings": [],
+        "checked_at": "2026-08-21T07:22:30.008Z"
+      }
+    },
     {
       "id": "human-reviewed-writing-pipeline",
       "name": "Human-Reviewed Writing Pipeline",
@@ -105,7 +2689,7 @@
         "status": "valid",
         "errors": [],
         "warnings": [],
-        "checked_at": "2026-08-20T05:10:51.382Z"
+        "checked_at": "2026-08-21T07:22:30.008Z"
       }
     },
     {
@@ -199,7 +2783,7 @@
         "status": "valid",
         "errors": [],
         "warnings": [],
-        "checked_at": "2026-08-20T05:10:51.382Z"
+        "checked_at": "2026-08-21T07:22:30.008Z"
       }
     },
     {
@@ -304,7 +2888,7 @@
         "status": "valid",
         "errors": [],
         "warnings": [],
-        "checked_at": "2026-08-20T05:10:51.382Z"
+        "checked_at": "2026-08-21T07:22:30.008Z"
       }
     }
   ]

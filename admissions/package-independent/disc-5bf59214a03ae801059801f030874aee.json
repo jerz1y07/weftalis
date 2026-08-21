@@ -1,0 +1,74 @@
+{
+  "record_version": "1.0",
+  "categories": [],
+  "id": "disc-5bf59214a03ae801059801f030874aee",
+  "important_limitations": [
+    "Repository-level license evidence may not apply to this artifact.",
+    "Not independently runtime-tested by Weft Place.",
+    "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+  ],
+  "listing_maintainer": "Weft Place batch ingestion",
+  "summary": "Public dify Workflow artifact discovered at DSL/MCP-amap.yml in svcvit/Awesome-Dify-Workflow.",
+  "tags": [],
+  "title": "MCP amap",
+  "use_steps": [
+    "Inspect the exact immutable upstream artifact and platform requirements before import."
+  ],
+  "platform": "dify",
+  "original_creator": null,
+  "creator_evidence": "Original creator was not established from the available Intake evidence.",
+  "license_expression": "MIT",
+  "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+  "source": {
+    "source_type": "repository",
+    "repository_url": "https://github.com/svcvit/Awesome-Dify-Workflow",
+    "artifact_url": "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/MCP-amap.yml",
+    "acquisition_url": "https://raw.githubusercontent.com/svcvit/Awesome-Dify-Workflow/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/MCP-amap.yml",
+    "artifact_path": "DSL/MCP-amap.yml",
+    "immutable_ref": "e730ed3627e5fa56fc1668d995b83178b6b1181c",
+    "original_artifact_sha256": "63520f293b9768f897b52caeee899e79eff43f10f6a73e0120c00f0c92862aa1",
+    "version": null
+  },
+  "evidence": {
+    "intake_review_id": "mcp-amap-7b6fd59785e35743",
+    "intake_created_at": "2026-08-20T09:21:01.740Z",
+    "artifact_retrieved_at": "2026-08-20T09:21:01.740Z",
+    "provenance_status": "recorded",
+    "source_resolution": "resolved",
+    "artifact_integrity": "verified",
+    "parsing_status": "parsed",
+    "structure_status": "plausible",
+    "license_status": "no_clear_blocker",
+    "secret_scan_status": "none_detected",
+    "malicious_content_status": "not_assessed",
+    "transformation_status": "none",
+    "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+    "transformed_artifact": null,
+    "risk_signals": {
+      "credentials": "not_detected",
+      "code_execution": "not_detected",
+      "filesystem_writes": "not_detected",
+      "destructive_actions": "not_detected",
+      "external_publishing": "not_detected",
+      "high_risk_network": "unknown",
+      "user_reports": "unknown"
+    },
+    "runtime_status": "untested",
+    "compatibility_status": "unverified",
+    "evidence_references": [
+      "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-5bf59214a03ae801059801f030874aee/intake/reviews/mcp-amap-7b6fd59785e35743/review-record.json",
+      "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-5bf59214a03ae801059801f030874aee/candidate.json",
+      "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/DSL/MCP-amap.yml",
+      "https://github.com/svcvit/Awesome-Dify-Workflow/commit/e730ed3627e5fa56fc1668d995b83178b6b1181c",
+      "https://github.com/svcvit/Awesome-Dify-Workflow/blob/e730ed3627e5fa56fc1668d995b83178b6b1181c/LICENSE",
+      "https://github.com/svcvit/Awesome-Dify-Workflow"
+    ],
+    "human_review": {
+      "status": "not_required",
+      "evidence_reference": null,
+      "reviewer": null,
+      "reviewed_at": null,
+      "rationale": null
+    }
+  }
+}
