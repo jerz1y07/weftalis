@@ -1,0 +1,74 @@
+{
+  "record_version": "1.0",
+  "categories": [],
+  "id": "disc-9e0f92e20cd9804b79b805127df6bc11",
+  "important_limitations": [
+    "Repository-level license evidence may not apply to this artifact.",
+    "Not independently runtime-tested by Weft Place.",
+    "Static Intake evidence does not establish safety, compatibility, production readiness, or quality."
+  ],
+  "listing_maintainer": "Weft Place batch ingestion",
+  "summary": "Public n8n Workflow artifact discovered at workflows/Affinity/1085_Affinity_Create_Triggered.json in Zie619/n8n-workflows.",
+  "tags": [],
+  "title": "1085 Affinity Create Triggered",
+  "use_steps": [
+    "Inspect the exact immutable upstream artifact and platform requirements before import."
+  ],
+  "platform": "n8n",
+  "original_creator": null,
+  "creator_evidence": "Original creator was not established from the available Intake evidence.",
+  "license_expression": "MIT",
+  "license_evidence": "Intake recorded repository-level license status found and file-level status missing. Repository-level evidence may not apply to the artifact and is not legal authorization. Recorded repository status: found; file status: missing.",
+  "source": {
+    "source_type": "repository",
+    "repository_url": "https://github.com/Zie619/n8n-workflows",
+    "artifact_url": "https://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Affinity/1085_Affinity_Create_Triggered.json",
+    "acquisition_url": "https://raw.githubusercontent.com/Zie619/n8n-workflows/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Affinity/1085_Affinity_Create_Triggered.json",
+    "artifact_path": "workflows/Affinity/1085_Affinity_Create_Triggered.json",
+    "immutable_ref": "94007c1445d9258a7da116646b79473e7c7c3282",
+    "original_artifact_sha256": "07c7d4b21b0433c70ea0d27c502ceee0c44e3cbbffd1b23ba0007ae1cce6490a",
+    "version": null
+  },
+  "evidence": {
+    "intake_review_id": "1085-affinity-create-triggered-965fdbbf373516f7",
+    "intake_created_at": "2026-08-20T09:21:01.740Z",
+    "artifact_retrieved_at": "2026-08-20T09:21:01.740Z",
+    "provenance_status": "recorded",
+    "source_resolution": "resolved",
+    "artifact_integrity": "verified",
+    "parsing_status": "parsed",
+    "structure_status": "plausible",
+    "license_status": "no_clear_blocker",
+    "secret_scan_status": "none_detected",
+    "malicious_content_status": "not_assessed",
+    "transformation_status": "none",
+    "transformation_evidence": "Batch Intake preserved the original retrieved artifact bytes without transformation.",
+    "transformed_artifact": null,
+    "risk_signals": {
+      "credentials": "detected",
+      "code_execution": "not_detected",
+      "filesystem_writes": "not_detected",
+      "destructive_actions": "not_detected",
+      "external_publishing": "not_detected",
+      "high_risk_network": "not_detected",
+      "user_reports": "unknown"
+    },
+    "runtime_status": "untested",
+    "compatibility_status": "unverified",
+    "evidence_references": [
+      "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-9e0f92e20cd9804b79b805127df6bc11/intake/reviews/1085-affinity-create-triggered-965fdbbf373516f7/review-record.json",
+      "ingestion-workspace/core-3d-live-2026-08-21/candidates/disc-9e0f92e20cd9804b79b805127df6bc11/candidate.json",
+      "https://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/workflows/Affinity/1085_Affinity_Create_Triggered.json",
+      "https://github.com/Zie619/n8n-workflows/commit/94007c1445d9258a7da116646b79473e7c7c3282",
+      "https://github.com/Zie619/n8n-workflows/blob/94007c1445d9258a7da116646b79473e7c7c3282/LICENSE",
+      "https://github.com/Zie619/n8n-workflows"
+    ],
+    "human_review": {
+      "status": "not_required",
+      "evidence_reference": null,
+      "reviewer": null,
+      "reviewed_at": null,
+      "rationale": null
+    }
+  }
+}
