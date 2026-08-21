@@ -45,3 +45,6 @@ temp/
 
 # Local external discovery evidence (never production Registry data)
 /discovery-workspace/
+
+# Local batch ingestion evidence and Registry previews (never production data)
+/ingestion-workspace/

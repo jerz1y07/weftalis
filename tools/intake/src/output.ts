@@ -108,6 +108,13 @@ export async function assertSafeOutputRoot(
   }
   const outputRoot = await resolveThroughExistingAncestor(requestedCanonical);
   const defaultLocalOutput = path.join(realRepositoryRoot, "intake-review");
+  const localRelative = path.relative(realRepositoryRoot, outputRoot).split(path.sep);
+  const batchLocalOutput = localRelative.length === 5
+    && localRelative[0] === "ingestion-workspace"
+    && localRelative[1]!.length > 0
+    && localRelative[2] === "candidates"
+    && localRelative[3]!.length > 0
+    && localRelative[4] === "intake";
   const protectedPaths = [
     realRepositoryRoot,
     path.join(realRepositoryRoot, "packages"),
@@ -125,9 +132,11 @@ export async function assertSafeOutputRoot(
       );
     }
   }
-  if (isInside(realRepositoryRoot, outputRoot) && outputRoot !== defaultLocalOutput) {
+  if (isInside(realRepositoryRoot, outputRoot)
+    && outputRoot !== defaultLocalOutput
+    && !batchLocalOutput) {
     throw new IntakeValidationError(
-      "Inside the repository, intake output is restricted to the Git-ignored intake-review directory.",
+      "Inside the repository, intake output is restricted to intake-review or an isolated ingestion-workspace run candidate.",
     );
   }
   return outputRoot;

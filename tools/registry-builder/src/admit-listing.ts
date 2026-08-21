@@ -261,7 +261,12 @@ function isEvidence(value: unknown): value is PackageIndependentAdmissionRecord[
     && isEnum(value.parsing_status, ["parsed", "failed", "unsupported"] as const)
     && isEnum(value.structure_status, ["plausible", "uncertain"] as const)
     && isEnum(value.license_status, ["no_clear_blocker", "unclear", "conflicting", "blocked"] as const)
-    && isEnum(value.secret_scan_status, ["none_detected", "potential_values_detected", "not_scanned"] as const)
+    && isEnum(value.secret_scan_status, [
+      "none_detected",
+      "potential_values_detected",
+      "confirmed_values_detected",
+      "not_scanned",
+    ] as const)
     && isEnum(value.malicious_content_status, ["none_detected", "suspected", "not_assessed"] as const)
     && isEnum(value.transformation_status, ["none", "non_material", "substantial", "unknown"] as const)
     && isNonEmptyString(value.transformation_evidence)
@@ -402,8 +407,8 @@ function quarantineReasons(
   if (record.evidence.license_status === "blocked") {
     reasons.push(issue("admission.license-blocked", "License evidence contains a clear blocker.", recordPath));
   }
-  if (record.evidence.secret_scan_status === "potential_values_detected") {
-    reasons.push(issue("admission.possible-secret", "Potential secret or credential values require quarantine.", recordPath));
+  if (record.evidence.secret_scan_status === "confirmed_values_detected") {
+    reasons.push(issue("admission.confirmed-secret", "Confirmed secret or credential leakage requires quarantine.", recordPath));
   }
   if (record.evidence.malicious_content_status === "suspected") {
     reasons.push(issue("admission.suspected-malicious-content", "Suspected malicious content requires quarantine.", recordPath));
@@ -430,15 +435,26 @@ function reviewReasons(
   if (["unclear", "conflicting"].includes(record.evidence.license_status)) {
     add("admission.license-needs-review", "License evidence is unclear or conflicting.");
   }
+  if (record.evidence.secret_scan_status === "potential_values_detected") {
+    add("admission.possible-secret-needs-review", "A heuristic secret-like finding requires evidence-based review.");
+  }
   if (record.evidence.secret_scan_status === "not_scanned") add("admission.secret-scan-missing", "Secret screening evidence is missing.");
-  if (record.evidence.malicious_content_status === "not_assessed") add("admission.malicious-content-not-assessed", "Malicious-content assessment is missing.");
   if (["substantial", "unknown"].includes(record.evidence.transformation_status)) {
     add("admission.transformation-needs-review", "Substantial or uncertain transformation requires review.");
   }
 
   for (const [name, status] of Object.entries(record.evidence.risk_signals)) {
-    const clear = name === "user_reports" ? status === "none" : status === "not_detected";
-    if (!clear) add(`admission.risk.${name}`, "A risk or uncertainty requires human escalation.");
+    const exceptionalCapability = [
+      "filesystem_writes",
+      "destructive_actions",
+      "external_publishing",
+      "high_risk_network",
+    ].includes(name);
+    if (name === "user_reports" && status === "present") {
+      add("admission.risk.user_reports", "Recorded user reports require human escalation.");
+    } else if (exceptionalCapability && status === "detected") {
+      add(`admission.risk.${name}`, "A detected exceptional capability requires human escalation.");
+    }
   }
 
   if (record.evidence.runtime_status !== "untested" || record.evidence.compatibility_status !== "unverified") {

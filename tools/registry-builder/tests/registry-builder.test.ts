@@ -1,4 +1,4 @@
-import { mkdir, rm, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -272,30 +272,37 @@ describe("Registry generation", () => {
     });
   });
 
-  it("escalates a code-execution fixture to Needs Review instead of Listing it", async () => {
+  it("records ordinary code execution without a generic admission blocker", async () => {
     await createAdmissionRecord("risky-fixture", (record) => {
       record.evidence.risk_signals.code_execution = "detected";
     });
     const result = await buildRegistry({ repositoryRoot: temporaryRoot, validatePackage: validStub });
-    expect(result.registry.workflows).toEqual([]);
-    expect(result.rejected.listings[0]).toMatchObject({
-      id: "risky-fixture",
-      admission_state: "needs_review",
-    });
-    expect(result.rejected.listings[0]?.reasons).toEqual(expect.arrayContaining([
-      expect.objectContaining({ code: "admission.risk.code_execution" }),
-    ]));
+    expect(result.registry.workflows[0]?.id).toBe("risky-fixture");
+    expect(result.rejected.listings).toEqual([]);
   });
 
-  it("Lists an escalated fixture only after complete human-review evidence is recorded", async () => {
+  it("escalates a detected external-publishing exception", async () => {
+    await createAdmissionRecord("publishing-fixture", (record) => {
+      record.evidence.risk_signals.external_publishing = "detected";
+    });
+    const result = await buildRegistry({ repositoryRoot: temporaryRoot, validatePackage: validStub });
+    expect(result.registry.workflows).toEqual([]);
+    expect(result.rejected.listings[0]).toMatchObject({
+      id: "publishing-fixture",
+      admission_state: "needs_review",
+      reasons: [expect.objectContaining({ code: "admission.risk.external_publishing" })],
+    });
+  });
+
+  it("Lists a detected external-publishing exception only after complete human-review evidence is recorded", async () => {
     await createAdmissionRecord("reviewed-risk-fixture", (record) => {
-      record.evidence.risk_signals.code_execution = "detected";
+      record.evidence.risk_signals.external_publishing = "detected";
       record.evidence.human_review = {
         status: "approved",
         evidence_reference: "test-evidence/reviewed-risk-fixture.json",
         reviewer: "Fixture Reviewer",
         reviewed_at: "2026-07-17T00:00:00.000Z",
-        rationale: "Fixture-only approval after inspecting the static code-execution evidence.",
+        rationale: "Fixture-only approval after inspecting the static external-publishing evidence.",
       };
     });
     const result = await buildRegistry({ repositoryRoot: temporaryRoot, validatePackage: validStub });
@@ -311,7 +318,7 @@ describe("Registry generation", () => {
     });
   });
 
-  it("quarantines a possible-secret fixture instead of Listing it", async () => {
+  it("escalates a heuristic possible-secret fixture without treating it as confirmed leakage", async () => {
     await createAdmissionRecord("secret-fixture", (record) => {
       record.evidence.secret_scan_status = "potential_values_detected";
     });
@@ -319,8 +326,35 @@ describe("Registry generation", () => {
     expect(result.registry.workflows).toEqual([]);
     expect(result.rejected.listings[0]).toMatchObject({
       id: "secret-fixture",
-      admission_state: "quarantined",
+      admission_state: "needs_review",
+      reasons: [expect.objectContaining({ code: "admission.possible-secret-needs-review" })],
     });
+  });
+
+  it("quarantines confirmed secret leakage", async () => {
+    await createAdmissionRecord("confirmed-secret-fixture", (record) => {
+      record.evidence.secret_scan_status = "confirmed_values_detected";
+    });
+    const result = await buildRegistry({ repositoryRoot: temporaryRoot, validatePackage: validStub });
+    expect(result.registry.workflows).toEqual([]);
+    expect(result.rejected.listings[0]).toMatchObject({
+      id: "confirmed-secret-fixture",
+      admission_state: "quarantined",
+      reasons: [expect.objectContaining({ code: "admission.confirmed-secret" })],
+    });
+  });
+
+  it("does not treat unknown optional repository facts as negative evidence", async () => {
+    await createAdmissionRecord("unknown-facts-fixture", (record) => {
+      record.original_creator = null;
+      record.evidence.malicious_content_status = "not_assessed";
+      record.evidence.risk_signals.user_reports = "unknown";
+      record.evidence.risk_signals.credentials = "unknown";
+      record.evidence.risk_signals.code_execution = "unknown";
+    });
+    const result = await buildRegistry({ repositoryRoot: temporaryRoot, validatePackage: validStub });
+    expect(result.registry.workflows[0]?.id).toBe("unknown-facts-fixture");
+    expect(result.rejected.listings).toEqual([]);
   });
 
   it("quarantines a potential secret in admission metadata before publication", async () => {
@@ -371,6 +405,42 @@ describe("Registry generation", () => {
     });
     expect(source).not.toHaveProperty("repository_url");
     expect(source).not.toHaveProperty("immutable_ref");
+  });
+
+  it("builds a preview from an explicit admission directory while retaining Package Listings", async () => {
+    await createPackage("package-fixture");
+    await createAdmissionRecord("upload-preview-fixture", (record) => {
+      record.source = {
+        source_type: "direct_upload",
+        submitter: "fixture-submitter",
+        uploaded_at: "2026-07-17T00:00:00.000Z",
+        original_artifact_sha256: "b".repeat(64),
+        declared_author: "Fixture author claim",
+        declared_license: "MIT",
+        acquisition_url: null,
+      };
+      record.evidence.source_resolution = "not_applicable";
+    });
+    const previewAdmissions = path.join(temporaryRoot, "ingestion-workspace", "preview", "admissions");
+    await mkdir(previewAdmissions, { recursive: true });
+    await writeFile(
+      path.join(previewAdmissions, "upload-preview-fixture.json"),
+      await readFile(path.join(admissionsRoot, "upload-preview-fixture.json"), "utf8"),
+      "utf8",
+    );
+
+    const result = await buildRegistry({
+      repositoryRoot: temporaryRoot,
+      admissionsRoot: previewAdmissions,
+      validatePackage: validStub,
+      generatedAt: "2026-07-17T00:00:00.000Z",
+    });
+
+    expect(result.registry.workflows.map((workflow) => workflow.id)).toEqual([
+      "package-fixture",
+      "upload-preview-fixture",
+    ]);
+    expect(result.registry.workflows[1]?.listing.source.source_type).toBe("direct_upload");
   });
 
   it("uses safe repository-relative POSIX paths", async () => {

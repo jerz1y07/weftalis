@@ -71,6 +71,19 @@ describe("symlink-safe review output containment", () => {
     expect(outputRoot).toBe(path.join(canonicalRoot, "intake-review"));
   });
 
+  it("allows only the exact per-candidate batch Intake location inside ingestion-workspace", async () => {
+    const root = await makeRepository();
+    const allowed = path.join(root, "ingestion-workspace", "fixture-run", "candidates", "disc-fixture", "intake");
+
+    await expect(assertSafeOutputRoot(root, allowed)).resolves.toBe(await realpath(root).then((real) => (
+      path.join(real, "ingestion-workspace", "fixture-run", "candidates", "disc-fixture", "intake")
+    )));
+    await expect(assertSafeOutputRoot(
+      root,
+      path.join(root, "ingestion-workspace", "fixture-run", "intake"),
+    )).rejects.toThrow(/restricted/);
+  });
+
   it("keeps nested review, staging, and artifact destinations contained", async () => {
     const root = await makeRepository();
     const outputRoot = path.join(root, "intake-review");

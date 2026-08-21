@@ -155,7 +155,7 @@ describe("controlled Intake-to-Admission promotion", () => {
     expect(await exists(path.join(root, "packages", paths.id))).toBe(false);
   });
 
-  it("maps risky repository evidence to Needs Review instead of silently Listing it", async () => {
+  it("records ordinary code execution as a fact without turning it into a generic blocker", async () => {
     const root = await makeRepository();
     const paths = await prepareRepositoryEvidence(root, (review) => {
       review.static_audit.risk_summary.code_execution.status = "detected";
@@ -169,28 +169,44 @@ describe("controlled Intake-to-Admission promotion", () => {
       }];
     });
     const promoted = await promoteIntake({ repositoryRoot: root, ...paths, write: true });
-    expect(promoted.decision.state).toBe("needs_review");
+    expect(promoted.decision.state).toBe("listed");
     expect(promoted.importantSignals).toContain("code_execution=detected");
     const result = await build(root);
-    expect(result.registry.workflows).toEqual([]);
-    expect(result.rejected.listings[0]).toMatchObject({
-      id: paths.id,
-      admission_state: "needs_review",
-      reasons: [expect.objectContaining({ code: "admission.risk.code_execution" })],
+    expect(result.registry.workflows[0]?.id).toBe(paths.id);
+    expect(result.rejected.listings).toEqual([]);
+  });
+
+  it("keeps a heuristic secret-like finding distinct from confirmed leakage", async () => {
+    const root = await makeRepository();
+    const paths = await prepareRepositoryEvidence(root, (review) => {
+      review.static_audit.secret_scan.status = "potential_values_detected";
+      review.static_audit.secret_scan.finding_count = 1;
     });
+    const promoted = await promoteIntake({ repositoryRoot: root, ...paths, write: true });
+    expect(promoted.decision.state).toBe("needs_review");
+    expect(promoted.decision.reasons).toEqual(expect.arrayContaining([
+      expect.objectContaining({ code: "admission.possible-secret-needs-review" }),
+    ]));
   });
 
   it.each([
-    ["secret finding", (review: JsonRecord) => {
-      review.static_audit.secret_scan.status = "potential_values_detected";
-      review.static_audit.secret_scan.finding_count = 1;
-    }, "admission.possible-secret"],
     ["integrity mismatch", (review: JsonRecord) => {
       review.resolved_artifact.fingerprint.stored_artifact_matches_fetched = false;
-    }, "admission.artifact-integrity-failed"],
-  ])("quarantines a repository fixture with a blocking %s", async (_label, mutate, reasonCode) => {
+    }, null, "admission.artifact-integrity-failed"],
+    ["blocking license conflict", null, (request: JsonRecord) => {
+      request.assessment.license_status = "blocked";
+    }, "admission.license-blocked"],
+    ["suspected malicious content", null, (request: JsonRecord) => {
+      request.assessment.malicious_content_status = "suspected";
+    }, "admission.suspected-malicious-content"],
+  ])("quarantines a repository fixture with a genuine %s", async (
+    _label,
+    mutateReview,
+    mutateRequest,
+    reasonCode,
+  ) => {
     const root = await makeRepository();
-    const paths = await prepareRepositoryEvidence(root, mutate);
+    const paths = await prepareRepositoryEvidence(root, mutateReview ?? undefined, mutateRequest ?? undefined);
     const promoted = await promoteIntake({ repositoryRoot: root, ...paths, write: true });
     expect(promoted.decision.state).toBe("quarantined");
     const result = await build(root);
@@ -199,6 +215,34 @@ describe("controlled Intake-to-Admission promotion", () => {
       admission_state: "quarantined",
       reasons: expect.arrayContaining([expect.objectContaining({ code: reasonCode })]),
     });
+  });
+
+  it("Lists repository-level license evidence when file-level evidence is absent and unknown optional facts remain unknown", async () => {
+    const root = await makeRepository();
+    const paths = await prepareRepositoryEvidence(root, (review) => {
+      review.original_submission.upstream_author_or_organization = null;
+      review.resolved_artifact.license_evidence.file_level = {
+        status: "missing",
+        spdx_identifiers: [],
+        method: "Fixture scan found no file-level identifier.",
+        limitations: ["Repository-level scope is preserved."],
+      };
+    }, (request) => {
+      request.assessment.malicious_content_status = "not_assessed";
+      request.assessment.user_reports = "unknown";
+    });
+    const promoted = await promoteIntake({ repositoryRoot: root, ...paths, write: true });
+    expect(promoted.record).toMatchObject({
+      original_creator: null,
+      license_expression: "MIT",
+      evidence: {
+        license_status: "no_clear_blocker",
+        malicious_content_status: "not_assessed",
+        risk_signals: { user_reports: "unknown" },
+      },
+    });
+    expect(promoted.record.license_evidence).toContain("repository status: found; file status: missing");
+    expect(promoted.decision).toEqual({ state: "listed", reasons: [] });
   });
 
   it("preserves unavailable repository coordinates as null and produces a reviewable Quarantined record", async () => {
@@ -332,7 +376,7 @@ describe("controlled Intake-to-Admission promotion", () => {
     expect(promoted.decision.state).toBe("needs_review");
   });
 
-  it("preserves human-review evidence but does not let approval override a quarantine blocker", async () => {
+  it("preserves human-review evidence and lets it resolve a heuristic secret-like exception", async () => {
     const root = await makeRepository();
     const paths = await prepareRepositoryEvidence(root, (review) => {
       review.moderation.current_status = "approved";
@@ -350,7 +394,7 @@ describe("controlled Intake-to-Admission promotion", () => {
       reviewer: "Fixture Reviewer",
       reviewed_at: "2026-08-20T02:30:00.000Z",
     });
-    expect(promoted.decision.state).toBe("quarantined");
+    expect(promoted.decision.state).toBe("listed");
   });
 
   it("defaults the CLI to preview and leaves Intake, Packages, Registry, and website unchanged", async () => {
