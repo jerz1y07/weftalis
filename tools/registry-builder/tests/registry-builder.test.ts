@@ -1,4 +1,4 @@
-import { mkdir, rm, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -371,6 +371,42 @@ describe("Registry generation", () => {
     });
     expect(source).not.toHaveProperty("repository_url");
     expect(source).not.toHaveProperty("immutable_ref");
+  });
+
+  it("builds a preview from an explicit admission directory while retaining Package Listings", async () => {
+    await createPackage("package-fixture");
+    await createAdmissionRecord("upload-preview-fixture", (record) => {
+      record.source = {
+        source_type: "direct_upload",
+        submitter: "fixture-submitter",
+        uploaded_at: "2026-07-17T00:00:00.000Z",
+        original_artifact_sha256: "b".repeat(64),
+        declared_author: "Fixture author claim",
+        declared_license: "MIT",
+        acquisition_url: null,
+      };
+      record.evidence.source_resolution = "not_applicable";
+    });
+    const previewAdmissions = path.join(temporaryRoot, "ingestion-workspace", "preview", "admissions");
+    await mkdir(previewAdmissions, { recursive: true });
+    await writeFile(
+      path.join(previewAdmissions, "upload-preview-fixture.json"),
+      await readFile(path.join(admissionsRoot, "upload-preview-fixture.json"), "utf8"),
+      "utf8",
+    );
+
+    const result = await buildRegistry({
+      repositoryRoot: temporaryRoot,
+      admissionsRoot: previewAdmissions,
+      validatePackage: validStub,
+      generatedAt: "2026-07-17T00:00:00.000Z",
+    });
+
+    expect(result.registry.workflows.map((workflow) => workflow.id)).toEqual([
+      "package-fixture",
+      "upload-preview-fixture",
+    ]);
+    expect(result.registry.workflows[1]?.listing.source.source_type).toBe("direct_upload");
   });
 
   it("uses safe repository-relative POSIX paths", async () => {

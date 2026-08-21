@@ -7,9 +7,9 @@ Packages and controlled admission evidence but never execute imported Workflows.
 public Workflow ecosystems
   -> External Discovery (preview or ignored local evidence)
   -> normalized candidate + Intake handoff
-  -> existing Intake
-  -> isolated Intake evidence
-  -> controlled promotion request
+  -> Batch Ingestion Orchestrator (preview or ignored local workspace)
+  -> isolated existing Intake per candidate
+  -> automatically derived controlled promotion request
   -> Admission Promoter (preview by default)
   -> controlled admission record (no Package required) ----+
                                                             |
@@ -35,6 +35,7 @@ packages/<workflow-id>/ -> Package Validator ---------------+
 ## Components
 
 - **External Discovery** uses source adapters to resolve public artifacts to factual, normalized candidates with deterministic immutable identities. Its default mode is preview-only; optional live evidence stays in the Git-ignored `discovery-workspace/`. It neither parses Workflow behavior nor writes Intake, Package, admission, Registry, or website data.
+- **Batch Ingestion Orchestrator** deterministically orders a Discovery handoff, gives each candidate an isolated existing Intake directory, derives the minimum controlled promotion request from recorded evidence, calls the existing Admission Promoter, and optionally calls the existing Registry Builder with a temporary admission directory. Live evidence stays in Git-ignored `ingestion-workspace/`; individual candidate failures are recorded without publishing or stopping unrelated candidates.
 - **Workflow Packages** contain `workflow.yaml`, a README, an original n8n or Dify export, and optional safe examples.
 - **Workflow Package Specification v0.1** defines the metadata structure and JSON Schema. It does not define execution semantics.
 - **Validator** parses local files as untrusted data and reports structural, path, license, secret-pattern, platform-shape, permission, and safety-declaration findings.
@@ -47,7 +48,7 @@ packages/<workflow-id>/ -> Package Validator ---------------+
 
 ## Reproducibility boundary
 
-Package and Registry content is reproducible from tracked files and locked dependencies. Promotion output has no generated timestamp: it preserves recorded Intake timestamps, so identical evidence produces identical bytes. Registry builds intentionally include `generated_at` and `validation.checked_at` timestamps; the verifier ignores only those documented fields and compares everything else, including order.
+Package and Registry content is reproducible from tracked files and locked dependencies. Promotion output has no generated timestamp: it preserves recorded Intake timestamps, so identical evidence produces identical bytes. Batch Ingestion supplies the recorded Discovery event time to Intake, preserves deterministic candidate identity, and reuses completed evidence on resume. Registry builds intentionally include `generated_at` and `validation.checked_at` timestamps; the verifier ignores only those documented fields and compares everything else, including order. A batch preview uses the recorded Discovery time and never writes the production Registry.
 
 The website build consumes the committed generated Registry. `WEFTALIS_BASE_PATH=/weftalis` produces the GitHub Pages project-site paths; an unset base path produces the normal local static build.
 

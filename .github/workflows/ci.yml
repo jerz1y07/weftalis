@@ -63,6 +63,22 @@ jobs:
         working-directory: tools/intake
         run: npm run validate-schemas
 
+      - name: Install Batch Ingestion dependencies safely
+        working-directory: tools/ingestion
+        run: npm ci --ignore-scripts
+
+      - name: Check Batch Ingestion types
+        working-directory: tools/ingestion
+        run: npm run typecheck
+
+      - name: Test Batch Ingestion
+        working-directory: tools/ingestion
+        run: npm test
+
+      - name: Build Batch Ingestion
+        working-directory: tools/ingestion
+        run: npm run build
+
       - name: Install Validator dependencies safely
         working-directory: validator
         run: npm ci --ignore-scripts

@@ -17,10 +17,11 @@ import type {
   WorkflowManifest,
 } from "./types.js";
 
-interface BuildRegistryOptions {
+export interface BuildRegistryOptions {
   repositoryRoot: string;
   validatePackage: ValidatePackage;
   generatedAt?: string;
+  admissionsRoot?: string;
 }
 
 interface CandidateResult {
@@ -172,7 +173,9 @@ function escalateListingIdentityConflicts(
 export async function buildRegistry(options: BuildRegistryOptions): Promise<BuildResult> {
   const generatedAt = options.generatedAt ?? new Date().toISOString();
   const packagesRoot = path.join(options.repositoryRoot, "packages");
-  const admissionsRoot = path.join(options.repositoryRoot, "admissions", "package-independent");
+  const admissionsRoot = options.admissionsRoot
+    ? path.resolve(options.admissionsRoot)
+    : path.join(options.repositoryRoot, "admissions", "package-independent");
   const [discovery, listingDiscovery] = await Promise.all([
     discoverPackages(packagesRoot),
     discoverListingCandidates(admissionsRoot),
