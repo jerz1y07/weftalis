@@ -15,9 +15,13 @@ Place Registry. It never executes a Workflow.
 
 Clean minimum evidence becomes `Listed` without universal human approval.
 Ambiguous provenance or licensing, elevated risk, substantial transformation,
-reports, or unsupported higher-trust claims become `Needs Review`. Integrity,
-parse, clear license, possible-secret, and malicious-content blockers become
-`Quarantined`. Neither path executes imported artifacts.
+reports, detected exceptional write/publishing behavior, heuristic secret-like
+findings, or unsupported higher-trust claims become `Needs Review`. Integrity
+mismatch, parse failure, an explicit license blocker, confirmed secret leakage,
+and malicious-content blockers become `Quarantined`. Unknown optional evidence
+and ordinary capabilities such as network access, code execution, or credential
+requirements are recorded as facts rather than generic blockers. Neither path
+executes imported artifacts.
 
 ## Relationship to the Validator
 

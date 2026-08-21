@@ -152,7 +152,7 @@ export interface PackageIndependentAdmissionRecord {
     parsing_status: "parsed" | "failed" | "unsupported";
     structure_status: "plausible" | "uncertain";
     license_status: "no_clear_blocker" | "unclear" | "conflicting" | "blocked";
-    secret_scan_status: "none_detected" | "potential_values_detected" | "not_scanned";
+    secret_scan_status: "none_detected" | "potential_values_detected" | "confirmed_values_detected" | "not_scanned";
     malicious_content_status: "none_detected" | "suspected" | "not_assessed";
     transformation_status: "none" | "non_material" | "substantial" | "unknown";
     transformation_evidence: string;

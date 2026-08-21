@@ -86,6 +86,11 @@ ingestion-workspace/<run-id>/
 Each candidate has only the operational state `pending`, `processing`,
 `completed`, or `failed`. A completed orchestration candidate may still have a
 downstream `Listed`, `Needs Review`, or `Quarantined` admission state.
+Retryable source failures such as GitHub rate limiting, network timeout, or a
+temporary API/download failure remain operationally `failed` and resumable.
+They do not produce a promotion request, staged admission record, or admission
+state from incomplete evidence. The summary reports `retryable_failed` and
+`promotion_eligible` separately from downstream admission counts.
 
 ## Evidence derivation
 
@@ -100,6 +105,14 @@ Missing malicious-content assessment and user-report evidence remain
 or null through the existing admission contract. The orchestrator does not
 manufacture clean evidence to increase the Listed count and does not add a
 score or a new trust taxonomy.
+
+For repository-backed candidates, clearly identified repository-level license
+evidence remains usable evidence when there is no contradictory file-level
+evidence or explicit blocker. Its repository scope stays factual; a missing
+file-level identifier is not rewritten as artifact-level proof. An unknown
+original creator, an unperformed malicious-content assessment, and unknown user
+reports are not negative evidence by themselves. Heuristic secret-like findings
+remain distinct from confirmed secret leakage.
 
 Registry preview copies controlled production admission records and new staged
 records into the ignored workspace, then calls the existing Registry Builder

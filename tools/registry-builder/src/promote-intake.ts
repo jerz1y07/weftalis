@@ -62,7 +62,7 @@ interface DirectUploadIntakeRequest {
   artifact_integrity: "verified" | "failed";
   parsing_status: "parsed" | "failed" | "unsupported";
   structure_status: "plausible" | "uncertain";
-  secret_scan_status: "none_detected" | "potential_values_detected" | "not_scanned";
+  secret_scan_status: "none_detected" | "potential_values_detected" | "confirmed_values_detected" | "not_scanned";
   risk_signals: AdmissionRiskSignals;
   runtime_status: "untested" | "passed" | "failed";
   compatibility_status: "unverified" | "verified";
@@ -335,7 +335,12 @@ function validateIntake(value: unknown): value is PromotionRequest["intake"] {
     && isEnum(value.artifact_integrity, ["verified", "failed"] as const)
     && isEnum(value.parsing_status, ["parsed", "failed", "unsupported"] as const)
     && isEnum(value.structure_status, ["plausible", "uncertain"] as const)
-    && isEnum(value.secret_scan_status, ["none_detected", "potential_values_detected", "not_scanned"] as const)
+    && isEnum(value.secret_scan_status, [
+      "none_detected",
+      "potential_values_detected",
+      "confirmed_values_detected",
+      "not_scanned",
+    ] as const)
     && validateRiskSignals(value.risk_signals)
     && isEnum(value.runtime_status, ["untested", "passed", "failed"] as const)
     && isEnum(value.compatibility_status, ["unverified", "verified"] as const)
@@ -413,11 +418,10 @@ function mapRepositoryRisk(staticAudit: JsonRecord): AdmissionRiskSignals {
   const destructiveActions = externalWrites === "detected"
     ? classifiedWriteSignal(externalWriteSignals, /destructive|delete|remove|drop|truncate/i, false)
     : externalWrites;
-  const highRiskNetwork = network === "not_detected"
-    ? "not_detected"
-    : network === "detected" && (credentials === "detected" || externalWrites === "detected")
-      ? "detected"
-      : "unknown";
+  // Network access plus ordinary credential requirements is not, by itself,
+  // evidence of high-risk network behavior. Keep the derived status unknown
+  // unless Intake has a future explicit high-risk finding to map.
+  const highRiskNetwork = network === "not_detected" ? "not_detected" : "unknown";
   return {
     credentials,
     code_execution: codeExecution,
@@ -731,11 +735,18 @@ function missingEvidence(record: PackageIndependentAdmissionRecord): string[] {
   if (record.evidence.structure_status !== "plausible") missing.push("plausible workflow structure");
   if (record.evidence.license_status !== "no_clear_blocker") missing.push("clear non-blocking license evidence");
   if (record.evidence.secret_scan_status !== "none_detected") missing.push("completed secret screening without findings");
-  if (record.evidence.malicious_content_status !== "none_detected") missing.push("malicious-content assessment without findings");
+  if (record.evidence.malicious_content_status === "suspected") missing.push("malicious-content blocker resolution");
   if (["substantial", "unknown"].includes(record.evidence.transformation_status)) missing.push("non-escalating transformation evidence");
   for (const [name, status] of Object.entries(record.evidence.risk_signals)) {
-    const clear = name === "user_reports" ? status === "none" : status === "not_detected";
-    if (!clear) missing.push(`clear ${name.replaceAll("_", " ")} evidence`);
+    const exceptionalCapability = [
+      "filesystem_writes",
+      "destructive_actions",
+      "external_publishing",
+      "high_risk_network",
+    ].includes(name);
+    if ((name === "user_reports" && status === "present") || (exceptionalCapability && status === "detected")) {
+      missing.push(`resolved ${name.replaceAll("_", " ")} exception`);
+    }
   }
   if (record.source.source_type === "direct_upload") {
     if (record.source.submitter === null) missing.push("direct-upload submitter");
@@ -749,12 +760,12 @@ function missingEvidence(record: PackageIndependentAdmissionRecord): string[] {
 
 function importantSignals(record: PackageIndependentAdmissionRecord): string[] {
   const signals = Object.entries(record.evidence.risk_signals)
-    .filter(([name, status]) => name === "user_reports" ? status !== "none" : status !== "not_detected")
+    .filter(([name, status]) => name === "user_reports" ? status === "present" : status === "detected")
     .map(([name, status]) => `${name}=${status}`);
   if (record.evidence.secret_scan_status !== "none_detected") {
     signals.push(`secret_scan=${record.evidence.secret_scan_status}`);
   }
-  if (record.evidence.malicious_content_status !== "none_detected") {
+  if (record.evidence.malicious_content_status === "suspected") {
     signals.push(`malicious_content=${record.evidence.malicious_content_status}`);
   }
   if (record.evidence.transformation_status !== "none") {

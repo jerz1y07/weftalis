@@ -99,7 +99,14 @@ The Dify and n8n parsers conservatively extract evidence for:
 - possible human approval nodes; and
 - personal or hard-coded identifiers.
 
-Risk summaries report `detected`, `not_detected`, or `unknown` with bounded evidence and a caution. A heuristic secret scan records only a redacted preview and line number in review metadata. Potential secret-like artifact values cause quarantine; potential secret-like manifest values cause manifest rejection.
+Risk summaries report `detected`, `not_detected`, or `unknown` with bounded
+evidence and a caution. A heuristic secret scan records only a redacted preview
+and line number in review metadata. Potential secret-like artifact values remain
+isolated by the Intake quarantine boundary, and potential secret-like manifest
+values cause manifest rejection. This Intake boundary does not turn a heuristic
+match into confirmed leakage or a final Admission quarantine decision;
+downstream Admission keeps heuristic findings reviewable and reserves hard
+quarantine for confirmed leakage.
 
 These signals describe static evidence, not reachability, runtime behavior, data flow, safety, or completeness.
 

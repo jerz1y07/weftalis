@@ -449,7 +449,7 @@ describe("batch Intake orchestration", () => {
     expect(await readFile(admissionPath, "utf8")).toBe(firstBytes);
   });
 
-  it("retries a promoted retrieval failure without overwriting the earlier staged evidence", async () => {
+  it("keeps a GitHub rate limit operationally retryable with no admission state, then resumes", async () => {
     const root = await makeRepository();
     const item = submission("disc-transient");
     const input = await createDiscoveryRun(root, [item]);
@@ -481,6 +481,16 @@ describe("batch Intake orchestration", () => {
       dependencies: deps,
     });
     expect(initial.operational_states.failed).toBe(1);
+    expect(initial.retryable_failed).toBe(1);
+    expect(initial.promotion_eligible).toBe(0);
+    expect(initial.admission_promotion_completed).toBe(0);
+    expect(initial.staged_admission_states).toEqual({ listed: 0, needs_review: 0, quarantined: 0 });
+    expect(initial.candidates[0]?.intake).toMatchObject({
+      failed: true,
+      retryable: true,
+      failure_code: "github.rate_limited",
+    });
+    expect(initial.candidates[0]?.promotion).toMatchObject({ completed: false, admission_state: null });
     const firstAdmission = path.join(
       root,
       "ingestion-workspace",
@@ -490,8 +500,10 @@ describe("batch Intake orchestration", () => {
       "admission",
       `${item.submission_id}.json`,
     );
-    const failedBytes = await readFile(firstAdmission, "utf8");
+    await expect(readFile(firstAdmission, "utf8")).rejects.toMatchObject({ code: "ENOENT" });
 
+    const previousToken = process.env.GITHUB_TOKEN;
+    process.env.GITHUB_TOKEN = sensitiveFixtureValue;
     const resumed = await runBatch({
       repositoryRoot: root,
       inputPath: input,
@@ -499,14 +511,19 @@ describe("batch Intake orchestration", () => {
       resume: true,
       runId: "transient-run",
       dependencies: deps,
+    }).finally(() => {
+      if (previousToken === undefined) delete process.env.GITHUB_TOKEN;
+      else process.env.GITHUB_TOKEN = previousToken;
     });
     expect(resumed.operational_states.completed).toBe(1);
+    expect(resumed.retryable_failed).toBe(0);
+    expect(resumed.promotion_eligible).toBe(1);
     expect(resumed.retries).toBe(1);
     expect(resumed.resumability_exercised).toBe(true);
     expect(resumed.collisions).toBe(0);
     expect(resumed.registry_preview?.output_directory).toContain("registry-preview-attempts/attempt-2");
     expect(resumed.candidates[0]?.promotion.record_path).toContain("admission-attempts/attempt-2");
-    expect(await readFile(firstAdmission, "utf8")).toBe(failedBytes);
+    await expect(readFile(firstAdmission, "utf8")).rejects.toMatchObject({ code: "ENOENT" });
   });
 
   it("keeps deterministic candidate and promotion identity across concurrency levels", async () => {

@@ -144,6 +144,7 @@ interface CandidateResult {
   intake: {
     completed: boolean;
     failed: boolean;
+    retryable: boolean;
     reused_existing: boolean;
     review_id: string | null;
     resolution_status: string | null;
@@ -179,6 +180,8 @@ export interface BatchSummary {
   operational_states: Record<OperationalState, number>;
   intake_completed: number;
   intake_failed: number;
+  retryable_failed: number;
+  promotion_eligible: number;
   admission_promotion_completed: number;
   staged_admission_states: Record<AdmissionState, number>;
   artifact_retrieval_failures: number;
@@ -513,6 +516,20 @@ function stringField(record: JsonRecord, key: string): string | null {
   return typeof record[key] === "string" ? record[key] as string : null;
 }
 
+const retryableSourceFailureCodes = new Set([
+  "github.rate_limited",
+  "github.network_error",
+  "github.request_failed",
+  "github.invalid_response",
+  "artifact.download_failed",
+]);
+
+function isRetryableSourceFailure(resolutionStatus: string | null, failureCode: string | null): boolean {
+  return resolutionStatus === "failed"
+    && failureCode !== null
+    && retryableSourceFailureCodes.has(failureCode);
+}
+
 function reviewFacts(
   candidate: BatchCandidate,
   processed: IntakeProcessed,
@@ -528,13 +545,16 @@ function reviewFacts(
   const fileLicense = isRecord(license.file_level) ? license.file_level : {};
   const secretAudit = isRecord(audit.secret_scan) ? audit.secret_scan : {};
   const duplicates = isRecord(review.duplicate_status) ? review.duplicate_status : {};
+  const resolutionStatus = stringField(resolved, "resolution_status");
+  const failureCode = stringField(failure, "code");
   return {
     completed: true,
-    failed: intakeFailed || resolved.resolution_status === "failed",
+    failed: intakeFailed || resolutionStatus === "failed",
+    retryable: isRetryableSourceFailure(resolutionStatus, failureCode),
     reused_existing: processed.reusedExisting,
     review_id: stringField(review, "review_id"),
-    resolution_status: stringField(resolved, "resolution_status"),
-    failure_code: stringField(failure, "code"),
+    resolution_status: resolutionStatus,
+    failure_code: failureCode,
     parsing_status: stringField(audit, "parsing_status"),
     secret_finding_count: typeof secretAudit.finding_count === "number" ? secretAudit.finding_count : 0,
     repository_license_status: stringField(repositoryLicense, "status") ?? "unavailable",
@@ -550,6 +570,7 @@ function emptyIntake(): CandidateResult["intake"] {
   return {
     completed: false,
     failed: true,
+    retryable: false,
     reused_existing: false,
     review_id: null,
     resolution_status: null,
@@ -613,6 +634,25 @@ async function runCandidate(options: {
     const processed = intake.processed[0];
     if (!processed?.reviewDirectory) throw new OrchestrationError("Intake did not produce one persisted review record.");
     facts = reviewFacts(options.candidate, processed, intake.failedCount > 0);
+    if (facts.retryable) {
+      const result: CandidateResult = {
+        candidate_id: options.candidate.id,
+        identity: options.candidate.identity,
+        status: "failed",
+        error: facts.failure_code,
+        intake: facts,
+        promotion: {
+          completed: false,
+          admission_state: null,
+          listing_id: null,
+          record_path: null,
+          reused_existing: false,
+          provenance_status: null,
+        },
+      };
+      await writeJsonAtomic(path.join(candidateRoot, "result.json"), result);
+      return result;
+    }
     const reviewPath = path.join(processed.reviewDirectory, "review-record.json");
     const reviewReference = relativePath(options.repositoryRoot, reviewPath);
     const candidateReference = relativePath(options.repositoryRoot, candidatePath);
@@ -703,6 +743,23 @@ async function runDryCandidate(options: {
     const processed = intake.processed[0];
     if (!processed?.reviewDirectory) throw new OrchestrationError("Intake preview did not produce temporary evidence.");
     facts = reviewFacts(options.candidate, processed, intake.failedCount > 0);
+    if (facts.retryable) {
+      return {
+        candidate_id: options.candidate.id,
+        identity: options.candidate.identity,
+        status: "failed",
+        error: facts.failure_code,
+        intake: facts,
+        promotion: {
+          completed: false,
+          admission_state: null,
+          listing_id: null,
+          record_path: null,
+          reused_existing: false,
+          provenance_status: null,
+        },
+      };
+    }
     const reviewPath = path.join(processed.reviewDirectory, "review-record.json");
     const reviewReference = path.relative(dryRoot, reviewPath).split(path.sep).join("/");
     const candidateReference = path.relative(dryRoot, candidatePath).split(path.sep).join("/");
@@ -932,6 +989,8 @@ function createSummary(options: {
     operational_states: operational,
     intake_completed: options.results.filter((item) => item.intake.completed).length,
     intake_failed: options.results.filter((item) => item.intake.failed).length,
+    retryable_failed: options.results.filter((item) => item.status === "failed" && item.intake.retryable).length,
+    promotion_eligible: options.results.filter((item) => item.intake.completed && !item.intake.retryable).length,
     admission_promotion_completed: options.results.filter((item) => item.promotion.completed).length,
     staged_admission_states: {
       listed: admissionStates.listed ?? 0,
@@ -978,8 +1037,8 @@ export function formatSummary(summary: BatchSummary): string {
     `Mode: ${summary.mode === "write" ? "WORKSPACE WRITE" : "DRY RUN"}`,
     `Run: ${summary.run_id}`,
     `Candidates supplied / selected / attempted: ${summary.candidates_supplied} / ${summary.candidates_selected} / ${summary.candidates_attempted}`,
-    `Intake completed / failed: ${summary.intake_completed} / ${summary.intake_failed}`,
-    `Promotion completed: ${summary.admission_promotion_completed}`,
+    `Operational — Intake completed / failed / retryable failed: ${summary.intake_completed} / ${summary.intake_failed} / ${summary.retryable_failed}`,
+    `Admission — Promotion eligible / completed: ${summary.promotion_eligible} / ${summary.admission_promotion_completed}`,
     `Staged states — Listed: ${summary.staged_admission_states.listed}, Needs Review: ${summary.staged_admission_states.needs_review}, Quarantined: ${summary.staged_admission_states.quarantined}`,
     `Retrieval failures / parse failures / secret findings: ${summary.artifact_retrieval_failures} / ${summary.parse_failures} / ${summary.secret_findings}`,
     `Immutable references preserved: ${summary.immutable_reference_preserved}`,
